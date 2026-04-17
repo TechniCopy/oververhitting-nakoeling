@@ -1184,13 +1184,28 @@ function EerCalculator({ onComplete, onLoseLife, lives }) {
   const getValue = (id) => (enthalpies[id]?.value ?? results[id]?.value ?? null);
   const getLabel = (id) => (enthalpies[id]?.label ?? results[id]?.label ?? '');
 
+  // Automatisch het resultaat uitrekenen wanneer beide slots gevuld zijn
+  useEffect(() => {
+    if (state.left && state.right && !state.done) {
+      const lv = getValue(state.left);
+      const rv = getValue(state.right);
+      let computed = '';
+      if (step.separator === '−') computed = String(lv - rv);
+      else if (step.separator === '/') computed = (lv / rv).toFixed(1).replace('.', ',');
+      if (computed !== state.result) {
+        setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], result: computed } }));
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.left, state.right, step.key]);
+
   const handleDrop = (side) => (sourceId) => {
     if (state.done) return;
     setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], [side]: sourceId } }));
   };
   const handleClear = (side) => () => {
     if (state.done) return;
-    setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], [side]: null } }));
+    setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], [side]: null, result: '' } }));
   };
   const handleResultChange = (v) => setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], result: v } }));
 
@@ -1367,8 +1382,23 @@ function CopCalculator({ onComplete, onLoseLife, lives }) {
   const getValue = (id) => (enthalpies[id]?.value ?? results[id]?.value ?? null);
   const getLabel = (id) => (enthalpies[id]?.label ?? results[id]?.label ?? '');
 
+  // Automatisch het resultaat uitrekenen wanneer beide slots gevuld zijn
+  useEffect(() => {
+    if (state.left && state.right && !state.done) {
+      const lv = getValue(state.left);
+      const rv = getValue(state.right);
+      let computed = '';
+      if (step.separator === '−') computed = String(lv - rv);
+      else if (step.separator === '/') computed = (lv / rv).toFixed(1).replace('.', ',');
+      if (computed !== state.result) {
+        setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], result: computed } }));
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.left, state.right, step.key]);
+
   const handleDrop = (side) => (sourceId) => { if (state.done) return; setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], [side]: sourceId } })); };
-  const handleClear = (side) => () => { if (state.done) return; setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], [side]: null } })); };
+  const handleClear = (side) => () => { if (state.done) return; setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], [side]: null, result: '' } })); };
   const handleResultChange = (v) => setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], result: v } }));
 
   const handleCheck = () => {
@@ -1995,6 +2025,23 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
   ];
   const tempById = Object.fromEntries(tempSources.map(t => [t.id, t]));
 
+  // Automatisch OVH/NAK uitrekenen wanneer beide temperatuurblokken zijn neergezet
+  useEffect(() => {
+    if (ovhSlots.left && ovhSlots.right) {
+      const computed = String(tempById[ovhSlots.left].value - tempById[ovhSlots.right].value);
+      if (computed !== ovhInput) setOvhInput(computed);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ovhSlots.left, ovhSlots.right, scenarioIdx]);
+
+  useEffect(() => {
+    if (nakSlots.left && nakSlots.right) {
+      const computed = String(tempById[nakSlots.left].value - tempById[nakSlots.right].value);
+      if (computed !== nakInput) setNakInput(computed);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nakSlots.left, nakSlots.right, scenarioIdx]);
+
   const handleReadingCheck = (isOvh) => {
     const slots = isOvh ? ovhSlots : nakSlots;
     const input = isOvh ? ovhInput : nakInput;
@@ -2146,9 +2193,9 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
               <div className="p-4 rounded-xl" style={{ background: '#f0e8d0', border: '2px solid #F59E0B' }}>
                 <p className="text-sm font-bold mb-3" style={{ color: '#2C1810' }}>Bereken de oververhitting: OVH = T_zuigleiding − T_verdamping</p>
                 <div className="flex flex-wrap items-center gap-2">
-                  <DropSlot value={ovhSlots.left ? `${tempById[ovhSlots.left].value > 0 ? '+' : ''}${tempById[ovhSlots.left].value}°C` : null} hasValue={!!ovhSlots.left} onDrop={(id) => setOvhSlots(s => ({ ...s, left: id }))} onClear={() => setOvhSlots(s => ({ ...s, left: null }))} />
+                  <DropSlot value={ovhSlots.left ? `${tempById[ovhSlots.left].value > 0 ? '+' : ''}${tempById[ovhSlots.left].value}°C` : null} hasValue={!!ovhSlots.left} onDrop={(id) => setOvhSlots(s => ({ ...s, left: id }))} onClear={() => { setOvhSlots(s => ({ ...s, left: null })); setOvhInput(''); }} />
                   <span className="text-xl font-bold" style={{ color: '#2C1810' }}>−</span>
-                  <DropSlot value={ovhSlots.right ? `${tempById[ovhSlots.right].value > 0 ? '+' : ''}${tempById[ovhSlots.right].value}°C` : null} hasValue={!!ovhSlots.right} onDrop={(id) => setOvhSlots(s => ({ ...s, right: id }))} onClear={() => setOvhSlots(s => ({ ...s, right: null }))} />
+                  <DropSlot value={ovhSlots.right ? `${tempById[ovhSlots.right].value > 0 ? '+' : ''}${tempById[ovhSlots.right].value}°C` : null} hasValue={!!ovhSlots.right} onDrop={(id) => setOvhSlots(s => ({ ...s, right: id }))} onClear={() => { setOvhSlots(s => ({ ...s, right: null })); setOvhInput(''); }} />
                   <span className="text-xl font-bold" style={{ color: '#2C1810' }}>=</span>
                   <input type="text" inputMode="decimal" value={ovhInput} onChange={e => setOvhInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleReadingCheck(true); }}
                     className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: 'white', border: '2px solid #F59E0B', color: '#2C1810' }} placeholder="?" />
@@ -2162,9 +2209,9 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
               <div className="p-4 rounded-xl" style={{ background: '#f0e8d0', border: '2px solid #06B6D4' }}>
                 <p className="text-sm font-bold mb-3" style={{ color: '#2C1810' }}>Bereken de nakoeling: NAK = T_condensatie − T_voor_expansie</p>
                 <div className="flex flex-wrap items-center gap-2">
-                  <DropSlot value={nakSlots.left ? `${tempById[nakSlots.left].value > 0 ? '+' : ''}${tempById[nakSlots.left].value}°C` : null} hasValue={!!nakSlots.left} onDrop={(id) => setNakSlots(s => ({ ...s, left: id }))} onClear={() => setNakSlots(s => ({ ...s, left: null }))} />
+                  <DropSlot value={nakSlots.left ? `${tempById[nakSlots.left].value > 0 ? '+' : ''}${tempById[nakSlots.left].value}°C` : null} hasValue={!!nakSlots.left} onDrop={(id) => setNakSlots(s => ({ ...s, left: id }))} onClear={() => { setNakSlots(s => ({ ...s, left: null })); setNakInput(''); }} />
                   <span className="text-xl font-bold" style={{ color: '#2C1810' }}>−</span>
-                  <DropSlot value={nakSlots.right ? `${tempById[nakSlots.right].value > 0 ? '+' : ''}${tempById[nakSlots.right].value}°C` : null} hasValue={!!nakSlots.right} onDrop={(id) => setNakSlots(s => ({ ...s, right: id }))} onClear={() => setNakSlots(s => ({ ...s, right: null }))} />
+                  <DropSlot value={nakSlots.right ? `${tempById[nakSlots.right].value > 0 ? '+' : ''}${tempById[nakSlots.right].value}°C` : null} hasValue={!!nakSlots.right} onDrop={(id) => setNakSlots(s => ({ ...s, right: id }))} onClear={() => { setNakSlots(s => ({ ...s, right: null })); setNakInput(''); }} />
                   <span className="text-xl font-bold" style={{ color: '#2C1810' }}>=</span>
                   <input type="text" inputMode="decimal" value={nakInput} onChange={e => setNakInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleReadingCheck(false); }}
                     className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: 'white', border: '2px solid #06B6D4', color: '#2C1810' }} placeholder="?" />
