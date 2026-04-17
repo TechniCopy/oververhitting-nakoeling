@@ -761,14 +761,18 @@ function StylizedBootje({
         return <line key={l.key} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke={stroke} strokeWidth={w} strokeLinecap="round" style={{ transition: 'stroke 0.3s, stroke-width 0.3s' }} />;
       })}
 
-      {/* Placed result blocks — gele blokken met berekend Δh boven de segmenten */}
+      {/* Placed result blocks — gele blokken met berekend Δh verder van segmenten,
+          gepositioneerd zodat ze niet overlappen met de power-labels. */}
       {lines.map(l => {
         const val = placedResults[l.key];
         if (val === null || val === undefined) return null;
         const midX = (l.x1 + l.x2) / 2;
         const midY = (l.y1 + l.y2) / 2;
-        const tx = l.key === 'compressor' ? midX + 90 : midX;
-        const ty = l.key === 'compressor' ? midY - 20 : l.key === 'verdamper' ? midY - 28 : l.key === 'condensor' ? midY + 28 : midY;
+        // Verdamper: verder boven lijn (power-label staat al op midY-18)
+        // Condensor: verder onder lijn (power-label staat op midY+18)
+        // Compressor: meer naar rechts en omhoog
+        const tx = l.key === 'compressor' ? midX + 130 : midX;
+        const ty = l.key === 'compressor' ? midY + 20 : l.key === 'verdamper' ? midY - 50 : l.key === 'condensor' ? midY + 50 : midY;
         const boxW = 110, boxH = 26;
         return (
           <g key={`placed-${l.key}`} style={{ animation: 'pop-in 0.5s ease-out' }}>
