@@ -194,8 +194,8 @@ const M2_MEASUREMENTS = {
   T_verdamping: -4,
   T_condensatie: 32,
   T_eindcompressie: 70,
-  T_voor_expansie: 18,  // NAK = 32 − 18 = 14K — goed zichtbaar op diagram
-  T_zuigleiding: 16,   // OVH = 16 − (−4) = 20K — goed zichtbaar op diagram
+  T_voor_expansie: 12,  // NAK = 32 − 12 = 20K — duidelijk zichtbaar
+  T_zuigleiding: 22,   // OVH = 22 − (−4) = 26K — duidelijk zichtbaar
 };
 
 function computePoint(T, P, region) {
@@ -241,25 +241,31 @@ const M2R2_SCENARIOS = [
 
 const M2R3_SCENARIOS = [
   {
+    // Verstopping / slechte warmteoverdracht: OVH hoog, NAK hoog
     label: 'Scenario 1',
     lowP: 2.5, highP: 8.0,
-    T_zuig: 4, T_verdamping: -4, T_condensatie: 32, T_voor_expansie: 21, T_eindcompressie: 55,
-    expectedOVH: 8, expectedNAK: 11,
-    ovhAssessment: 'normal', nakAssessment: 'high',
+    T_zuig: 9, T_verdamping: -4, T_condensatie: 32, T_voor_expansie: 19, T_eindcompressie: 70,
+    expectedOVH: 13, expectedNAK: 13,
+    ovhAssessment: 'high', nakAssessment: 'high',
+    diagnosis: 'Verstopping of slechte warmteoverdracht',
   },
   {
+    // Systeem werkt goed: OVH normaal, NAK normaal
     label: 'Scenario 2',
     lowP: 3.0, highP: 9.0,
-    T_zuig: 8, T_verdamping: 1, T_condensatie: 36, T_voor_expansie: 28, T_eindcompressie: 70,
-    expectedOVH: 7, expectedNAK: 8,
+    T_zuig: 9, T_verdamping: 1, T_condensatie: 36, T_voor_expansie: 28, T_eindcompressie: 70,
+    expectedOVH: 8, expectedNAK: 8,
     ovhAssessment: 'normal', nakAssessment: 'normal',
+    diagnosis: 'Systeem werkt goed',
   },
   {
+    // Te weinig koudemiddel: OVH hoog, NAK laag
     label: 'Scenario 3',
     lowP: 2.01, highP: 7.7,
-    T_zuig: 5, T_verdamping: -10, T_condensatie: 30, T_voor_expansie: 24, T_eindcompressie: 65,
-    expectedOVH: 15, expectedNAK: 6,
-    ovhAssessment: 'high', nakAssessment: 'normal',
+    T_zuig: 3, T_verdamping: -10, T_condensatie: 30, T_voor_expansie: 29, T_eindcompressie: 70,
+    expectedOVH: 13, expectedNAK: 1,
+    ovhAssessment: 'high', nakAssessment: 'low',
+    diagnosis: 'Te weinig koudemiddel',
   },
 ];
 
@@ -270,12 +276,12 @@ const M2R3_SCENARIOS = [
 const ITEMBANKS = {
   m1r1_check: [
     { question: 'Wat is de betekenis van lijnstuk A (zie Figuur 1)?',
-      options: ['Het netto koeleffect', 'De condensorwarmte', 'De compressorarbeid', 'De oververhitting'],
+      options: ['Het verdampervermogen', 'De condensorwarmte', 'De compressorarbeid', 'De oververhitting'],
       correct: 0,
-      feedbackCorrect: 'Juist! Lijnstuk A is het netto koeleffect: het totale enthalpieverschil in de verdamper (h1 − h4).',
-      feedbackWrong: 'Lijnstuk A is de volle breedte van het bootje aan de onderkant. Dat is het netto koeleffect.' },
+      feedbackCorrect: 'Juist! Lijnstuk A is het verdampervermogen: het totale enthalpieverschil in de verdamper (h1 − h4).',
+      feedbackWrong: 'Lijnstuk A is de volle breedte van het bootje aan de onderkant. Dat is het verdampervermogen.' },
     { question: 'Wat is de betekenis van lijnstuk B (zie Figuur 1)?',
-      options: ['Het netto koeleffect', 'De condensorwarmte', 'De verdamping', 'De oververhitting'],
+      options: ['Het verdampervermogen', 'De condensorwarmte', 'De verdamping', 'De oververhitting'],
       correct: 2,
       feedbackCorrect: 'Juist! Lijnstuk B is de verdamping: van punt 4 tot waar het koudemiddel volledig verdampt is (1\').',
       feedbackWrong: 'Lijnstuk B loopt van h4 tot h1\' (binnen de dome). Dat is de verdamping.' },
@@ -326,17 +332,17 @@ const ITEMBANKS = {
   ],
   m2r1_check: [
     { question: 'Wat is de betekenis van lijnstuk A (zie Figuur 1)?',
-      options: ['Het netto koeleffect', 'De condensorwarmte', 'De totale nakoeling', 'De oververhitting'],
+      options: ['Het verdampervermogen', 'De condensorwarmte', 'De totale nakoeling', 'De oververhitting'],
       correct: 0,
-      feedbackCorrect: 'Juist! Lijnstuk A is het netto koeleffect: het totale enthalpieverschil in de verdamper (h1 − h4).',
-      feedbackWrong: 'Lijnstuk A is het totale bereik onder het bootje, van punt 4 naar punt 1. Dat is het netto koeleffect.' },
+      feedbackCorrect: 'Juist! Lijnstuk A is het verdampervermogen: het totale enthalpieverschil in de verdamper (h1 − h4).',
+      feedbackWrong: 'Lijnstuk A is het totale bereik onder het bootje, van punt 4 naar punt 1. Dat is het verdampervermogen.' },
     { question: 'Wat is de betekenis van lijnstuk B (zie Figuur 1)?',
-      options: ['Het netto koeleffect', 'De verdamping', 'De totale nakoeling', 'De oververhitting'],
+      options: ['Het verdampervermogen', 'De verdamping', 'De totale nakoeling', 'De oververhitting'],
       correct: 1,
       feedbackCorrect: 'Juist! Lijnstuk B is de verdamping: van punt 4 tot waar het koudemiddel volledig is verdampt (1\').',
       feedbackWrong: 'Lijnstuk B loopt van h4 tot h1\'. Dat is de verdamping (zonder de oververhitting).' },
     { question: 'Wat is de betekenis van lijnstuk C (zie Figuur 1)?',
-      options: ['Het netto koeleffect', 'De condensorwarmte', 'De totale nakoeling', 'De oververhitting'],
+      options: ['Het verdampervermogen', 'De condensorwarmte', 'De totale nakoeling', 'De oververhitting'],
       correct: 2,
       feedbackCorrect: 'Juist! Lijnstuk C is de totale nakoeling (onderkoeling): de vloeistof wordt extra afgekoeld onder de verzadigingstemperatuur.',
       feedbackWrong: 'Lijnstuk C loopt van h3 tot h3\' (de vloeistoflijn). Dat is de totale nakoeling.' },
@@ -698,6 +704,7 @@ function StylizedBootje({
   highlightHLabels = [],
   showDome = true,
   showSegmentLetters = false,
+  placedResults = {}, // { verdamper: 170, compressor: 30, condensor: 200 }
   width = 540,
   height = 380,
 }) {
@@ -752,6 +759,23 @@ function StylizedBootje({
         const stroke = (isPlaced || isHighlighted || isDropHovered) ? l.color : '#8B7355';
         const w = (isPlaced || isHighlighted) ? 5 : 3;
         return <line key={l.key} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke={stroke} strokeWidth={w} strokeLinecap="round" style={{ transition: 'stroke 0.3s, stroke-width 0.3s' }} />;
+      })}
+
+      {/* Placed result blocks — gele blokken met berekend Δh boven de segmenten */}
+      {lines.map(l => {
+        const val = placedResults[l.key];
+        if (val === null || val === undefined) return null;
+        const midX = (l.x1 + l.x2) / 2;
+        const midY = (l.y1 + l.y2) / 2;
+        const tx = l.key === 'compressor' ? midX + 90 : midX;
+        const ty = l.key === 'compressor' ? midY - 20 : l.key === 'verdamper' ? midY - 28 : l.key === 'condensor' ? midY + 28 : midY;
+        const boxW = 110, boxH = 26;
+        return (
+          <g key={`placed-${l.key}`} style={{ animation: 'pop-in 0.5s ease-out' }}>
+            <rect x={tx - boxW / 2} y={ty - boxH / 2} width={boxW} height={boxH} rx="6" fill="#FBBF24" stroke="#2C1810" strokeWidth="1.5" />
+            <text x={tx} y={ty + 5} textAnchor="middle" fontSize="13" fontWeight="800" fill="#2C1810" fontFamily="Nunito">{val} kJ/kg</text>
+          </g>
+        );
       })}
 
       {/* Segment letters (examenstijl) */}
@@ -1063,43 +1087,235 @@ function CalculationPanel({ steps, onAllDone, onLoseLife, lives, onStepChange, o
 // M1R2 — EER CALCULATOR
 // ═══════════════════════════════════════════════════════════════
 
+// ═══════════════════════════════════════════════════════════════
+// DRAG-DROP CALCULATOR — generieke drag-drop stapsgewijze calc
+// ═══════════════════════════════════════════════════════════════
+
+// DragSource: rendert een sleepbaar blok met een waarde
+function DragSource({ id, label, value, color = '#FBBF24', onDragStart, disabled = false }) {
+  return (
+    <div draggable={!disabled}
+      onDragStart={(e) => { e.dataTransfer.setData('text/plain', id); onDragStart?.(id); }}
+      className="inline-flex items-center justify-center px-3 py-2 rounded-lg font-bold text-sm select-none"
+      style={{
+        cursor: disabled ? 'default' : 'grab',
+        background: disabled ? '#e8e0c8' : color,
+        color: '#2C1810',
+        border: '2px solid #2C1810',
+        boxShadow: disabled ? 'none' : '0 2px 0 rgba(0,0,0,0.15)',
+        opacity: disabled ? 0.5 : 1,
+        minWidth: 80,
+      }}>
+      {label ? <span className="opacity-80 text-xs mr-1">{label} =</span> : null}
+      <span>{value}</span>
+    </div>
+  );
+}
+
+// DropSlot: ontvangt een sleepbare waarde
+function DropSlot({ value, label, onDrop, onClear, hasValue, flash = null }) {
+  const [over, setOver] = useState(false);
+  return (
+    <div
+      onDragOver={(e) => { e.preventDefault(); setOver(true); }}
+      onDragLeave={() => setOver(false)}
+      onDrop={(e) => { e.preventDefault(); setOver(false); onDrop?.(e.dataTransfer.getData('text/plain')); }}
+      className="inline-flex items-center justify-center px-3 py-2 rounded-lg font-bold text-sm"
+      style={{
+        minWidth: 80,
+        minHeight: 40,
+        background: hasValue ? '#FBBF24' : (over ? 'rgba(107,142,61,0.2)' : '#FAFAF5'),
+        border: `2px ${hasValue ? 'solid' : 'dashed'} ${hasValue ? '#2C1810' : (over ? '#6B8E3D' : '#8B7355')}`,
+        color: '#2C1810',
+        animation: flash === 'wrong' ? 'shake 0.4s' : (flash === 'correct' ? 'pop-in 0.3s' : 'none'),
+        cursor: hasValue ? 'pointer' : 'default',
+      }}
+      onClick={() => { if (hasValue) onClear?.(); }}
+      title={hasValue ? 'Klik om te verwijderen' : ''}
+    >
+      {hasValue ? (
+        <>{label ? <span className="opacity-80 text-xs mr-1">{label} =</span> : null}<span>{value}</span></>
+      ) : (
+        <span className="opacity-50 italic font-normal">sleep hier</span>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// M1R2 — EER CALCULATOR (drag-drop versie)
+// ═══════════════════════════════════════════════════════════════
+
 function EerCalculator({ onComplete, onLoseLife, lives }) {
-  const [allDone, setAllDone] = useState(false);
-  const [pointsEarned, setPointsEarned] = useState(0);
-  const [activeStepKey, setActiveStepKey] = useState('dhVerd');
-  const hlMap = { dhVerd: ['h1', 'h4'], dhComp: ['h2', 'h1'], eer: [] };
+  const [currentStepIdx, setCurrentStepIdx] = useState(0);
+  const [slots, setSlots] = useState({
+    verdamper: { left: null, right: null, result: '', done: false, firstTry: true },
+    compressor: { left: null, right: null, result: '', done: false, firstTry: true },
+    eer: { left: null, right: null, result: '', done: false, firstTry: true },
+  });
+  const [placedResults, setPlacedResults] = useState({});
+  const [flash, setFlash] = useState(null);
+  const [points, setPoints] = useState(0);
 
   const steps = [
-    { key: 'dhVerd', label: 'Stap 1 — Verdampervermogen', formula: 'Δh_verd = h1 − h4', prompt: `${M1_ENTHALPIES.h1} − ${M1_ENTHALPIES.h4} =`, correct: M1_ENTHALPIES.h1 - M1_ENTHALPIES.h4, margin: 2, decimals: 0, unit: 'kJ/kg', hint: 'Δh_verd = h1 − h4. Reken opnieuw: 405 − 235.', feedbackCorrect: 'Goed! Het verdampervermogen is de energie die het koudemiddel opneemt.' },
-    { key: 'dhComp', label: 'Stap 2 — Compressorvermogen', formula: 'Δh_comp = h2 − h1', prompt: `${M1_ENTHALPIES.h2} − ${M1_ENTHALPIES.h1} =`, correct: M1_ENTHALPIES.h2 - M1_ENTHALPIES.h1, margin: 2, decimals: 0, unit: 'kJ/kg', hint: 'Δh_comp = h2 − h1. Reken opnieuw: 435 − 405.', feedbackCorrect: 'Prima! Dit is de energie die de compressor toevoegt.' },
-    { key: 'eer', label: 'Stap 3 — EER berekenen', formula: 'EER = Δh_verd / Δh_comp', prompt: `170 / 30 =`, correct: 5.7, margin: 0.2, decimals: 1, unit: '(EER)', hint: 'EER = verdampervermogen / compressorvermogen.', feedbackCorrect: 'Precies! EER = 170 / 30 ≈ 5,7.' },
+    { key: 'verdamper', label: 'Stap 1 — Verdampervermogen', formula: 'Δh_verd = h1 − h4', leftExpected: 'h1', rightExpected: 'h4', resultCorrect: 170, resultMargin: 2, separator: '−', unit: 'kJ/kg', segment: 'verdamper', leftLabel: '', rightLabel: '' },
+    { key: 'compressor', label: 'Stap 2 — Compressorvermogen', formula: 'Δh_comp = h2 − h1', leftExpected: 'h2', rightExpected: 'h1', resultCorrect: 30, resultMargin: 2, separator: '−', unit: 'kJ/kg', segment: 'compressor', leftLabel: '', rightLabel: '' },
+    { key: 'eer', label: 'Stap 3 — EER berekenen', formula: 'EER = Δh_verd / Δh_comp', leftExpected: 'dhVerd', rightExpected: 'dhComp', resultCorrect: 5.7, resultMargin: 0.2, separator: '/', unit: '(EER)', segment: null, leftLabel: 'Δh_verd', rightLabel: 'Δh_comp' },
   ];
 
-  const handleAllDone = (values, attempts) => {
-    let pts = 0;
-    ['dhVerd', 'dhComp'].forEach(k => { if (attempts[k] === 1) pts += SCORING.m1r2.perStep; });
-    if (attempts.eer === 1) pts += SCORING.m1r2.final;
-    setPointsEarned(pts); setAllDone(true);
+  const step = steps[currentStepIdx];
+  const state = slots[step.key];
+
+  // Beschikbare sleepbare waarden per stap
+  const enthalpies = {
+    h1: { value: 405, label: 'h1' },
+    h2: { value: 435, label: 'h2' },
+    h3: { value: 235, label: 'h3' },
+    h4: { value: 235, label: 'h4' },
   };
+  const results = {
+    dhVerd: { value: 170, label: 'Δh_verd' },
+    dhComp: { value: 30, label: 'Δh_comp' },
+  };
+  const sources = currentStepIdx < 2
+    ? [{ id: 'h1', ...enthalpies.h1 }, { id: 'h2', ...enthalpies.h2 }, { id: 'h3', ...enthalpies.h3 }, { id: 'h4', ...enthalpies.h4 }]
+    : [{ id: 'dhVerd', ...results.dhVerd }, { id: 'dhComp', ...results.dhComp }];
+
+  const getValue = (id) => (enthalpies[id]?.value ?? results[id]?.value ?? null);
+  const getLabel = (id) => (enthalpies[id]?.label ?? results[id]?.label ?? '');
+
+  const handleDrop = (side) => (sourceId) => {
+    if (state.done) return;
+    setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], [side]: sourceId } }));
+  };
+  const handleClear = (side) => () => {
+    if (state.done) return;
+    setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], [side]: null } }));
+  };
+  const handleResultChange = (v) => setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], result: v } }));
+
+  const handleCheck = () => {
+    if (state.done) return;
+    const leftOk = state.left === step.leftExpected;
+    const rightOk = state.right === step.rightExpected;
+    const resultVal = parseNum(state.result);
+    const resultOk = !Number.isNaN(resultVal) && Math.abs(resultVal - step.resultCorrect) <= step.resultMargin;
+
+    if (!leftOk || !rightOk) {
+      setFlash({ step: step.key, type: 'wrong', msg: 'De gesleepte waardes kloppen niet. Gebruik de formule als gids.' });
+      onLoseLife?.();
+      setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], firstTry: false } }));
+      setTimeout(() => setFlash(null), 1500);
+      return;
+    }
+    if (!resultOk) {
+      setFlash({ step: step.key, type: 'wrong', msg: `Het resultaat klopt niet. Bereken ${getValue(state.left)} ${step.separator} ${getValue(state.right)}.` });
+      onLoseLife?.();
+      setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], firstTry: false } }));
+      setTimeout(() => setFlash(null), 1500);
+      return;
+    }
+
+    // Alles klopt
+    setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], done: true } }));
+    const pts = state.firstTry
+      ? (step.key === 'eer' ? SCORING.m1r2.final : SCORING.m1r2.perStep)
+      : Math.max(1, Math.floor((step.key === 'eer' ? SCORING.m1r2.final : SCORING.m1r2.perStep) / 2));
+    setPoints(p => p + pts);
+
+    // Placed result tonen op bootje
+    if (step.segment) {
+      setPlacedResults(prev => ({ ...prev, [step.segment]: step.resultCorrect }));
+    }
+
+    setFlash({ step: step.key, type: 'correct', msg: 'Correct!' });
+    setTimeout(() => {
+      setFlash(null);
+      if (currentStepIdx < steps.length - 1) setCurrentStepIdx(idx => idx + 1);
+    }, 1200);
+  };
+
+  const allDone = slots.eer.done;
 
   return (
     <div className="min-h-screen p-4" style={{ background: '#F5EDD6' }}>
       <div className="max-w-5xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
         <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #2C1810', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
           <h3 className="text-lg font-extrabold mb-1" style={{ color: '#2C1810' }}>Ronde 1.2 — EER uitrekenen</h3>
-          <p className="text-sm italic mb-2" style={{ color: '#5C3A21' }}>Je kent nu de vermogens. Bereken de <span className="font-bold">EER</span>. EER staat voor <em>Energy Efficiency Ratio</em> en wordt gebruikt voor koelmachines.</p>
-          <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg mb-4" style={{ background: '#FBBF24' }}>
+          <p className="text-sm italic mb-3" style={{ color: '#5C3A21' }}>Sleep de juiste waardes uit het diagram naar de formule en bereken het resultaat.</p>
+          <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg mb-3" style={{ background: '#FBBF24' }}>
             <span className="font-extrabold text-sm" style={{ color: '#2C1810' }}>EER =</span>
             <div className="inline-flex flex-col items-center"><span className="font-bold text-sm" style={{ color: '#2C1810' }}>Δh verdamper</span><div className="w-full h-0.5 my-0.5" style={{ background: '#2C1810' }} /><span className="font-bold text-sm" style={{ color: '#2C1810' }}>Δh compressor</span></div>
           </div>
+
           <div className="grid md:grid-cols-2 gap-4">
-            <div><StylizedBootje enthalpies={M1_ENTHALPIES} powerPlaced={{ verdamper: true, compressor: true, condensor: true }} showGuidelines={true} showCalculations={false} highlightHLabels={hlMap[activeStepKey] || []} showDome={true} width={540} height={380} /></div>
-            <div><CalculationPanel steps={steps} onAllDone={handleAllDone} onLoseLife={onLoseLife} lives={lives} onStepChange={setActiveStepKey} /></div>
+            <div>
+              <StylizedBootje enthalpies={M1_ENTHALPIES} powerPlaced={{ verdamper: true, compressor: true, condensor: true }} showGuidelines={true} showCalculations={false} showDome={true} placedResults={placedResults} width={540} height={380} />
+              {/* Sleepbare bronnen */}
+              <div className="mt-3 p-3 rounded-xl" style={{ background: '#f0e8d0', border: '2px solid #d4c9a8' }}>
+                <p className="text-xs font-bold mb-2" style={{ color: '#5C3A21' }}>{currentStepIdx < 2 ? 'Sleep een enthalpiewaarde:' : 'Sleep een Δh-waarde (uit het diagram):'}</p>
+                <div className="flex flex-wrap gap-2">
+                  {sources.map(src => (
+                    <DragSource key={src.id} id={src.id} label={src.label} value={src.value} disabled={state.done} />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              {steps.map((s, idx) => {
+                const st = slots[s.key];
+                const isActive = idx === currentStepIdx;
+                const isDone = st.done;
+                const isFuture = idx > currentStepIdx;
+                if (isDone && !isActive) {
+                  return (
+                    <div key={s.key} className="rounded-xl px-3 py-2 flex items-center gap-2" style={{ background: 'rgba(107,142,61,0.08)', border: '1.5px solid #6B8E3D' }}>
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: '#6B8E3D' }}><Check size={13} className="text-white" /></div>
+                      <span className="text-sm font-bold" style={{ color: '#2C1810' }}>{s.label}</span>
+                      <span className="text-sm font-bold ml-auto" style={{ color: '#6B8E3D' }}>{getValue(st.left)} {s.separator} {getValue(st.right)} = {fmtNum(parseNum(st.result), s.key === 'eer' ? 1 : 0)} {s.unit}</span>
+                    </div>
+                  );
+                }
+                return (
+                  <div key={s.key} className="rounded-2xl p-4 transition-all"
+                    style={{ background: isActive ? 'white' : 'rgba(250,250,245,0.6)', border: `2px solid ${isActive ? '#5C3A21' : '#e8e0c8'}`, opacity: isFuture ? 0.45 : 1, boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.08)' : 'none' }}>
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style={{ background: isActive ? '#FBBF24' : '#e8e0c8', color: '#2C1810' }}>{idx + 1}</div>
+                      <div className="flex-1">
+                        <p className="font-bold text-sm" style={{ color: '#2C1810' }}>{s.label}</p>
+                        <p className="text-xs italic mb-3" style={{ color: '#5C3A21' }}>{s.formula}</p>
+                        {isActive && (
+                          <div className="space-y-3">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <DropSlot value={getValue(st.left)} label={getLabel(st.left)} hasValue={!!st.left} onDrop={handleDrop('left')} onClear={handleClear('left')} flash={flash?.step === s.key && !st.left ? flash.type : null} />
+                              <span className="text-xl font-bold" style={{ color: '#2C1810' }}>{s.separator}</span>
+                              <DropSlot value={getValue(st.right)} label={getLabel(st.right)} hasValue={!!st.right} onDrop={handleDrop('right')} onClear={handleClear('right')} flash={flash?.step === s.key && !st.right ? flash.type : null} />
+                              <span className="text-xl font-bold" style={{ color: '#2C1810' }}>=</span>
+                              <input type="text" inputMode="decimal" value={st.result} onChange={e => handleResultChange(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleCheck(); }}
+                                className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: '#FAFAF5', border: '2px solid #5C3A21', color: '#2C1810' }} placeholder="?" />
+                              <span className="text-sm" style={{ color: '#5C3A21' }}>{s.unit}</span>
+                            </div>
+                            <button onClick={handleCheck} disabled={!st.left || !st.right || st.result === ''}
+                              className="px-4 py-2 rounded-lg font-bold italic text-white text-sm hover:brightness-90 active:scale-95 disabled:opacity-40"
+                              style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 2px 0 rgba(0,0,0,0.15)' }}>Controleer</button>
+                            {flash?.step === s.key && flash.type === 'wrong' && (
+                              <div className="p-2 rounded-lg text-xs italic text-white" style={{ background: '#B84A3D' }}>{flash.msg}</div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
+
           {allDone && (
             <div className="mt-5 p-4 rounded-xl" style={{ background: 'rgba(107,142,61,0.1)', border: '2px solid #6B8E3D', animation: 'fadeInUp 0.3s' }}>
               <p className="italic mb-3" style={{ color: '#2C1810', lineHeight: 1.6 }}><span className="font-bold">Precies! EER = 170 / 30 ≈ 5,7.</span> Deze koelmachine levert per 1 kW elektrisch vermogen ongeveer 5,7 kW koelvermogen.</p>
-              <button onClick={() => onComplete(pointsEarned)} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2" style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 3px 0 #3d2615' }}>Volgende <ChevronRight size={18} /></button>
+              <button onClick={() => onComplete(points)} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2" style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 3px 0 #3d2615' }}>Volgende <ChevronRight size={18} /></button>
             </div>
           )}
         </div>
@@ -1113,25 +1329,83 @@ function EerCalculator({ onComplete, onLoseLife, lives }) {
 // ═══════════════════════════════════════════════════════════════
 
 function CopCalculator({ onComplete, onLoseLife, lives }) {
-  const [allDone, setAllDone] = useState(false);
+  const [currentStepIdx, setCurrentStepIdx] = useState(0);
+  const [slots, setSlots] = useState({
+    condensor: { left: null, right: null, result: '', done: false, firstTry: true },
+    compressor: { left: null, right: null, result: '', done: false, firstTry: true },
+    cop: { left: null, right: null, result: '', done: false, firstTry: true },
+  });
+  const [placedResults, setPlacedResults] = useState({});
+  const [flash, setFlash] = useState(null);
+  const [stepPoints, setStepPoints] = useState(0);
   const [ahaReveal, setAhaReveal] = useState(false);
-  const [activeStepKey, setActiveStepKey] = useState('dhCond');
-  const hlMap = { dhCond: ['h2', 'h3'], dhComp: ['h2', 'h1'], cop: [] };
   const [ahaQuestionSelected, setAhaQuestionSelected] = useState(null);
   const [ahaChecked, setAhaChecked] = useState(false);
   const [ahaAttempts, setAhaAttempts] = useState(0);
   const [ahaDone, setAhaDone] = useState(false);
-  const [stepPoints, setStepPoints] = useState(0);
 
   const steps = [
-    { key: 'dhCond', label: 'Stap 1 — Condensorvermogen', formula: 'Δh_cond = h2 − h3', prompt: `${M1_ENTHALPIES.h2} − ${M1_ENTHALPIES.h3} =`, correct: M1_ENTHALPIES.h2 - M1_ENTHALPIES.h3, margin: 2, decimals: 0, unit: 'kJ/kg', hint: 'Δh_cond = h2 − h3. Reken opnieuw: 435 − 235.', feedbackCorrect: 'Juist! Het condensorvermogen is de warmte die afgevoerd wordt.' },
-    { key: 'dhComp', label: 'Stap 2 — Compressorvermogen', formula: 'Δh_comp = h2 − h1', prompt: `${M1_ENTHALPIES.h2} − ${M1_ENTHALPIES.h1} =`, correct: M1_ENTHALPIES.h2 - M1_ENTHALPIES.h1, margin: 2, decimals: 0, unit: 'kJ/kg', hint: 'Δh_comp = h2 − h1. Reken opnieuw: 435 − 405.', feedbackCorrect: 'Goed! Het compressorvermogen is de energie die de compressor toevoegt.' },
-    { key: 'cop', label: 'Stap 3 — COP berekenen', formula: 'COP = Δh_cond / Δh_comp', prompt: `200 / 30 =`, correct: 6.7, margin: 0.2, decimals: 1, unit: '(COP)', hint: 'COP = condensorvermogen / compressorvermogen.', feedbackCorrect: 'Correct! COP = 200 / 30 ≈ 6,7.' },
+    { key: 'condensor', label: 'Stap 1 — Condensorvermogen', formula: 'Δh_cond = h2 − h3', leftExpected: 'h2', rightExpected: 'h3', resultCorrect: 200, resultMargin: 2, separator: '−', unit: 'kJ/kg', segment: 'condensor', leftLabel: '', rightLabel: '' },
+    { key: 'compressor', label: 'Stap 2 — Compressorvermogen', formula: 'Δh_comp = h2 − h1', leftExpected: 'h2', rightExpected: 'h1', resultCorrect: 30, resultMargin: 2, separator: '−', unit: 'kJ/kg', segment: 'compressor', leftLabel: '', rightLabel: '' },
+    { key: 'cop', label: 'Stap 3 — COP berekenen', formula: 'COP = Δh_cond / Δh_comp', leftExpected: 'dhCond', rightExpected: 'dhComp', resultCorrect: 6.7, resultMargin: 0.2, separator: '/', unit: '(COP)', segment: null, leftLabel: 'Δh_cond', rightLabel: 'Δh_comp' },
   ];
 
-  const handleAllDone = (values, attempts) => {
-    let pts = 0; if (attempts.cop === 1) pts += SCORING.m1r3.first;
-    setStepPoints(pts); setAllDone(true); setTimeout(() => setAhaReveal(true), 500);
+  const step = steps[currentStepIdx];
+  const state = slots[step.key];
+
+  const enthalpies = {
+    h1: { value: 405, label: 'h1' }, h2: { value: 435, label: 'h2' },
+    h3: { value: 235, label: 'h3' }, h4: { value: 235, label: 'h4' },
+  };
+  const results = {
+    dhCond: { value: 200, label: 'Δh_cond' }, dhComp: { value: 30, label: 'Δh_comp' },
+  };
+  const sources = currentStepIdx < 2
+    ? [{ id: 'h1', ...enthalpies.h1 }, { id: 'h2', ...enthalpies.h2 }, { id: 'h3', ...enthalpies.h3 }, { id: 'h4', ...enthalpies.h4 }]
+    : [{ id: 'dhCond', ...results.dhCond }, { id: 'dhComp', ...results.dhComp }];
+
+  const getValue = (id) => (enthalpies[id]?.value ?? results[id]?.value ?? null);
+  const getLabel = (id) => (enthalpies[id]?.label ?? results[id]?.label ?? '');
+
+  const handleDrop = (side) => (sourceId) => { if (state.done) return; setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], [side]: sourceId } })); };
+  const handleClear = (side) => () => { if (state.done) return; setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], [side]: null } })); };
+  const handleResultChange = (v) => setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], result: v } }));
+
+  const handleCheck = () => {
+    if (state.done) return;
+    const leftOk = state.left === step.leftExpected;
+    const rightOk = state.right === step.rightExpected;
+    const resultVal = parseNum(state.result);
+    const resultOk = !Number.isNaN(resultVal) && Math.abs(resultVal - step.resultCorrect) <= step.resultMargin;
+
+    if (!leftOk || !rightOk) {
+      setFlash({ step: step.key, type: 'wrong', msg: 'De gesleepte waardes kloppen niet. Gebruik de formule als gids.' });
+      onLoseLife?.();
+      setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], firstTry: false } }));
+      setTimeout(() => setFlash(null), 1500);
+      return;
+    }
+    if (!resultOk) {
+      setFlash({ step: step.key, type: 'wrong', msg: `Het resultaat klopt niet. Bereken ${getValue(state.left)} ${step.separator} ${getValue(state.right)}.` });
+      onLoseLife?.();
+      setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], firstTry: false } }));
+      setTimeout(() => setFlash(null), 1500);
+      return;
+    }
+
+    setSlots(prev => ({ ...prev, [step.key]: { ...prev[step.key], done: true } }));
+    if (step.key === 'cop') {
+      const pts = state.firstTry ? SCORING.m1r3.first : Math.max(1, Math.floor(SCORING.m1r3.first / 2));
+      setStepPoints(p => p + pts);
+    }
+    if (step.segment) setPlacedResults(prev => ({ ...prev, [step.segment]: step.resultCorrect }));
+
+    setFlash({ step: step.key, type: 'correct', msg: 'Correct!' });
+    setTimeout(() => {
+      setFlash(null);
+      if (currentStepIdx < steps.length - 1) setCurrentStepIdx(idx => idx + 1);
+      else setTimeout(() => setAhaReveal(true), 500);
+    }, 1200);
   };
 
   const ahaOptions = ['3,2', '4,2 (ze zijn altijd gelijk)', '5,2', '8,4 (dubbel)'];
@@ -1150,14 +1424,73 @@ function CopCalculator({ onComplete, onLoseLife, lives }) {
       <div className="max-w-5xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
         <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #2C1810', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
           <h3 className="text-lg font-extrabold mb-1" style={{ color: '#2C1810' }}>Ronde 1.3 — COP uitrekenen</h3>
-          <p className="text-sm italic mb-2" style={{ color: '#5C3A21' }}>Nu de <span className="font-bold">COP</span>. Deze wordt gebruikt voor warmtepompen. Het condensorvermogen bevat óók het compressorvermogen!</p>
-          <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg mb-4" style={{ background: '#FBBF24' }}>
+          <p className="text-sm italic mb-3" style={{ color: '#5C3A21' }}>Sleep de juiste waardes uit het diagram naar de formule en bereken het resultaat.</p>
+          <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg mb-3" style={{ background: '#FBBF24' }}>
             <span className="font-extrabold text-sm" style={{ color: '#2C1810' }}>COP =</span>
             <div className="inline-flex flex-col items-center"><span className="font-bold text-sm" style={{ color: '#2C1810' }}>Δh condensor</span><div className="w-full h-0.5 my-0.5" style={{ background: '#2C1810' }} /><span className="font-bold text-sm" style={{ color: '#2C1810' }}>Δh compressor</span></div>
           </div>
+
           <div className="grid md:grid-cols-2 gap-4">
-            <div><StylizedBootje enthalpies={M1_ENTHALPIES} powerPlaced={{ verdamper: true, compressor: true, condensor: true }} showGuidelines={true} showCalculations={false} highlightHLabels={hlMap[activeStepKey] || []} showDome={true} width={540} height={380} /></div>
-            <div><CalculationPanel steps={steps} onAllDone={handleAllDone} onLoseLife={onLoseLife} lives={lives} onStepChange={setActiveStepKey} /></div>
+            <div>
+              <StylizedBootje enthalpies={M1_ENTHALPIES} powerPlaced={{ verdamper: true, compressor: true, condensor: true }} showGuidelines={true} showCalculations={false} showDome={true} placedResults={placedResults} width={540} height={380} />
+              <div className="mt-3 p-3 rounded-xl" style={{ background: '#f0e8d0', border: '2px solid #d4c9a8' }}>
+                <p className="text-xs font-bold mb-2" style={{ color: '#5C3A21' }}>{currentStepIdx < 2 ? 'Sleep een enthalpiewaarde:' : 'Sleep een Δh-waarde (uit het diagram):'}</p>
+                <div className="flex flex-wrap gap-2">
+                  {sources.map(src => (
+                    <DragSource key={src.id} id={src.id} label={src.label} value={src.value} disabled={state.done} />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              {steps.map((s, idx) => {
+                const st = slots[s.key];
+                const isActive = idx === currentStepIdx;
+                const isDone = st.done;
+                const isFuture = idx > currentStepIdx;
+                if (isDone && !isActive) {
+                  return (
+                    <div key={s.key} className="rounded-xl px-3 py-2 flex items-center gap-2" style={{ background: 'rgba(107,142,61,0.08)', border: '1.5px solid #6B8E3D' }}>
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: '#6B8E3D' }}><Check size={13} className="text-white" /></div>
+                      <span className="text-sm font-bold" style={{ color: '#2C1810' }}>{s.label}</span>
+                      <span className="text-sm font-bold ml-auto" style={{ color: '#6B8E3D' }}>{getValue(st.left)} {s.separator} {getValue(st.right)} = {fmtNum(parseNum(st.result), s.key === 'cop' ? 1 : 0)} {s.unit}</span>
+                    </div>
+                  );
+                }
+                return (
+                  <div key={s.key} className="rounded-2xl p-4 transition-all"
+                    style={{ background: isActive ? 'white' : 'rgba(250,250,245,0.6)', border: `2px solid ${isActive ? '#5C3A21' : '#e8e0c8'}`, opacity: isFuture ? 0.45 : 1, boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.08)' : 'none' }}>
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style={{ background: isActive ? '#FBBF24' : '#e8e0c8', color: '#2C1810' }}>{idx + 1}</div>
+                      <div className="flex-1">
+                        <p className="font-bold text-sm" style={{ color: '#2C1810' }}>{s.label}</p>
+                        <p className="text-xs italic mb-3" style={{ color: '#5C3A21' }}>{s.formula}</p>
+                        {isActive && (
+                          <div className="space-y-3">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <DropSlot value={getValue(st.left)} label={getLabel(st.left)} hasValue={!!st.left} onDrop={handleDrop('left')} onClear={handleClear('left')} />
+                              <span className="text-xl font-bold" style={{ color: '#2C1810' }}>{s.separator}</span>
+                              <DropSlot value={getValue(st.right)} label={getLabel(st.right)} hasValue={!!st.right} onDrop={handleDrop('right')} onClear={handleClear('right')} />
+                              <span className="text-xl font-bold" style={{ color: '#2C1810' }}>=</span>
+                              <input type="text" inputMode="decimal" value={st.result} onChange={e => handleResultChange(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleCheck(); }}
+                                className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: '#FAFAF5', border: '2px solid #5C3A21', color: '#2C1810' }} placeholder="?" />
+                              <span className="text-sm" style={{ color: '#5C3A21' }}>{s.unit}</span>
+                            </div>
+                            <button onClick={handleCheck} disabled={!st.left || !st.right || st.result === ''}
+                              className="px-4 py-2 rounded-lg font-bold italic text-white text-sm hover:brightness-90 active:scale-95 disabled:opacity-40"
+                              style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 2px 0 rgba(0,0,0,0.15)' }}>Controleer</button>
+                            {flash?.step === s.key && flash.type === 'wrong' && (
+                              <div className="p-2 rounded-lg text-xs italic text-white" style={{ background: '#B84A3D' }}>{flash.msg}</div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
           {ahaReveal && (
             <div className="mt-5 p-5 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(251,191,36,0.2), rgba(251,191,36,0.05))', border: '3px solid #FBBF24', animation: 'fadeInUp 0.5s' }}>
@@ -1242,13 +1575,16 @@ function ExamBootjeFigure() {
 
   const Bracket = ({ x1, x2, y, label, above = true, color = '#2C1810' }) => {
     const tickH = 8;
-    const dir = above ? -1 : 1;
+    // Tick marks wijzen naar bootje toe (above = down, below = up)
+    const tickDir = above ? 1 : -1;
+    // Label blijft aan buitenkant van bracket
+    const labelDir = above ? -1 : 1;
     return (
       <g>
         <line x1={x1} y1={y} x2={x2} y2={y} stroke={color} strokeWidth="1.5" />
-        <line x1={x1} y1={y} x2={x1} y2={y + dir * tickH} stroke={color} strokeWidth="1.5" />
-        <line x1={x2} y1={y} x2={x2} y2={y + dir * tickH} stroke={color} strokeWidth="1.5" />
-        <text x={(x1 + x2) / 2} y={y + dir * (tickH + 10)} textAnchor="middle" fontSize="15" fontWeight="bold" fill={color} fontFamily="Nunito">{label}</text>
+        <line x1={x1} y1={y} x2={x1} y2={y + tickDir * tickH} stroke={color} strokeWidth="1.5" />
+        <line x1={x2} y1={y} x2={x2} y2={y + tickDir * tickH} stroke={color} strokeWidth="1.5" />
+        <text x={(x1 + x2) / 2} y={y + labelDir * 8} textAnchor="middle" fontSize="15" fontWeight="bold" fill={color} fontFamily="Nunito">{label}</text>
       </g>
     );
   };
@@ -1284,7 +1620,7 @@ function ExamBootjeFigure() {
         <Bracket x1={h3prime} x2={h2prime} y={75} label="D" above={true} />
         <Bracket x1={h2prime} x2={h2} y={75} label="E" above={true} />
 
-        {/* Brackets onderaan: B (verdamping), F (oververhitting), A (netto koeleffect) */}
+        {/* Brackets onderaan: B (verdamping), F (oververhitting), A (verdampervermogen) */}
         <Bracket x1={h4} x2={h1prime} y={245} label="B" above={false} />
         <Bracket x1={h1prime} x2={h1} y={245} label="F" above={false} />
         <Bracket x1={h4} x2={h1} y={290} label="A" above={false} />
@@ -1325,8 +1661,8 @@ function IdentifyOvhNak({ onComplete, onLoseLife, lives }) {
   const p4 = { h: p3.h, P: m.lowPressureAbs };
   const satLP = satAtP(m.lowPressureAbs);
   const satHP = satAtP(m.highPressureAbs);
-  const p1prime = { h: satLP.hV - 8, P: m.lowPressureAbs };  // iets naar binnen (links van damplijn)
-  const p3prime = { h: satHP.hL + 8, P: m.highPressureAbs };  // iets naar binnen (rechts van vloeistoflijn)
+  const p1prime = { h: satLP.hV, P: m.lowPressureAbs };  // exact op snijpunt damplijn × lagedruklijn
+  const p3prime = { h: satHP.hL, P: m.highPressureAbs };  // exact op snijpunt vloeistoflijn × hogedruklijn
 
   // Segment definitions
   const segments = [
@@ -1630,6 +1966,8 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
   const [step, setStep] = useState(0); // 0=readOVH, 1=readNAK, 2=assessOVH, 3=assessNAK, 4=done
   const [ovhInput, setOvhInput] = useState('');
   const [nakInput, setNakInput] = useState('');
+  const [ovhSlots, setOvhSlots] = useState({ left: null, right: null });
+  const [nakSlots, setNakSlots] = useState({ left: null, right: null });
   const [points, setPoints] = useState(0);
   const [flash, setFlash] = useState(null);
 
@@ -1648,20 +1986,41 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
 
   const assessLabel = (cls) => cls === 'low' ? 'Te laag' : cls === 'normal' ? 'Normaal' : 'Te hoog';
 
+  // Beschikbare temperatuurblokken (draggable)
+  const tempSources = [
+    { id: 'T_verd', label: 'T_verdamping', value: scenario.T_verdamping },
+    { id: 'T_zuig', label: 'T_zuig', value: scenario.T_zuig },
+    { id: 'T_cond', label: 'T_condensatie', value: scenario.T_condensatie },
+    { id: 'T_vexp', label: 'T_voor_expansie', value: scenario.T_voor_expansie },
+  ];
+  const tempById = Object.fromEntries(tempSources.map(t => [t.id, t]));
+
   const handleReadingCheck = (isOvh) => {
+    const slots = isOvh ? ovhSlots : nakSlots;
     const input = isOvh ? ovhInput : nakInput;
+    const expectedLeft = isOvh ? 'T_zuig' : 'T_cond';
+    const expectedRight = isOvh ? 'T_verd' : 'T_vexp';
+    const leftOk = slots.left === expectedLeft;
+    const rightOk = slots.right === expectedRight;
     const v = parseNum(input);
-    if (Number.isNaN(v)) return;
     const expected = isOvh ? scenario.expectedOVH : scenario.expectedNAK;
-    if (Math.abs(v - expected) <= 2) {
-      setPoints(p => p + SCORING.m2r3.perReading);
-      setFlash({ type: 'correct', msg: `Correct! ${isOvh ? 'OVH' : 'NAK'} = ${expected}K.` });
-      setTimeout(() => { setFlash(null); setStep(s => s + 1); }, 1000);
-    } else {
-      setFlash({ type: 'wrong', msg: `Niet juist. ${isOvh ? 'OVH = T_zuig − T_verdamping' : 'NAK = T_condensatie − T_voor_expansie'}. Probeer opnieuw.` });
+
+    if (!leftOk || !rightOk) {
+      setFlash({ type: 'wrong', msg: `Niet juist. Voor ${isOvh ? 'OVH' : 'NAK'} gebruik je ${isOvh ? 'T_zuig − T_verdamping' : 'T_condensatie − T_voor_expansie'}.` });
       onLoseLife?.();
       setTimeout(() => setFlash(null), 2000);
+      return;
     }
+    if (Number.isNaN(v)) return;
+    if (Math.abs(v - expected) > 2) {
+      setFlash({ type: 'wrong', msg: `Het resultaat klopt niet. Bereken ${tempById[slots.left].value} − (${tempById[slots.right].value}).` });
+      onLoseLife?.();
+      setTimeout(() => setFlash(null), 2000);
+      return;
+    }
+    setPoints(p => p + SCORING.m2r3.perReading);
+    setFlash({ type: 'correct', msg: `Correct! ${isOvh ? 'OVH' : 'NAK'} = ${expected}K.` });
+    setTimeout(() => { setFlash(null); setStep(s => s + 1); }, 1000);
   };
 
   const handleAssessment = (choice) => {
@@ -1686,7 +2045,10 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
     if (isLastScenario) {
       onComplete(points);
     } else {
-      setScenarioIdx(i => i + 1); setStep(0); setOvhInput(''); setNakInput(''); setFlash(null);
+      setScenarioIdx(i => i + 1); setStep(0);
+      setOvhInput(''); setNakInput('');
+      setOvhSlots({ left: null, right: null }); setNakSlots({ left: null, right: null });
+      setFlash(null);
     }
   };
 
@@ -1699,13 +2061,32 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
             <span className="text-sm font-bold px-2 py-1 rounded-lg" style={{ background: '#FBBF24', color: '#2C1810' }}>{scenario.label} ({scenarioIdx + 1}/{scenarios.length})</span>
           </div>
 
-          {/* Temperature info panel */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3 text-center">
-            <div className="p-2 rounded-lg" style={{ background: '#f0e8d0' }}><p className="text-xs" style={{ color: '#5C3A21' }}>T verdamping</p><p className="font-bold" style={{ color: '#2C1810' }}>{scenario.T_verdamping}°C</p></div>
-            <div className="p-2 rounded-lg" style={{ background: '#f0e8d0' }}><p className="text-xs" style={{ color: '#5C3A21' }}>T zuigleiding</p><p className="font-bold" style={{ color: '#2C1810' }}>{scenario.T_zuig}°C</p></div>
-            <div className="p-2 rounded-lg" style={{ background: '#f0e8d0' }}><p className="text-xs" style={{ color: '#5C3A21' }}>T condensatie</p><p className="font-bold" style={{ color: '#2C1810' }}>{scenario.T_condensatie}°C</p></div>
-            <div className="p-2 rounded-lg" style={{ background: '#f0e8d0' }}><p className="text-xs" style={{ color: '#5C3A21' }}>T voor expansie</p><p className="font-bold" style={{ color: '#2C1810' }}>{scenario.T_voor_expansie}°C</p></div>
-          </div>
+          {/* Temperature info panel — sleepbare blokken (alleen zichtbaar in stap 0 en 1) */}
+          {(step === 0 || step === 1) && (
+            <div className="p-3 rounded-xl mb-3" style={{ background: '#f0e8d0', border: '2px solid #d4c9a8' }}>
+              <p className="text-xs font-bold mb-2" style={{ color: '#5C3A21' }}>Sleep de juiste temperatuur naar de berekening:</p>
+              <div className="flex flex-wrap gap-2">
+                {tempSources.map(t => (
+                  <div key={t.id} draggable={true}
+                    onDragStart={(e) => e.dataTransfer.setData('text/plain', t.id)}
+                    className="inline-flex flex-col items-center px-3 py-2 rounded-lg font-bold text-xs select-none"
+                    style={{ cursor: 'grab', background: '#FBBF24', color: '#2C1810', border: '2px solid #2C1810', boxShadow: '0 2px 0 rgba(0,0,0,0.15)', minWidth: 110 }}>
+                    <span className="opacity-80 text-[10px]">{t.label}</span>
+                    <span className="text-sm">{t.value > 0 ? '+' : ''}{t.value}°C</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {/* Read-only temps bij stappen 2+ */}
+          {step >= 2 && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3 text-center">
+              <div className="p-2 rounded-lg" style={{ background: '#f0e8d0' }}><p className="text-xs" style={{ color: '#5C3A21' }}>T verdamping</p><p className="font-bold" style={{ color: '#2C1810' }}>{scenario.T_verdamping}°C</p></div>
+              <div className="p-2 rounded-lg" style={{ background: '#f0e8d0' }}><p className="text-xs" style={{ color: '#5C3A21' }}>T zuigleiding</p><p className="font-bold" style={{ color: '#2C1810' }}>{scenario.T_zuig}°C</p></div>
+              <div className="p-2 rounded-lg" style={{ background: '#f0e8d0' }}><p className="text-xs" style={{ color: '#5C3A21' }}>T condensatie</p><p className="font-bold" style={{ color: '#2C1810' }}>{scenario.T_condensatie}°C</p></div>
+              <div className="p-2 rounded-lg" style={{ background: '#f0e8d0' }}><p className="text-xs" style={{ color: '#5C3A21' }}>T voor expansie</p><p className="font-bold" style={{ color: '#2C1810' }}>{scenario.T_voor_expansie}°C</p></div>
+            </div>
+          )}
 
           {flash && <div className="p-3 rounded-xl text-sm mb-3 text-white italic" style={{ background: flash.type === 'correct' ? '#6B8E3D' : '#B84A3D' }}>{flash.msg}</div>}
 
@@ -1763,26 +2144,32 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
           <div className="mt-4">
             {step === 0 && (
               <div className="p-4 rounded-xl" style={{ background: '#f0e8d0', border: '2px solid #F59E0B' }}>
-                <p className="text-sm font-bold mb-2" style={{ color: '#2C1810' }}>Bereken de oververhitting: OVH = T_zuigleiding − T_verdamping</p>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-mono" style={{ color: '#2C1810' }}>{scenario.T_zuig} − ({scenario.T_verdamping}) =</span>
+                <p className="text-sm font-bold mb-3" style={{ color: '#2C1810' }}>Bereken de oververhitting: OVH = T_zuigleiding − T_verdamping</p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <DropSlot value={ovhSlots.left ? `${tempById[ovhSlots.left].value > 0 ? '+' : ''}${tempById[ovhSlots.left].value}°C` : null} hasValue={!!ovhSlots.left} onDrop={(id) => setOvhSlots(s => ({ ...s, left: id }))} onClear={() => setOvhSlots(s => ({ ...s, left: null }))} />
+                  <span className="text-xl font-bold" style={{ color: '#2C1810' }}>−</span>
+                  <DropSlot value={ovhSlots.right ? `${tempById[ovhSlots.right].value > 0 ? '+' : ''}${tempById[ovhSlots.right].value}°C` : null} hasValue={!!ovhSlots.right} onDrop={(id) => setOvhSlots(s => ({ ...s, right: id }))} onClear={() => setOvhSlots(s => ({ ...s, right: null }))} />
+                  <span className="text-xl font-bold" style={{ color: '#2C1810' }}>=</span>
                   <input type="text" inputMode="decimal" value={ovhInput} onChange={e => setOvhInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleReadingCheck(true); }}
-                    className="w-20 px-2 py-1 rounded-lg font-mono text-sm" style={{ background: 'white', border: '2px solid #F59E0B', color: '#2C1810' }} placeholder="?" autoFocus />
+                    className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: 'white', border: '2px solid #F59E0B', color: '#2C1810' }} placeholder="?" />
                   <span className="text-sm" style={{ color: '#5C3A21' }}>K</span>
-                  <button onClick={() => handleReadingCheck(true)} disabled={ovhInput === ''} className="px-3 py-1 rounded-lg font-bold italic text-white text-sm hover:brightness-90 active:scale-95 disabled:opacity-40"
+                  <button onClick={() => handleReadingCheck(true)} disabled={!ovhSlots.left || !ovhSlots.right || ovhInput === ''} className="px-3 py-2 rounded-lg font-bold italic text-white text-sm hover:brightness-90 active:scale-95 disabled:opacity-40"
                     style={{ background: '#F59E0B', border: '2px solid #2C1810' }}>Controleer</button>
                 </div>
               </div>
             )}
             {step === 1 && (
               <div className="p-4 rounded-xl" style={{ background: '#f0e8d0', border: '2px solid #06B6D4' }}>
-                <p className="text-sm font-bold mb-2" style={{ color: '#2C1810' }}>Bereken de nakoeling: NAK = T_condensatie − T_voor_expansie</p>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-mono" style={{ color: '#2C1810' }}>{scenario.T_condensatie} − {scenario.T_voor_expansie} =</span>
+                <p className="text-sm font-bold mb-3" style={{ color: '#2C1810' }}>Bereken de nakoeling: NAK = T_condensatie − T_voor_expansie</p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <DropSlot value={nakSlots.left ? `${tempById[nakSlots.left].value > 0 ? '+' : ''}${tempById[nakSlots.left].value}°C` : null} hasValue={!!nakSlots.left} onDrop={(id) => setNakSlots(s => ({ ...s, left: id }))} onClear={() => setNakSlots(s => ({ ...s, left: null }))} />
+                  <span className="text-xl font-bold" style={{ color: '#2C1810' }}>−</span>
+                  <DropSlot value={nakSlots.right ? `${tempById[nakSlots.right].value > 0 ? '+' : ''}${tempById[nakSlots.right].value}°C` : null} hasValue={!!nakSlots.right} onDrop={(id) => setNakSlots(s => ({ ...s, right: id }))} onClear={() => setNakSlots(s => ({ ...s, right: null }))} />
+                  <span className="text-xl font-bold" style={{ color: '#2C1810' }}>=</span>
                   <input type="text" inputMode="decimal" value={nakInput} onChange={e => setNakInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleReadingCheck(false); }}
-                    className="w-20 px-2 py-1 rounded-lg font-mono text-sm" style={{ background: 'white', border: '2px solid #06B6D4', color: '#2C1810' }} placeholder="?" autoFocus />
+                    className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: 'white', border: '2px solid #06B6D4', color: '#2C1810' }} placeholder="?" />
                   <span className="text-sm" style={{ color: '#5C3A21' }}>K</span>
-                  <button onClick={() => handleReadingCheck(false)} disabled={nakInput === ''} className="px-3 py-1 rounded-lg font-bold italic text-white text-sm hover:brightness-90 active:scale-95 disabled:opacity-40"
+                  <button onClick={() => handleReadingCheck(false)} disabled={!nakSlots.left || !nakSlots.right || nakInput === ''} className="px-3 py-2 rounded-lg font-bold italic text-white text-sm hover:brightness-90 active:scale-95 disabled:opacity-40"
                     style={{ background: '#06B6D4', border: '2px solid #2C1810' }}>Controleer</button>
                 </div>
               </div>
@@ -1811,7 +2198,12 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
             )}
             {step === 4 && (
               <div className="p-4 rounded-xl" style={{ background: 'rgba(107,142,61,0.1)', border: '2px solid #6B8E3D', animation: 'fadeInUp 0.3s' }}>
-                <p className="italic mb-3" style={{ color: '#2C1810' }}><span className="font-bold">Goed!</span> OVH = {scenario.expectedOVH}K ({assessLabel(scenario.ovhAssessment)}), NAK = {scenario.expectedNAK}K ({assessLabel(scenario.nakAssessment)}).</p>
+                <p className="italic mb-2" style={{ color: '#2C1810' }}><span className="font-bold">Goed!</span> OVH = {scenario.expectedOVH}K ({assessLabel(scenario.ovhAssessment)}), NAK = {scenario.expectedNAK}K ({assessLabel(scenario.nakAssessment)}).</p>
+                {scenario.diagnosis && (
+                  <div className="mb-3 p-3 rounded-lg" style={{ background: '#FBBF24', border: '1.5px solid #2C1810' }}>
+                    <p className="text-sm font-bold" style={{ color: '#2C1810' }}>Diagnose: <span className="font-extrabold">{scenario.diagnosis}</span></p>
+                  </div>
+                )}
                 <button onClick={handleNext} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2"
                   style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 3px 0 #3d2615' }}>
                   {isLastScenario ? 'Volgende' : 'Volgend scenario'} <ChevronRight size={18} />
