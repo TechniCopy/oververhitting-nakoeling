@@ -1303,7 +1303,7 @@ function EerCalculator({ onComplete, onLoseLife, lives }) {
                       <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style={{ background: isActive ? '#FBBF24' : '#e8e0c8', color: '#2C1810' }}>{idx + 1}</div>
                       <div className="flex-1">
                         <p className="font-bold text-sm" style={{ color: '#2C1810' }}>{s.label}</p>
-                        <p className="text-xs italic mb-3" style={{ color: '#5C3A21' }}>{s.formula}</p>
+                        
                         {isActive && (
                           <div className="space-y-3">
                             <div className="flex flex-wrap items-center gap-2">
@@ -1499,7 +1499,7 @@ function CopCalculator({ onComplete, onLoseLife, lives }) {
                       <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style={{ background: isActive ? '#FBBF24' : '#e8e0c8', color: '#2C1810' }}>{idx + 1}</div>
                       <div className="flex-1">
                         <p className="font-bold text-sm" style={{ color: '#2C1810' }}>{s.label}</p>
-                        <p className="text-xs italic mb-3" style={{ color: '#5C3A21' }}>{s.formula}</p>
+                        
                         {isActive && (
                           <div className="space-y-3">
                             <div className="flex flex-wrap items-center gap-2">
@@ -2195,7 +2195,7 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
           <div className="mt-4">
             {step === 0 && (
               <div className="p-4 rounded-xl" style={{ background: '#f0e8d0', border: '2px solid #F59E0B' }}>
-                <p className="text-sm font-bold mb-3" style={{ color: '#2C1810' }}>Bereken de oververhitting: OVH = T_zuigleiding − T_verdamping</p>
+                <p className="text-sm font-bold mb-3" style={{ color: '#2C1810' }}>Bereken de oververhitting</p>
                 <div className="flex flex-wrap items-center gap-2">
                   <DropSlot value={ovhSlots.left ? `${tempById[ovhSlots.left].value > 0 ? '+' : ''}${tempById[ovhSlots.left].value}°C` : null} hasValue={!!ovhSlots.left} onDrop={(id) => setOvhSlots(s => ({ ...s, left: id }))} onClear={() => { setOvhSlots(s => ({ ...s, left: null })); setOvhInput(''); }} />
                   <span className="text-xl font-bold" style={{ color: '#2C1810' }}>−</span>
@@ -2211,7 +2211,7 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
             )}
             {step === 1 && (
               <div className="p-4 rounded-xl" style={{ background: '#f0e8d0', border: '2px solid #06B6D4' }}>
-                <p className="text-sm font-bold mb-3" style={{ color: '#2C1810' }}>Bereken de nakoeling: NAK = T_condensatie − T_voor_expansie</p>
+                <p className="text-sm font-bold mb-3" style={{ color: '#2C1810' }}>Bereken de nakoeling</p>
                 <div className="flex flex-wrap items-center gap-2">
                   <DropSlot value={nakSlots.left ? `${tempById[nakSlots.left].value > 0 ? '+' : ''}${tempById[nakSlots.left].value}°C` : null} hasValue={!!nakSlots.left} onDrop={(id) => setNakSlots(s => ({ ...s, left: id }))} onClear={() => { setNakSlots(s => ({ ...s, left: null })); setNakInput(''); }} />
                   <span className="text-xl font-bold" style={{ color: '#2C1810' }}>−</span>
