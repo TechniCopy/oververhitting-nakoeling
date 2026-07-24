@@ -2325,22 +2325,29 @@ function DebugNav({ visible, currentScreen, onNavigate, onClose }) {
 
 function StartScreen({ onStart }) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-8" style={{ background: '#f2f7f8' }}>
-      <div className="text-center max-w-md" style={{ animation: 'fadeInUp 0.5s ease-out' }}>
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full mb-4" style={{ background: 'rgba(153,211,216,0.35)' }}>
-          <Thermometer size={40} style={{ color: '#5b7280' }} />
-        </div>
-        <h1 className="text-4xl font-extrabold mb-1" style={{ color: '#0D4868' }}>OVH en NAK</h1>
-        <h2 className="text-xl font-bold italic mb-4" style={{ color: '#5b7280' }}>Oververhitting & Nakoeling</h2>
+    <div className="min-h-screen flex flex-col" style={{ background: '#f2f7f8' }}>
+      <div className="w-full h-[60px] flex items-center px-4 flex-shrink-0" style={{ background: 'linear-gradient(120deg,#0D4868 0%,#1b7f96 55%,#30B5AE 100%)' }}>
+        <img src="/studium-beeldmerk.png" alt="Studium" className="h-9 w-auto" />
+      </div>
+      <div className="flex-1 flex items-center justify-center p-8">
+      <div className="text-center max-w-lg" style={{ animation: 'fadeInUp 0.5s ease-out' }}>
+        <h1 className="text-4xl font-extrabold mb-2" style={{ color: '#0D4868' }}>OVH en NAK</h1>
+        <h2 className="text-xl font-bold italic mb-6" style={{ color: '#5b7280' }}>Oververhitting & Nakoeling</h2>
         <div className="bg-white rounded-2xl p-6 mb-6" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
           <p className="italic leading-relaxed" style={{ color: '#5b7280', lineHeight: 1.7 }}>
             Leer de <span className="font-bold">vermogens</span> uit een h-log p diagram aflezen, het <span className="font-bold">rendement</span> berekenen en de koelinstallatie beoordelen aan de hand van <span className="font-bold">oververhitting en nakoeling</span>.
           </p>
         </div>
-        <button onClick={onStart}
-          className="px-10 py-4 text-white rounded-2xl font-extrabold italic text-xl hover:brightness-90 active:scale-95 transition-all"
-          style={{ background: '#1E8F6E', border: '3px solid #0D4868', boxShadow: '0 4px 0 #166F56' }}>Start</button>
+        <div className="inline-flex items-center justify-center w-32 h-20 rounded-lg mb-6" style={{ background: '#f8fbfc', border: '2px solid #0D4868', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))' }}>
+          <Thermometer size={40} style={{ color: '#0D4868' }} />
+        </div>
+        <div>
+          <button onClick={onStart}
+            className="px-10 py-4 text-white rounded-2xl font-extrabold italic text-xl hover:brightness-90 active:scale-95 transition-all"
+            style={{ background: '#1E8F6E', border: '3px solid #0D4868', boxShadow: '0 4px 0 #166F56' }}>Start</button>
+        </div>
         <p className="text-xs mt-3" style={{ color: '#5b7280', opacity: 0.7 }}>Tip: Ctrl+D voor snelmenu</p>
+      </div>
       </div>
     </div>
   );
