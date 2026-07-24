@@ -474,26 +474,26 @@ function ProgressBar({ screen, lives, score }) {
   const info = getMissionAndRound(screen);
   if (info.mission === 0) return null;
   return (
-    <div className="flex items-center gap-3 px-4 py-2 text-sm" style={{ background: 'linear-gradient(120deg,#0D4868 0%,#1b7f96 55%,#30B5AE 100%)' }}>
-      <img src="/studium-beeldmerk.png" alt="Studium" className="h-5 w-auto" />
-      <span className="font-bold text-white">Missie {info.mission}</span>
-      <span className="text-white/40">|</span>
+    <div className="flex items-center gap-1.5 sm:gap-3 px-2 sm:px-4 py-2 text-sm" style={{ background: 'linear-gradient(120deg,#0D4868 0%,#1b7f96 55%,#30B5AE 100%)' }}>
+      <img src="/studium-beeldmerk.png" alt="Studium" className="h-4 sm:h-5 w-auto" />
+      <span className="font-bold text-white whitespace-nowrap">Missie {info.mission}</span>
+      <span className="text-white/40 hidden sm:inline">|</span>
       <div className="flex gap-1">
         {Array.from({ length: info.total }, (_, i) => i + 1).map(r => (
           <div key={r} className={`w-3 h-3 rounded-full border-2 border-white/60 ${r <= info.round ? 'bg-white' : 'bg-transparent'}`} />
         ))}
       </div>
-      {screen.includes('_check') && <span className="ml-2 text-xs font-bold px-2 py-0.5 rounded" style={{ background: '#99D3D8', color: '#0D4868' }}>Check</span>}
-      <div className="ml-auto flex items-center gap-3">
+      {screen.includes('_check') && <span className="ml-1 sm:ml-2 text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 rounded whitespace-nowrap" style={{ background: '#99D3D8', color: '#0D4868' }}>Check</span>}
+      <div className="ml-auto flex items-center gap-1.5 sm:gap-3">
         <div className="flex gap-0.5">
           {[1, 2, 3, 4, 5].map(h => (
-            <Heart key={h} className="w-4 h-4 transition-all duration-300"
+            <Heart key={h} className="w-3 h-3 sm:w-4 sm:h-4 transition-all duration-300"
               fill={h <= lives ? '#D92C2C' : 'transparent'}
               stroke={h <= lives ? '#D92C2C' : '#8a97a3'}
               style={{ opacity: h <= lives ? 1 : 0.3 }} />
           ))}
         </div>
-        <span className="text-white font-bold text-sm">Score: <span style={{ color: '#99D3D8' }}>{score}</span></span>
+        <span className="text-white font-bold text-sm whitespace-nowrap"><span className="hidden sm:inline">Score: </span><span style={{ color: '#99D3D8' }}>{score}</span></span>
       </div>
     </div>
   );
@@ -653,7 +653,8 @@ function R134aDiagram({ children, lines = {}, points = {}, onDiagramClick, showC
   });
 
   return (
-    <div className="relative" style={{ cursor: activeTool ? 'crosshair' : 'default' }}>
+    <div className="overflow-x-auto">
+    <div className="relative min-w-[560px] sm:min-w-0" style={{ cursor: activeTool ? 'crosshair' : 'default' }}>
       <svg ref={svgRef} viewBox={`0 0 ${SVG_W} ${SVG_H}`} className="w-full"
         style={{ backgroundColor: '#f8fbfc', borderRadius: 12, border: '2px solid #0D4868', maxHeight: 560 }}
         onMouseMove={handleMove} onMouseLeave={handleLeave} onClick={handleClick}>
@@ -685,6 +686,7 @@ function R134aDiagram({ children, lines = {}, points = {}, onDiagramClick, showC
           <div style={{ color: '#5b7280' }}>h: <span className="font-bold" style={{ color: '#0D4868' }}>{fmtNum(crosshair.h, 0)} kJ/kg</span></div>
         </div>
       )}
+    </div>
     </div>
   );
 }
@@ -994,7 +996,7 @@ function PowerLabeler({ onComplete, onLoseLife, lives }) {
             return (
               <div key={label.id} draggable={!isPlaced} onDragStart={() => handleDragStart(label.id)} onDragEnd={handleDragEnd}
                 className="px-4 py-2 rounded-xl font-bold italic text-sm select-none"
-                style={{ cursor: isPlaced ? 'default' : 'grab', background: isPlaced ? '#1E8F6E' : 'white', color: isPlaced ? 'white' : label.color, border: `2px solid ${isPlaced ? '#0D4868' : label.color}`, opacity: isPlaced ? 0.55 : 1, boxShadow: isPlaced ? 'none' : '0 3px 0 rgba(0,0,0,0.1)', animation: isFlash && flash?.type === 'wrong' ? 'shake 0.5s' : (isFlash && flash?.type === 'correct' ? 'pop-in 0.3s' : 'none') }}>
+                style={{ touchAction: 'none', cursor: isPlaced ? 'default' : 'grab', background: isPlaced ? '#1E8F6E' : 'white', color: isPlaced ? 'white' : label.color, border: `2px solid ${isPlaced ? '#0D4868' : label.color}`, opacity: isPlaced ? 0.55 : 1, boxShadow: isPlaced ? 'none' : '0 3px 0 rgba(0,0,0,0.1)', animation: isFlash && flash?.type === 'wrong' ? 'shake 0.5s' : (isFlash && flash?.type === 'correct' ? 'pop-in 0.3s' : 'none') }}>
                 {isPlaced && <Check className="inline mr-1" size={14} />}
                 {label.label} <span className="opacity-70 font-normal ml-1">({label.sub})</span>
               </div>
@@ -1103,6 +1105,7 @@ function DragSource({ id, label, value, color = '#99D3D8', onDragStart, disabled
       onDragStart={(e) => { e.dataTransfer.setData('text/plain', id); onDragStart?.(id); }}
       className="inline-flex items-center justify-center px-3 py-2 rounded-lg font-bold text-sm select-none"
       style={{
+        touchAction: 'none',
         cursor: disabled ? 'default' : 'grab',
         background: disabled ? '#dbe7ea' : color,
         color: '#0D4868',
@@ -1764,7 +1767,7 @@ function IdentifyOvhNak({ onComplete, onLoseLife, lives }) {
                 <g key={seg.key}>
                   <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={seg.color} strokeWidth={highlighted ? 5 : 3} strokeLinecap="round" />
                   {/* Invisible wider hit area */}
-                  {isClickable && <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="transparent" strokeWidth="20" style={{ cursor: 'pointer' }} onClick={() => handleSegmentClick(seg.key)} />}
+                  {isClickable && <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="transparent" strokeWidth={26} style={{ cursor: 'pointer', pointerEvents: 'stroke' }} onClick={() => handleSegmentClick(seg.key)} />}
 {null}
                 </g>
               );
@@ -2122,7 +2125,7 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
                   <div key={t.id} draggable={true}
                     onDragStart={(e) => e.dataTransfer.setData('text/plain', t.id)}
                     className="inline-flex flex-col items-center px-3 py-2 rounded-lg font-bold text-xs select-none"
-                    style={{ cursor: 'grab', background: '#99D3D8', color: '#0D4868', border: '2px solid #0D4868', boxShadow: '0 2px 0 rgba(0,0,0,0.15)', minWidth: 110 }}>
+                    style={{ touchAction: 'none', cursor: 'grab', background: '#99D3D8', color: '#0D4868', border: '2px solid #0D4868', boxShadow: '0 2px 0 rgba(0,0,0,0.15)', minWidth: 110 }}>
                     <span className="opacity-80 text-[10px]">{t.label}</span>
                     <span className="text-sm">{t.value > 0 ? '+' : ''}{t.value}°C</span>
                   </div>
