@@ -474,7 +474,7 @@ function ProgressBar({ screen, lives, score }) {
   const info = getMissionAndRound(screen);
   if (info.mission === 0) return null;
   return (
-    <div className="flex items-center gap-3 px-4 py-2 text-sm" style={{ background: '#2C1810' }}>
+    <div className="flex items-center gap-3 px-4 py-2 text-sm" style={{ background: 'linear-gradient(120deg,#0D4868 0%,#1b7f96 55%,#30B5AE 100%)' }}>
       <span className="font-bold text-white">Missie {info.mission}</span>
       <span className="text-white/40">|</span>
       <div className="flex gap-1">
@@ -482,17 +482,17 @@ function ProgressBar({ screen, lives, score }) {
           <div key={r} className={`w-3 h-3 rounded-full border-2 border-white/60 ${r <= info.round ? 'bg-white' : 'bg-transparent'}`} />
         ))}
       </div>
-      {screen.includes('_check') && <span className="ml-2 text-xs font-bold px-2 py-0.5 rounded" style={{ background: '#FBBF24', color: '#2C1810' }}>Check</span>}
+      {screen.includes('_check') && <span className="ml-2 text-xs font-bold px-2 py-0.5 rounded" style={{ background: '#99D3D8', color: '#0D4868' }}>Check</span>}
       <div className="ml-auto flex items-center gap-3">
         <div className="flex gap-0.5">
           {[1, 2, 3, 4, 5].map(h => (
             <Heart key={h} className="w-4 h-4 transition-all duration-300"
-              fill={h <= lives ? '#E74C3C' : 'transparent'}
-              stroke={h <= lives ? '#E74C3C' : '#8B7355'}
+              fill={h <= lives ? '#D92C2C' : 'transparent'}
+              stroke={h <= lives ? '#D92C2C' : '#8a97a3'}
               style={{ opacity: h <= lives ? 1 : 0.3 }} />
           ))}
         </div>
-        <span className="text-white font-bold text-sm">Score: <span style={{ color: '#FBBF24' }}>{score}</span></span>
+        <span className="text-white font-bold text-sm">Score: <span style={{ color: '#99D3D8' }}>{score}</span></span>
       </div>
     </div>
   );
@@ -544,8 +544,8 @@ function QuizCheck({ quizQs, maxPoints, onComplete, onLoseLife, lives, showBootj
 
   return (
     <div className="max-w-lg mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
-      <div className="bg-white rounded-2xl p-6" style={{ border: '2px solid #2C1810', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-        <p className="text-xs font-bold mb-2" style={{ color: '#5C3A21' }}>Vraag {qIdx + 1} van {quizQs.length}</p>
+      <div className="bg-white rounded-2xl p-6" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+        <p className="text-xs font-bold mb-2" style={{ color: '#5b7280' }}>Vraag {qIdx + 1} van {quizQs.length}</p>
         {examFigure === 'exam' && <div className="mb-3"><ExamBootjeFigure /></div>}
         {showBootje && !examFigure && (
           <div className="mb-3">
@@ -557,49 +557,49 @@ function QuizCheck({ quizQs, maxPoints, onComplete, onLoseLife, lives, showBootj
               showSegmentLetters={bootjeMode === 'letters'}
               width={540}
               height={340} />
-            {bootjeMode === 'letters' && <p className="text-xs italic text-center mt-1" style={{ color: '#5C3A21' }}>Figuur 1</p>}
+            {bootjeMode === 'letters' && <p className="text-xs italic text-center mt-1" style={{ color: '#5b7280' }}>Figuur 1</p>}
           </div>
         )}
-        <h3 className="text-lg font-bold italic mb-4" style={{ color: '#2C1810' }}>{quizQ.question}</h3>
+        <h3 className="text-lg font-bold italic mb-4" style={{ color: '#0D4868' }}>{quizQ.question}</h3>
         <div className="space-y-2 mb-4">
           {quizQ.options.map((opt, i) => {
-            let optStyle = { border: '2px solid #e8e0c8', background: '#FAFAF5' };
-            if (selected === i && !checked) optStyle = { border: '2px solid #5C3A21', background: '#f0e8d0' };
-            if (checked && isCorrect && i === quizQ.correct) optStyle = { border: '2px solid #6B8E3D', background: 'rgba(107,142,61,0.1)' };
-            if (checked && selected === i && i !== quizQ.correct) optStyle = { border: '2px solid #B84A3D', background: 'rgba(184,74,61,0.1)' };
+            let optStyle = { border: '2px solid #dbe7ea', background: '#f8fbfc' };
+            if (selected === i && !checked) optStyle = { border: '2px solid #0D4868', background: '#e6f4f5' };
+            if (checked && isCorrect && i === quizQ.correct) optStyle = { border: '2px solid #1E8F6E', background: 'rgba(30,143,110,0.1)' };
+            if (checked && selected === i && i !== quizQ.correct) optStyle = { border: '2px solid #D92C2C', background: 'rgba(217,44,44,0.1)' };
             return (
               <button key={i} disabled={questionDone || checked} onClick={() => setSelected(i)}
                 className="w-full text-left px-4 py-3 rounded-xl text-sm transition-all hover:brightness-95 cursor-pointer" style={optStyle}>
-                <span style={{ color: '#2C1810' }}>{opt}</span>
-                {checked && isCorrect && i === quizQ.correct && <Check className="inline ml-2" size={16} style={{ color: '#6B8E3D' }} />}
-                {checked && selected === i && i !== quizQ.correct && <X className="inline ml-2" size={16} style={{ color: '#B84A3D' }} />}
+                <span style={{ color: '#0D4868' }}>{opt}</span>
+                {checked && isCorrect && i === quizQ.correct && <Check className="inline ml-2" size={16} style={{ color: '#1E8F6E' }} />}
+                {checked && selected === i && i !== quizQ.correct && <X className="inline ml-2" size={16} style={{ color: '#D92C2C' }} />}
               </button>
             );
           })}
         </div>
         {checked && (
-          <div className="p-3 rounded-xl text-sm mb-3 text-white italic" style={{ background: isCorrect ? '#6B8E3D' : '#B84A3D' }}>
+          <div className="p-3 rounded-xl text-sm mb-3 text-white italic" style={{ background: isCorrect ? '#1E8F6E' : '#D92C2C' }}>
             {isCorrect ? quizQ.feedbackCorrect : quizQ.feedbackWrong}
           </div>
         )}
         {!checked && !questionDone && (
           <button onClick={handleCheck} disabled={selected === null}
             className="w-full py-3 rounded-xl font-bold italic text-white hover:brightness-90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 3px 0 rgba(0,0,0,0.2)' }}>
+            style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 rgba(0,0,0,0.2)' }}>
             Controleer
           </button>
         )}
         {isWrong && lives > 0 && (
           <button onClick={handleRetry}
             className="w-full py-3 rounded-xl font-bold italic text-white hover:brightness-90 active:scale-95"
-            style={{ background: '#B84A3D', border: '2px solid #2C1810', boxShadow: '0 3px 0 rgba(0,0,0,0.2)' }}>
+            style={{ background: '#D92C2C', border: '2px solid #0D4868', boxShadow: '0 3px 0 rgba(0,0,0,0.2)' }}>
             Probeer opnieuw
           </button>
         )}
         {questionDone && (
           <button onClick={handleNext}
             className="w-full py-3 rounded-xl font-bold italic text-white hover:brightness-90 active:scale-95 flex items-center justify-center gap-2"
-            style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 3px 0 #3d2615' }}>
+            style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>
             {isLast ? 'Verder' : 'Volgende vraag'} <ChevronRight size={18} />
           </button>
         )}
@@ -654,34 +654,34 @@ function R134aDiagram({ children, lines = {}, points = {}, onDiagramClick, showC
   return (
     <div className="relative" style={{ cursor: activeTool ? 'crosshair' : 'default' }}>
       <svg ref={svgRef} viewBox={`0 0 ${SVG_W} ${SVG_H}`} className="w-full"
-        style={{ backgroundColor: '#FAFAF5', borderRadius: 12, border: '2px solid #2C1810', maxHeight: 560 }}
+        style={{ backgroundColor: '#f8fbfc', borderRadius: 12, border: '2px solid #0D4868', maxHeight: 560 }}
         onMouseMove={handleMove} onMouseLeave={handleLeave} onClick={handleClick}>
-        <rect x={PLOT.left} y={PLOT.top} width={PLOT_W} height={PLOT_H} fill="#FFFDF5" stroke="#2C1810" strokeWidth="1.5" />
-        {P_GRID.map(p => { const y = pressureToY(p); return <g key={`pg${p}`}><line x1={PLOT.left} y1={y} x2={PLOT.right} y2={y} stroke="#ddd" strokeWidth="1" strokeDasharray="4 4" /><text x={PLOT.left - 8} y={y + 4} textAnchor="end" fontSize="11" fill="#5C3A21" fontFamily="Nunito" fontWeight="600">{p}</text></g>; })}
-        {H_GRID.map(h => { const x = enthalpyToX(h); return <g key={`hg${h}`}><line x1={x} y1={PLOT.top} x2={x} y2={PLOT.bottom} stroke="#ddd" strokeWidth="1" strokeDasharray="4 4" /><text x={x} y={PLOT.bottom + 18} textAnchor="middle" fontSize="11" fill="#5C3A21" fontFamily="Nunito" fontWeight="600">{h}</text></g>; })}
-        <text x={30} y={SVG_H / 2} textAnchor="middle" fontSize="13" fill="#2C1810" fontWeight="700" fontFamily="Nunito" transform={`rotate(-90, 30, ${SVG_H / 2})`}>Druk P (bar abs) — log-schaal</text>
-        <text x={(PLOT.left + PLOT.right) / 2} y={SVG_H - 10} textAnchor="middle" fontSize="13" fill="#2C1810" fontWeight="700" fontFamily="Nunito">Enthalpie h (kJ/kg)</text>
-        {ISOTHERM_PATHS.map(iso => (<g key={`iso-${iso.T}`}><path d={iso.path} fill="none" stroke="#A855F7" strokeWidth="1" strokeDasharray="3 4" opacity="0.5" /><text x={iso.labelPos.x} y={iso.labelPos.y} fontSize="9" fill="#A855F7" fontWeight="600" fontFamily="Nunito" textAnchor="end">{iso.T}°C</text></g>))}
+        <rect x={PLOT.left} y={PLOT.top} width={PLOT_W} height={PLOT_H} fill="#ffffff" stroke="#0D4868" strokeWidth="1.5" />
+        {P_GRID.map(p => { const y = pressureToY(p); return <g key={`pg${p}`}><line x1={PLOT.left} y1={y} x2={PLOT.right} y2={y} stroke="#ddd" strokeWidth="1" strokeDasharray="4 4" /><text x={PLOT.left - 8} y={y + 4} textAnchor="end" fontSize="11" fill="#5b7280" fontFamily="Work Sans" fontWeight="600">{p}</text></g>; })}
+        {H_GRID.map(h => { const x = enthalpyToX(h); return <g key={`hg${h}`}><line x1={x} y1={PLOT.top} x2={x} y2={PLOT.bottom} stroke="#ddd" strokeWidth="1" strokeDasharray="4 4" /><text x={x} y={PLOT.bottom + 18} textAnchor="middle" fontSize="11" fill="#5b7280" fontFamily="Work Sans" fontWeight="600">{h}</text></g>; })}
+        <text x={30} y={SVG_H / 2} textAnchor="middle" fontSize="13" fill="#0D4868" fontWeight="700" fontFamily="Work Sans" transform={`rotate(-90, 30, ${SVG_H / 2})`}>Druk P (bar abs) — log-schaal</text>
+        <text x={(PLOT.left + PLOT.right) / 2} y={SVG_H - 10} textAnchor="middle" fontSize="13" fill="#0D4868" fontWeight="700" fontFamily="Work Sans">Enthalpie h (kJ/kg)</text>
+        {ISOTHERM_PATHS.map(iso => (<g key={`iso-${iso.T}`}><path d={iso.path} fill="none" stroke="#A855F7" strokeWidth="1" strokeDasharray="3 4" opacity="0.5" /><text x={iso.labelPos.x} y={iso.labelPos.y} fontSize="9" fill="#A855F7" fontWeight="600" fontFamily="Work Sans" textAnchor="end">{iso.T}°C</text></g>))}
         <path d={DOME_PATH} fill="rgba(168, 85, 247, 0.08)" />
         <path d={LIQUID_PATH} fill="none" stroke="#3B82F6" strokeWidth="2.5" />
         <path d={VAPOR_PATH} fill="none" stroke="#EF4444" strokeWidth="2.5" />
-        <circle cx={hpToXY(CRITICAL_POINT.h, CRITICAL_POINT.P)[0]} cy={hpToXY(CRITICAL_POINT.h, CRITICAL_POINT.P)[1]} r="5" fill="#2C1810" stroke="#fff" strokeWidth="1.5" />
-        <text x={hpToXY(CRITICAL_POINT.h, CRITICAL_POINT.P)[0] + 10} y={hpToXY(CRITICAL_POINT.h, CRITICAL_POINT.P)[1] - 6} fontSize="11" fontWeight="700" fill="#2C1810" fontFamily="Nunito">K</text>
-        {lines.highP && (() => { const y = pressureToY(lines.highP); return <g><line x1={PLOT.left} y1={y} x2={PLOT.right} y2={y} stroke="#991B1B" strokeWidth="2" strokeDasharray="6 4" /><text x={PLOT.right + 4} y={y + 4} fontSize="10" fill="#991B1B" fontWeight="bold" fontFamily="Nunito">HP {fmtNum(lines.highP, 1)}</text></g>; })()}
-        {lines.lowP && (() => { const y = pressureToY(lines.lowP); return <g><line x1={PLOT.left} y1={y} x2={PLOT.right} y2={y} stroke="#1E3A8A" strokeWidth="2" strokeDasharray="6 4" /><text x={PLOT.right + 4} y={y + 4} fontSize="10" fill="#1E3A8A" fontWeight="bold" fontFamily="Nunito">LP {fmtNum(lines.lowP, 1)}</text></g>; })()}
+        <circle cx={hpToXY(CRITICAL_POINT.h, CRITICAL_POINT.P)[0]} cy={hpToXY(CRITICAL_POINT.h, CRITICAL_POINT.P)[1]} r="5" fill="#0D4868" stroke="#fff" strokeWidth="1.5" />
+        <text x={hpToXY(CRITICAL_POINT.h, CRITICAL_POINT.P)[0] + 10} y={hpToXY(CRITICAL_POINT.h, CRITICAL_POINT.P)[1] - 6} fontSize="11" fontWeight="700" fill="#0D4868" fontFamily="Work Sans">K</text>
+        {lines.highP && (() => { const y = pressureToY(lines.highP); return <g><line x1={PLOT.left} y1={y} x2={PLOT.right} y2={y} stroke="#991B1B" strokeWidth="2" strokeDasharray="6 4" /><text x={PLOT.right + 4} y={y + 4} fontSize="10" fill="#991B1B" fontWeight="bold" fontFamily="Work Sans">HP {fmtNum(lines.highP, 1)}</text></g>; })()}
+        {lines.lowP && (() => { const y = pressureToY(lines.lowP); return <g><line x1={PLOT.left} y1={y} x2={PLOT.right} y2={y} stroke="#1E3A8A" strokeWidth="2" strokeDasharray="6 4" /><text x={PLOT.right + 4} y={y + 4} fontSize="10" fill="#1E3A8A" fontWeight="bold" fontFamily="Work Sans">LP {fmtNum(lines.lowP, 1)}</text></g>; })()}
         {bootjePointPositions.p1 && bootjePointPositions.p2 && <line x1={bootjePointPositions.p1.x} y1={bootjePointPositions.p1.y} x2={bootjePointPositions.p2.x} y2={bootjePointPositions.p2.y} stroke="#2563EB" strokeWidth="3" strokeLinecap="round" />}
         {bootjePointPositions.p2 && bootjePointPositions.p3 && <line x1={bootjePointPositions.p2.x} y1={bootjePointPositions.p2.y} x2={bootjePointPositions.p3.x} y2={bootjePointPositions.p3.y} stroke="#DC2626" strokeWidth="3" strokeLinecap="round" />}
         {bootjePointPositions.p3 && bootjePointPositions.p4 && <line x1={bootjePointPositions.p3.x} y1={bootjePointPositions.p3.y} x2={bootjePointPositions.p4.x} y2={bootjePointPositions.p4.y} stroke="#7C3AED" strokeWidth="3" strokeLinecap="round" />}
         {bootjePointPositions.p4 && bootjePointPositions.p1 && <line x1={bootjePointPositions.p4.x} y1={bootjePointPositions.p4.y} x2={bootjePointPositions.p1.x} y2={bootjePointPositions.p1.y} stroke="#059669" strokeWidth="3" strokeLinecap="round" />}
-        {['p1', 'p2', 'p3', 'p4'].map(key => { const pt = bootjePointPositions[key]; if (!pt) return null; const num = key.substring(1); return (<g key={key}><circle cx={pt.x} cy={pt.y} r="10" fill="white" stroke="#2C1810" strokeWidth="2" /><text x={pt.x} y={pt.y + 4} textAnchor="middle" fontSize="11" fontWeight="bold" fill="#2C1810" fontFamily="Nunito">{num}</text></g>); })}
-        {crosshair && showCrosshair && (<g pointerEvents="none"><line x1={PLOT.left} y1={crosshair.y} x2={PLOT.right} y2={crosshair.y} stroke="#2C1810" strokeWidth="0.8" strokeDasharray="3 3" opacity="0.5" /><line x1={crosshair.x} y1={PLOT.top} x2={crosshair.x} y2={PLOT.bottom} stroke="#2C1810" strokeWidth="0.8" strokeDasharray="3 3" opacity="0.5" /><circle cx={crosshair.x} cy={crosshair.y} r="3" fill="#FBBF24" stroke="#2C1810" strokeWidth="1" /></g>)}
+        {['p1', 'p2', 'p3', 'p4'].map(key => { const pt = bootjePointPositions[key]; if (!pt) return null; const num = key.substring(1); return (<g key={key}><circle cx={pt.x} cy={pt.y} r="10" fill="white" stroke="#0D4868" strokeWidth="2" /><text x={pt.x} y={pt.y + 4} textAnchor="middle" fontSize="11" fontWeight="bold" fill="#0D4868" fontFamily="Work Sans">{num}</text></g>); })}
+        {crosshair && showCrosshair && (<g pointerEvents="none"><line x1={PLOT.left} y1={crosshair.y} x2={PLOT.right} y2={crosshair.y} stroke="#0D4868" strokeWidth="0.8" strokeDasharray="3 3" opacity="0.5" /><line x1={crosshair.x} y1={PLOT.top} x2={crosshair.x} y2={PLOT.bottom} stroke="#0D4868" strokeWidth="0.8" strokeDasharray="3 3" opacity="0.5" /><circle cx={crosshair.x} cy={crosshair.y} r="3" fill="#30B5AE" stroke="#0D4868" strokeWidth="1" /></g>)}
         {children}
       </svg>
       {showReadout && crosshair && (
-        <div className="absolute top-3 right-3 bg-white rounded-lg px-3 py-2 text-xs font-mono" style={{ border: '2px solid #2C1810', boxShadow: '0 2px 6px rgba(0,0,0,0.1)' }}>
-          <div className="flex items-center gap-1"><Thermometer size={12} style={{ color: '#B84A3D' }} /> <span style={{ color: '#2C1810', fontWeight: 700 }}>{fmtNum(crosshair.T, 0)} °C</span></div>
-          <div style={{ color: '#5C3A21' }}>P abs: <span className="font-bold" style={{ color: '#2C1810' }}>{fmtNum(crosshair.P, 1)} bar</span></div>
-          <div style={{ color: '#5C3A21' }}>h: <span className="font-bold" style={{ color: '#2C1810' }}>{fmtNum(crosshair.h, 0)} kJ/kg</span></div>
+        <div className="absolute top-3 right-3 bg-white rounded-lg px-3 py-2 text-xs font-mono" style={{ border: '2px solid #0D4868', boxShadow: '0 2px 6px rgba(0,0,0,0.1)' }}>
+          <div className="flex items-center gap-1"><Thermometer size={12} style={{ color: '#D92C2C' }} /> <span style={{ color: '#0D4868', fontWeight: 700 }}>{fmtNum(crosshair.T, 0)} °C</span></div>
+          <div style={{ color: '#5b7280' }}>P abs: <span className="font-bold" style={{ color: '#0D4868' }}>{fmtNum(crosshair.P, 1)} bar</span></div>
+          <div style={{ color: '#5b7280' }}>h: <span className="font-bold" style={{ color: '#0D4868' }}>{fmtNum(crosshair.h, 0)} kJ/kg</span></div>
         </div>
       )}
     </div>
@@ -746,8 +746,8 @@ function StylizedBootje({
           <path d="M 280 18 C 420 18, 430 120, 340 310"
             fill="none" stroke="#EF4444" strokeWidth="2" />
           {/* Kritisch punt K */}
-          <circle cx={280} cy={18} r="4" fill="#2C1810" stroke="#fff" strokeWidth="1" />
-          <text x={268} y={12} fontSize="10" fontWeight="700" fill="#2C1810" fontFamily="Nunito">K</text>
+          <circle cx={280} cy={18} r="4" fill="#0D4868" stroke="#fff" strokeWidth="1" />
+          <text x={268} y={12} fontSize="10" fontWeight="700" fill="#0D4868" fontFamily="Work Sans">K</text>
         </g>
       )}
 
@@ -756,12 +756,12 @@ function StylizedBootje({
         const isPlaced = powerPlaced[l.key];
         const isDropHovered = dropZoneActive === l.key;
         const isHighlighted = highlightLine === l.key;
-        const stroke = (isPlaced || isHighlighted || isDropHovered) ? l.color : '#8B7355';
+        const stroke = (isPlaced || isHighlighted || isDropHovered) ? l.color : '#8a97a3';
         const w = (isPlaced || isHighlighted) ? 5 : 3;
         return <line key={l.key} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke={stroke} strokeWidth={w} strokeLinecap="round" style={{ transition: 'stroke 0.3s, stroke-width 0.3s' }} />;
       })}
 
-      {/* Placed result blocks — gele blokken met berekend Δh verder van segmenten,
+      {/* Placed result blocks — aqua blokken met berekend Δh verder van segmenten,
           gepositioneerd zodat ze niet overlappen met de power-labels. */}
       {lines.map(l => {
         const val = placedResults[l.key];
@@ -776,8 +776,8 @@ function StylizedBootje({
         const boxW = 110, boxH = 26;
         return (
           <g key={`placed-${l.key}`} style={{ animation: 'pop-in 0.5s ease-out' }}>
-            <rect x={tx - boxW / 2} y={ty - boxH / 2} width={boxW} height={boxH} rx="6" fill="#FBBF24" stroke="#2C1810" strokeWidth="1.5" />
-            <text x={tx} y={ty + 5} textAnchor="middle" fontSize="13" fontWeight="800" fill="#2C1810" fontFamily="Nunito">{val} kJ/kg</text>
+            <rect x={tx - boxW / 2} y={ty - boxH / 2} width={boxW} height={boxH} rx="6" fill="#99D3D8" stroke="#0D4868" strokeWidth="1.5" />
+            <text x={tx} y={ty + 5} textAnchor="middle" fontSize="13" fontWeight="800" fill="#0D4868" fontFamily="Work Sans">{val} kJ/kg</text>
           </g>
         );
       })}
@@ -793,8 +793,8 @@ function StylizedBootje({
           const oy = l.key === 'verdamper' ? -20 : l.key === 'condensor' ? 20 : l.key === 'compressor' ? 10 : 0;
           return (
             <g key={`letter-${l.key}`}>
-              <circle cx={midX + ox} cy={midY + oy} r="12" fill="#FBBF24" stroke="#2C1810" strokeWidth="2" />
-              <text x={midX + ox} y={midY + oy + 4} textAnchor="middle" fontSize="13" fontWeight="bold" fill="#2C1810" fontFamily="Nunito">{letters[l.key]}</text>
+              <circle cx={midX + ox} cy={midY + oy} r="12" fill="#99D3D8" stroke="#0D4868" strokeWidth="2" />
+              <text x={midX + ox} y={midY + oy + 4} textAnchor="middle" fontSize="13" fontWeight="bold" fill="#0D4868" fontFamily="Work Sans">{letters[l.key]}</text>
             </g>
           );
         });
@@ -803,49 +803,49 @@ function StylizedBootje({
       {/* Punten */}
       {[p1, p2, p3, p4].map(p => (
         <g key={p.label}>
-          <circle cx={p.x} cy={p.y} r="13" fill="white" stroke="#2C1810" strokeWidth="2" />
-          <text x={p.x} y={p.y + 4} textAnchor="middle" fontSize="13" fontWeight="bold" fill="#2C1810" fontFamily="Nunito">{p.label}</text>
+          <circle cx={p.x} cy={p.y} r="13" fill="white" stroke="#0D4868" strokeWidth="2" />
+          <text x={p.x} y={p.y + 4} textAnchor="middle" fontSize="13" fontWeight="bold" fill="#0D4868" fontFamily="Work Sans">{p.label}</text>
         </g>
       ))}
 
       {/* Enthalpie-hulplijnen */}
       {showGuidelines && (
         <g>
-          <line x1={p4.x} y1={p4.y} x2={p4.x} y2={hAxisY} stroke="#5C3A21" strokeWidth="1" strokeDasharray="3 3" opacity="0.55" />
-          <line x1={p3.x} y1={p3.y} x2={p3.x} y2={hAxisY} stroke="#5C3A21" strokeWidth="1" strokeDasharray="3 3" opacity="0.55" />
-          <line x1={p1.x} y1={p1.y} x2={p1.x} y2={hAxisY} stroke="#5C3A21" strokeWidth="1" strokeDasharray="3 3" opacity="0.55" />
-          <line x1={p2.x} y1={p2.y} x2={p2.x} y2={hAxisY} stroke="#5C3A21" strokeWidth="1" strokeDasharray="3 3" opacity="0.55" />
-          <line x1={40} y1={hAxisY} x2={xP2 + 20} y2={hAxisY} stroke="#2C1810" strokeWidth="1.5" />
-          <text x={xP2 + 26} y={hAxisY + 4} fontSize="10" fill="#2C1810" fontWeight="700" fontFamily="Nunito">h →</text>
+          <line x1={p4.x} y1={p4.y} x2={p4.x} y2={hAxisY} stroke="#5b7280" strokeWidth="1" strokeDasharray="3 3" opacity="0.55" />
+          <line x1={p3.x} y1={p3.y} x2={p3.x} y2={hAxisY} stroke="#5b7280" strokeWidth="1" strokeDasharray="3 3" opacity="0.55" />
+          <line x1={p1.x} y1={p1.y} x2={p1.x} y2={hAxisY} stroke="#5b7280" strokeWidth="1" strokeDasharray="3 3" opacity="0.55" />
+          <line x1={p2.x} y1={p2.y} x2={p2.x} y2={hAxisY} stroke="#5b7280" strokeWidth="1" strokeDasharray="3 3" opacity="0.55" />
+          <line x1={40} y1={hAxisY} x2={xP2 + 20} y2={hAxisY} stroke="#0D4868" strokeWidth="1.5" />
+          <text x={xP2 + 26} y={hAxisY + 4} fontSize="10" fill="#0D4868" fontWeight="700" fontFamily="Work Sans">h →</text>
           {(() => {
             const hl34 = highlightHLabels.includes('h3') || highlightHLabels.includes('h4');
             const hl1 = highlightHLabels.includes('h1');
             const hl2 = highlightHLabels.includes('h2');
-            const hlStyle = (on) => ({ fontSize: on ? 13 : 10, fontWeight: on ? 800 : 700, fill: on ? '#2C1810' : '#8B7355' });
+            const hlStyle = (on) => ({ fontSize: on ? 13 : 10, fontWeight: on ? 800 : 700, fill: on ? '#0D4868' : '#8a97a3' });
             const dotR = (on) => on ? 5 : 3.5;
             return (
               <g>
-                <circle cx={p4.x} cy={hAxisY} r={dotR(hl34)} fill={hl34 ? '#FBBF24' : '#059669'} stroke={hl34 ? '#2C1810' : 'none'} strokeWidth={hl34 ? 1.5 : 0} style={{ transition: 'all 0.3s' }} />
-                <circle cx={p1.x} cy={hAxisY} r={dotR(hl1)} fill={hl1 ? '#FBBF24' : '#2563EB'} stroke={hl1 ? '#2C1810' : 'none'} strokeWidth={hl1 ? 1.5 : 0} style={{ transition: 'all 0.3s' }} />
-                <circle cx={p2.x} cy={hAxisY} r={dotR(hl2)} fill={hl2 ? '#FBBF24' : '#DC2626'} stroke={hl2 ? '#2C1810' : 'none'} strokeWidth={hl2 ? 1.5 : 0} style={{ transition: 'all 0.3s' }} />
+                <circle cx={p4.x} cy={hAxisY} r={dotR(hl34)} fill={hl34 ? '#30B5AE' : '#059669'} stroke={hl34 ? '#0D4868' : 'none'} strokeWidth={hl34 ? 1.5 : 0} style={{ transition: 'all 0.3s' }} />
+                <circle cx={p1.x} cy={hAxisY} r={dotR(hl1)} fill={hl1 ? '#30B5AE' : '#2563EB'} stroke={hl1 ? '#0D4868' : 'none'} strokeWidth={hl1 ? 1.5 : 0} style={{ transition: 'all 0.3s' }} />
+                <circle cx={p2.x} cy={hAxisY} r={dotR(hl2)} fill={hl2 ? '#30B5AE' : '#DC2626'} stroke={hl2 ? '#0D4868' : 'none'} strokeWidth={hl2 ? 1.5 : 0} style={{ transition: 'all 0.3s' }} />
                 {enthalpies.h3 === enthalpies.h4 ? (
                   <g>
-                    {hl34 && <rect x={p4.x - 58} y={hAxisY + 6} width="116" height="18" rx="4" fill="#FBBF24" style={{ transition: 'all 0.3s' }} />}
-                    <text x={p4.x} y={hAxisY + 20} textAnchor="middle" fontFamily="Nunito" {...hlStyle(hl34)} style={{ transition: 'all 0.3s' }}>h3 = h4 = {enthalpies.h4}</text>
-                    <text x={p4.x} y={hAxisY + 32} textAnchor="middle" fontSize="9" fill={hl34 ? '#2C1810' : '#5C3A21'} fontFamily="Nunito">kJ/kg</text>
+                    {hl34 && <rect x={p4.x - 58} y={hAxisY + 6} width="116" height="18" rx="4" fill="#99D3D8" style={{ transition: 'all 0.3s' }} />}
+                    <text x={p4.x} y={hAxisY + 20} textAnchor="middle" fontFamily="Work Sans" {...hlStyle(hl34)} style={{ transition: 'all 0.3s' }}>h3 = h4 = {enthalpies.h4}</text>
+                    <text x={p4.x} y={hAxisY + 32} textAnchor="middle" fontSize="9" fill={hl34 ? '#0D4868' : '#5b7280'} fontFamily="Work Sans">kJ/kg</text>
                   </g>
                 ) : (
                   <g>
-                    <text x={p4.x} y={hAxisY + 18} textAnchor="middle" fontFamily="Nunito" {...hlStyle(hl34)}>h4 = {enthalpies.h4}</text>
-                    <text x={p3.x} y={hAxisY + 30} textAnchor="middle" fontFamily="Nunito" {...hlStyle(hl34)}>h3 = {enthalpies.h3}</text>
+                    <text x={p4.x} y={hAxisY + 18} textAnchor="middle" fontFamily="Work Sans" {...hlStyle(hl34)}>h4 = {enthalpies.h4}</text>
+                    <text x={p3.x} y={hAxisY + 30} textAnchor="middle" fontFamily="Work Sans" {...hlStyle(hl34)}>h3 = {enthalpies.h3}</text>
                   </g>
                 )}
-                {hl1 && <rect x={p1.x - 42} y={hAxisY + 6} width="84" height="18" rx="4" fill="#FBBF24" style={{ transition: 'all 0.3s' }} />}
-                <text x={p1.x} y={hAxisY + 20} textAnchor="middle" fontFamily="Nunito" {...hlStyle(hl1)} style={{ transition: 'all 0.3s' }}>h1 = {enthalpies.h1}</text>
-                <text x={p1.x} y={hAxisY + 32} textAnchor="middle" fontSize="9" fill={hl1 ? '#2C1810' : '#5C3A21'} fontFamily="Nunito">kJ/kg</text>
-                {hl2 && <rect x={p2.x - 42} y={hAxisY + 6} width="84" height="18" rx="4" fill="#FBBF24" style={{ transition: 'all 0.3s' }} />}
-                <text x={p2.x} y={hAxisY + 20} textAnchor="middle" fontFamily="Nunito" {...hlStyle(hl2)} style={{ transition: 'all 0.3s' }}>h2 = {enthalpies.h2}</text>
-                <text x={p2.x} y={hAxisY + 32} textAnchor="middle" fontSize="9" fill={hl2 ? '#2C1810' : '#5C3A21'} fontFamily="Nunito">kJ/kg</text>
+                {hl1 && <rect x={p1.x - 42} y={hAxisY + 6} width="84" height="18" rx="4" fill="#99D3D8" style={{ transition: 'all 0.3s' }} />}
+                <text x={p1.x} y={hAxisY + 20} textAnchor="middle" fontFamily="Work Sans" {...hlStyle(hl1)} style={{ transition: 'all 0.3s' }}>h1 = {enthalpies.h1}</text>
+                <text x={p1.x} y={hAxisY + 32} textAnchor="middle" fontSize="9" fill={hl1 ? '#0D4868' : '#5b7280'} fontFamily="Work Sans">kJ/kg</text>
+                {hl2 && <rect x={p2.x - 42} y={hAxisY + 6} width="84" height="18" rx="4" fill="#99D3D8" style={{ transition: 'all 0.3s' }} />}
+                <text x={p2.x} y={hAxisY + 20} textAnchor="middle" fontFamily="Work Sans" {...hlStyle(hl2)} style={{ transition: 'all 0.3s' }}>h2 = {enthalpies.h2}</text>
+                <text x={p2.x} y={hAxisY + 32} textAnchor="middle" fontSize="9" fill={hl2 ? '#0D4868' : '#5b7280'} fontFamily="Work Sans">kJ/kg</text>
               </g>
             );
           })()}
@@ -864,7 +864,7 @@ function StylizedBootje({
         return (
           <g key={`label-${l.key}`}>
             <rect x={tx - tagW / 2} y={ty - tagH / 2} width={tagW} height={tagH} rx="4" fill="white" stroke={labelInfo.color} strokeWidth="1.5" />
-            <text x={tx} y={ty + 4} textAnchor="middle" fontSize="10" fill={labelInfo.color} fontWeight="bold" fontFamily="Nunito">{labelInfo.label}</text>
+            <text x={tx} y={ty + 4} textAnchor="middle" fontSize="10" fill={labelInfo.color} fontWeight="bold" fontFamily="Work Sans">{labelInfo.label}</text>
           </g>
         );
       })}
@@ -879,8 +879,8 @@ function StylizedBootje({
         const boxW = 200, boxH = 28;
         return (
           <g key={`calc-${l.key}`}>
-            <rect x={tx - boxW / 2} y={ty - boxH / 2} width={boxW} height={boxH} rx="6" fill="#FBBF24" stroke="#2C1810" strokeWidth="1.5" />
-            <text x={tx} y={ty + 5} textAnchor="middle" fontSize="14" fill="#2C1810" fontFamily="Nunito">
+            <rect x={tx - boxW / 2} y={ty - boxH / 2} width={boxW} height={boxH} rx="6" fill="#99D3D8" stroke="#0D4868" strokeWidth="1.5" />
+            <text x={tx} y={ty + 5} textAnchor="middle" fontSize="14" fill="#0D4868" fontFamily="Work Sans">
               <tspan fontWeight="600">{sumPart} </tspan><tspan fontWeight="800">{val} kJ/kg</tspan>
             </text>
           </g>
@@ -896,22 +896,22 @@ function StylizedBootje({
 
 function M1IntroScreen({ onBegin }) {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#F5EDD6' }}>
-      <div className="max-w-lg bg-white rounded-2xl p-8" style={{ border: '2px solid #2C1810', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', animation: 'fadeInUp 0.5s ease-out' }}>
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#f2f7f8' }}>
+      <div className="max-w-lg bg-white rounded-2xl p-8" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', animation: 'fadeInUp 0.5s ease-out' }}>
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(251,191,36,0.2)' }}>
-            <Calculator size={22} style={{ color: '#5C3A21' }} />
+          <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(153,211,216,0.35)' }}>
+            <Calculator size={22} style={{ color: '#5b7280' }} />
           </div>
-          <h2 className="text-xl font-extrabold" style={{ color: '#2C1810' }}>Missie 1 — Rendement begrijpen</h2>
+          <h2 className="text-xl font-extrabold" style={{ color: '#0D4868' }}>Missie 1 — Rendement begrijpen</h2>
         </div>
-        <div className="italic leading-relaxed mb-6" style={{ color: '#5C3A21', lineHeight: 1.7 }}>
-          <p className="font-extrabold text-lg mb-3" style={{ color: '#2C1810' }}>Hoe efficiënt werkt een koelinstallatie?</p>
+        <div className="italic leading-relaxed mb-6" style={{ color: '#5b7280', lineHeight: 1.7 }}>
+          <p className="font-extrabold text-lg mb-3" style={{ color: '#0D4868' }}>Hoe efficiënt werkt een koelinstallatie?</p>
           <p className="mb-2">Het h-log p diagram geeft je belangrijke informatie, zoals het vermogen van:</p>
           <ul className="list-disc pl-6 mb-3 space-y-0.5"><li>condensor</li><li>verdamper</li><li>compressor</li></ul>
-          <p>Dat is handig. Want hiermee bepaal je het rendement van een koelmachine (<span className="inline-block px-2 py-0.5 font-bold rounded" style={{ background: '#FBBF24', color: '#2C1810' }}>EER</span>) en warmtepomp (<span className="inline-block px-2 py-0.5 font-bold rounded" style={{ background: '#FBBF24', color: '#2C1810' }}>COP</span>).</p>
+          <p>Dat is handig. Want hiermee bepaal je het rendement van een koelmachine (<span className="inline-block px-2 py-0.5 font-bold rounded" style={{ background: '#99D3D8', color: '#0D4868' }}>EER</span>) en warmtepomp (<span className="inline-block px-2 py-0.5 font-bold rounded" style={{ background: '#99D3D8', color: '#0D4868' }}>COP</span>).</p>
         </div>
         <button onClick={onBegin} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2"
-          style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 3px 0 #3d2615' }}>Begin <ChevronRight size={18} /></button>
+          style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>Begin <ChevronRight size={18} /></button>
       </div>
     </div>
   );
@@ -951,11 +951,11 @@ function PowerLabeler({ onComplete, onLoseLife, lives }) {
   };
 
   return (
-    <div className="min-h-screen p-4" style={{ background: '#F5EDD6' }}>
+    <div className="min-h-screen p-4" style={{ background: '#f2f7f8' }}>
       <div className="max-w-4xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
-        <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #2C1810', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-          <h3 className="text-lg font-extrabold mb-1" style={{ color: '#2C1810' }}>Ronde 1.1 — Vermogens labelen</h3>
-          <p className="text-sm italic mb-4" style={{ color: '#5C3A21' }}>Je ziet hier een bootje met enthalpiewaardes. <span className="font-bold">Sleep elk vermogen naar de juiste lijn.</span></p>
+        <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+          <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 1.1 — Vermogens labelen</h3>
+          <p className="text-sm italic mb-4" style={{ color: '#5b7280' }}>Je ziet hier een bootje met enthalpiewaardes. <span className="font-bold">Sleep elk vermogen naar de juiste lijn.</span></p>
           <div className={flash?.type === 'wrong' ? 'flash-red' : ''}>
             <div className="relative">
               <StylizedBootje enthalpies={M1_ENTHALPIES} powerPlaced={placed} dropZoneActive={hoverLine} showGuidelines={true} showCalculations={allPlaced} showDome={true} width={540} height={380} />
@@ -966,8 +966,8 @@ function PowerLabeler({ onComplete, onLoseLife, lives }) {
                 const nx = -dy / L, ny = dx / L; const off = 28;
                 const compPoly = [[p1v.x + nx*off, p1v.y + ny*off],[p2v.x + nx*off, p2v.y + ny*off],[p2v.x - nx*off, p2v.y - ny*off],[p1v.x - nx*off, p1v.y - ny*off]].map(([x,y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
                 const zoneProps = (key, isPlaced) => ({
-                  fill: isPlaced ? 'transparent' : (hoverLine === key ? 'rgba(107,142,61,0.28)' : 'rgba(92,58,33,0.05)'),
-                  stroke: isPlaced ? 'transparent' : (hoverLine === key ? '#6B8E3D' : '#8B7355'),
+                  fill: isPlaced ? 'transparent' : (hoverLine === key ? 'rgba(30,143,110,0.28)' : 'rgba(13,72,104,0.05)'),
+                  stroke: isPlaced ? 'transparent' : (hoverLine === key ? '#1E8F6E' : '#8a97a3'),
                   strokeDasharray: isPlaced ? 'none' : (hoverLine === key ? 'none' : '6 4'),
                   strokeWidth: isPlaced ? 0 : (hoverLine === key ? 2.5 : 1.5),
                   onDragOver: (e) => { e.preventDefault(); if (!isPlaced) setHoverLine(key); },
@@ -993,7 +993,7 @@ function PowerLabeler({ onComplete, onLoseLife, lives }) {
             return (
               <div key={label.id} draggable={!isPlaced} onDragStart={() => handleDragStart(label.id)} onDragEnd={handleDragEnd}
                 className="px-4 py-2 rounded-xl font-bold italic text-sm select-none"
-                style={{ cursor: isPlaced ? 'default' : 'grab', background: isPlaced ? '#6B8E3D' : 'white', color: isPlaced ? 'white' : label.color, border: `2px solid ${isPlaced ? '#2C1810' : label.color}`, opacity: isPlaced ? 0.55 : 1, boxShadow: isPlaced ? 'none' : '0 3px 0 rgba(0,0,0,0.1)', animation: isFlash && flash?.type === 'wrong' ? 'shake 0.5s' : (isFlash && flash?.type === 'correct' ? 'pop-in 0.3s' : 'none') }}>
+                style={{ cursor: isPlaced ? 'default' : 'grab', background: isPlaced ? '#1E8F6E' : 'white', color: isPlaced ? 'white' : label.color, border: `2px solid ${isPlaced ? '#0D4868' : label.color}`, opacity: isPlaced ? 0.55 : 1, boxShadow: isPlaced ? 'none' : '0 3px 0 rgba(0,0,0,0.1)', animation: isFlash && flash?.type === 'wrong' ? 'shake 0.5s' : (isFlash && flash?.type === 'correct' ? 'pop-in 0.3s' : 'none') }}>
                 {isPlaced && <Check className="inline mr-1" size={14} />}
                 {label.label} <span className="opacity-70 font-normal ml-1">({label.sub})</span>
               </div>
@@ -1001,10 +1001,10 @@ function PowerLabeler({ onComplete, onLoseLife, lives }) {
           })}
         </div>
         {allPlaced && (
-          <div className="bg-white rounded-2xl p-5 mb-4" style={{ border: '2px solid #6B8E3D', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', animation: 'fadeInUp 0.3s' }}>
-            <p className="italic mb-3" style={{ color: '#2C1810', lineHeight: 1.6 }}><span className="font-bold not-italic">Goed!</span> Je leest elk vermogen direct uit het bootje. Tijd voor de EER.</p>
+          <div className="bg-white rounded-2xl p-5 mb-4" style={{ border: '2px solid #1E8F6E', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', animation: 'fadeInUp 0.3s' }}>
+            <p className="italic mb-3" style={{ color: '#0D4868', lineHeight: 1.6 }}><span className="font-bold not-italic">Goed!</span> Je leest elk vermogen direct uit het bootje. Tijd voor de EER.</p>
             <button onClick={() => onComplete(points)} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2"
-              style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 3px 0 #3d2615' }}>Volgende <ChevronRight size={18} /></button>
+              style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>Volgende <ChevronRight size={18} /></button>
           </div>
         )}
       </div>
@@ -1051,33 +1051,33 @@ function CalculationPanel({ steps, onAllDone, onLoseLife, lives, onStepChange, o
         const feedback = feedbackMsg[step.key];
         if (isDone && !isActive) {
           return (
-            <div key={step.key} className="rounded-xl px-3 py-2 flex items-center gap-2" style={{ background: 'rgba(107,142,61,0.08)', border: '1.5px solid #6B8E3D' }}>
-              <div className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center" style={{ background: '#6B8E3D' }}><Check size={13} className="text-white" /></div>
-              <span className="text-sm font-bold" style={{ color: '#2C1810' }}>{step.label}</span>
-              <span className="text-sm font-bold ml-auto" style={{ color: '#6B8E3D' }}>{fmtNum(parseNum(values[step.key]), step.decimals ?? 1)} {step.unit}</span>
+            <div key={step.key} className="rounded-xl px-3 py-2 flex items-center gap-2" style={{ background: 'rgba(30,143,110,0.08)', border: '1.5px solid #1E8F6E' }}>
+              <div className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center" style={{ background: '#1E8F6E' }}><Check size={13} className="text-white" /></div>
+              <span className="text-sm font-bold" style={{ color: '#0D4868' }}>{step.label}</span>
+              <span className="text-sm font-bold ml-auto" style={{ color: '#1E8F6E' }}>{fmtNum(parseNum(values[step.key]), step.decimals ?? 1)} {step.unit}</span>
             </div>
           );
         }
         return (
           <div key={step.key} className="rounded-2xl p-4 transition-all"
-            style={{ background: isActive ? 'white' : 'rgba(250,250,245,0.6)', border: `2px solid ${isActive ? '#5C3A21' : '#e8e0c8'}`, opacity: isFuture ? 0.45 : 1, boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.08)' : 'none', animation: shakeKey === step.key ? 'shake 0.5s' : 'none' }}>
+            style={{ background: isActive ? 'white' : 'rgba(248,251,252,0.6)', border: `2px solid ${isActive ? '#0D4868' : '#dbe7ea'}`, opacity: isFuture ? 0.45 : 1, boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.08)' : 'none', animation: shakeKey === step.key ? 'shake 0.5s' : 'none' }}>
             <div className="flex items-start gap-3">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style={{ background: isActive ? '#FBBF24' : '#e8e0c8', color: '#2C1810' }}>{idx + 1}</div>
+              <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style={{ background: isActive ? '#30B5AE' : '#dbe7ea', color: '#0D4868' }}>{idx + 1}</div>
               <div className="flex-1">
-                <p className="font-bold text-sm" style={{ color: '#2C1810' }}>{step.label}</p>
-                <p className="text-xs italic mb-2" style={{ color: '#5C3A21' }}>{step.formula}</p>
+                <p className="font-bold text-sm" style={{ color: '#0D4868' }}>{step.label}</p>
+                <p className="text-xs italic mb-2" style={{ color: '#5b7280' }}>{step.formula}</p>
                 {isActive && !isDone && (
                   <div className="flex flex-wrap items-center gap-2 mt-2">
-                    <span className="text-sm font-mono" style={{ color: '#2C1810' }}>{step.prompt}</span>
+                    <span className="text-sm font-mono" style={{ color: '#0D4868' }}>{step.prompt}</span>
                     <input type="text" inputMode="decimal" value={values[step.key]} onChange={(e) => setValues(prev => ({ ...prev, [step.key]: e.target.value }))} onKeyDown={(e) => { if (e.key === 'Enter') handleCheck(idx); }}
-                      className="w-24 px-2 py-1 rounded-lg font-mono text-sm" style={{ background: '#FAFAF5', border: '2px solid #5C3A21', color: '#2C1810' }} placeholder="?" autoFocus />
-                    <span className="text-sm" style={{ color: '#5C3A21' }}>{step.unit}</span>
+                      className="w-24 px-2 py-1 rounded-lg font-mono text-sm" style={{ background: '#f8fbfc', border: '2px solid #0D4868', color: '#0D4868' }} placeholder="?" autoFocus />
+                    <span className="text-sm" style={{ color: '#5b7280' }}>{step.unit}</span>
                     <button onClick={() => handleCheck(idx)} disabled={values[step.key] === ''}
                       className="px-3 py-1 rounded-lg font-bold italic text-white text-sm hover:brightness-90 active:scale-95 disabled:opacity-40"
-                      style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 2px 0 rgba(0,0,0,0.15)' }}>Controleer</button>
+                      style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 2px 0 rgba(0,0,0,0.15)' }}>Controleer</button>
                   </div>
                 )}
-                {feedback && feedback.type === 'wrong' && <div className="mt-2 p-2 rounded-lg text-xs italic text-white" style={{ background: '#B84A3D' }}>{feedback.msg}</div>}
+                {feedback && feedback.type === 'wrong' && <div className="mt-2 p-2 rounded-lg text-xs italic text-white" style={{ background: '#D92C2C' }}>{feedback.msg}</div>}
               </div>
             </div>
           </div>
@@ -1096,16 +1096,16 @@ function CalculationPanel({ steps, onAllDone, onLoseLife, lives, onStepChange, o
 // ═══════════════════════════════════════════════════════════════
 
 // DragSource: rendert een sleepbaar blok met een waarde
-function DragSource({ id, label, value, color = '#FBBF24', onDragStart, disabled = false }) {
+function DragSource({ id, label, value, color = '#99D3D8', onDragStart, disabled = false }) {
   return (
     <div draggable={!disabled}
       onDragStart={(e) => { e.dataTransfer.setData('text/plain', id); onDragStart?.(id); }}
       className="inline-flex items-center justify-center px-3 py-2 rounded-lg font-bold text-sm select-none"
       style={{
         cursor: disabled ? 'default' : 'grab',
-        background: disabled ? '#e8e0c8' : color,
-        color: '#2C1810',
-        border: '2px solid #2C1810',
+        background: disabled ? '#dbe7ea' : color,
+        color: '#0D4868',
+        border: '2px solid #0D4868',
         boxShadow: disabled ? 'none' : '0 2px 0 rgba(0,0,0,0.15)',
         opacity: disabled ? 0.5 : 1,
         minWidth: 80,
@@ -1128,9 +1128,9 @@ function DropSlot({ value, label, onDrop, onClear, hasValue, flash = null }) {
       style={{
         minWidth: 80,
         minHeight: 40,
-        background: hasValue ? '#FBBF24' : (over ? 'rgba(107,142,61,0.2)' : '#FAFAF5'),
-        border: `2px ${hasValue ? 'solid' : 'dashed'} ${hasValue ? '#2C1810' : (over ? '#6B8E3D' : '#8B7355')}`,
-        color: '#2C1810',
+        background: hasValue ? '#99D3D8' : (over ? 'rgba(30,143,110,0.2)' : '#f8fbfc'),
+        border: `2px ${hasValue ? 'solid' : 'dashed'} ${hasValue ? '#0D4868' : (over ? '#1E8F6E' : '#8a97a3')}`,
+        color: '#0D4868',
         animation: flash === 'wrong' ? 'shake 0.4s' : (flash === 'correct' ? 'pop-in 0.3s' : 'none'),
         cursor: hasValue ? 'pointer' : 'default',
       }}
@@ -1257,22 +1257,22 @@ function EerCalculator({ onComplete, onLoseLife, lives }) {
   const allDone = slots.eer.done;
 
   return (
-    <div className="min-h-screen p-4" style={{ background: '#F5EDD6' }}>
+    <div className="min-h-screen p-4" style={{ background: '#f2f7f8' }}>
       <div className="max-w-5xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
-        <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #2C1810', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-          <h3 className="text-lg font-extrabold mb-1" style={{ color: '#2C1810' }}>Ronde 1.2 — EER uitrekenen</h3>
-          <p className="text-sm italic mb-3" style={{ color: '#5C3A21' }}>Sleep de juiste waardes uit het diagram naar de formule en bereken het resultaat.</p>
-          <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg mb-3" style={{ background: '#FBBF24' }}>
-            <span className="font-extrabold text-sm" style={{ color: '#2C1810' }}>EER =</span>
-            <div className="inline-flex flex-col items-center"><span className="font-bold text-sm" style={{ color: '#2C1810' }}>Δh verdamper</span><div className="w-full h-0.5 my-0.5" style={{ background: '#2C1810' }} /><span className="font-bold text-sm" style={{ color: '#2C1810' }}>Δh compressor</span></div>
+        <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+          <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 1.2 — EER uitrekenen</h3>
+          <p className="text-sm italic mb-3" style={{ color: '#5b7280' }}>Sleep de juiste waardes uit het diagram naar de formule en bereken het resultaat.</p>
+          <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg mb-3" style={{ background: '#99D3D8' }}>
+            <span className="font-extrabold text-sm" style={{ color: '#0D4868' }}>EER =</span>
+            <div className="inline-flex flex-col items-center"><span className="font-bold text-sm" style={{ color: '#0D4868' }}>Δh verdamper</span><div className="w-full h-0.5 my-0.5" style={{ background: '#0D4868' }} /><span className="font-bold text-sm" style={{ color: '#0D4868' }}>Δh compressor</span></div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <StylizedBootje enthalpies={M1_ENTHALPIES} powerPlaced={{ verdamper: true, compressor: true, condensor: true }} showGuidelines={true} showCalculations={false} showDome={true} placedResults={placedResults} width={540} height={380} />
               {/* Sleepbare bronnen */}
-              <div className="mt-3 p-3 rounded-xl" style={{ background: '#f0e8d0', border: '2px solid #d4c9a8' }}>
-                <p className="text-xs font-bold mb-2" style={{ color: '#5C3A21' }}>{currentStepIdx < 2 ? 'Sleep een enthalpiewaarde:' : 'Sleep een Δh-waarde (uit het diagram):'}</p>
+              <div className="mt-3 p-3 rounded-xl" style={{ background: '#e6f4f5', border: '2px solid #dbe7ea' }}>
+                <p className="text-xs font-bold mb-2" style={{ color: '#5b7280' }}>{currentStepIdx < 2 ? 'Sleep een enthalpiewaarde:' : 'Sleep een Δh-waarde (uit het diagram):'}</p>
                 <div className="flex flex-wrap gap-2">
                   {sources.map(src => (
                     <DragSource key={src.id} id={src.id} label={src.label} value={src.value} disabled={state.done} />
@@ -1289,37 +1289,37 @@ function EerCalculator({ onComplete, onLoseLife, lives }) {
                 const isFuture = idx > currentStepIdx;
                 if (isDone && !isActive) {
                   return (
-                    <div key={s.key} className="rounded-xl px-3 py-2 flex items-center gap-2" style={{ background: 'rgba(107,142,61,0.08)', border: '1.5px solid #6B8E3D' }}>
-                      <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: '#6B8E3D' }}><Check size={13} className="text-white" /></div>
-                      <span className="text-sm font-bold" style={{ color: '#2C1810' }}>{s.label}</span>
-                      <span className="text-sm font-bold ml-auto" style={{ color: '#6B8E3D' }}>{getValue(st.left)} {s.separator} {getValue(st.right)} = {fmtNum(parseNum(st.result), s.key === 'eer' ? 1 : 0)} {s.unit}</span>
+                    <div key={s.key} className="rounded-xl px-3 py-2 flex items-center gap-2" style={{ background: 'rgba(30,143,110,0.08)', border: '1.5px solid #1E8F6E' }}>
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: '#1E8F6E' }}><Check size={13} className="text-white" /></div>
+                      <span className="text-sm font-bold" style={{ color: '#0D4868' }}>{s.label}</span>
+                      <span className="text-sm font-bold ml-auto" style={{ color: '#1E8F6E' }}>{getValue(st.left)} {s.separator} {getValue(st.right)} = {fmtNum(parseNum(st.result), s.key === 'eer' ? 1 : 0)} {s.unit}</span>
                     </div>
                   );
                 }
                 return (
                   <div key={s.key} className="rounded-2xl p-4 transition-all"
-                    style={{ background: isActive ? 'white' : 'rgba(250,250,245,0.6)', border: `2px solid ${isActive ? '#5C3A21' : '#e8e0c8'}`, opacity: isFuture ? 0.45 : 1, boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.08)' : 'none' }}>
+                    style={{ background: isActive ? 'white' : 'rgba(248,251,252,0.6)', border: `2px solid ${isActive ? '#0D4868' : '#dbe7ea'}`, opacity: isFuture ? 0.45 : 1, boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.08)' : 'none' }}>
                     <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style={{ background: isActive ? '#FBBF24' : '#e8e0c8', color: '#2C1810' }}>{idx + 1}</div>
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style={{ background: isActive ? '#30B5AE' : '#dbe7ea', color: '#0D4868' }}>{idx + 1}</div>
                       <div className="flex-1">
-                        <p className="font-bold text-sm" style={{ color: '#2C1810' }}>{s.label}</p>
+                        <p className="font-bold text-sm" style={{ color: '#0D4868' }}>{s.label}</p>
                         
                         {isActive && (
                           <div className="space-y-3">
                             <div className="flex flex-wrap items-center gap-2">
                               <DropSlot value={getValue(st.left)} label={getLabel(st.left)} hasValue={!!st.left} onDrop={handleDrop('left')} onClear={handleClear('left')} flash={flash?.step === s.key && !st.left ? flash.type : null} />
-                              <span className="text-xl font-bold" style={{ color: '#2C1810' }}>{s.separator}</span>
+                              <span className="text-xl font-bold" style={{ color: '#0D4868' }}>{s.separator}</span>
                               <DropSlot value={getValue(st.right)} label={getLabel(st.right)} hasValue={!!st.right} onDrop={handleDrop('right')} onClear={handleClear('right')} flash={flash?.step === s.key && !st.right ? flash.type : null} />
-                              <span className="text-xl font-bold" style={{ color: '#2C1810' }}>=</span>
+                              <span className="text-xl font-bold" style={{ color: '#0D4868' }}>=</span>
                               <input type="text" inputMode="decimal" value={st.result} onChange={e => handleResultChange(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleCheck(); }}
-                                className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: '#FAFAF5', border: '2px solid #5C3A21', color: '#2C1810' }} placeholder="?" />
-                              <span className="text-sm" style={{ color: '#5C3A21' }}>{s.unit}</span>
+                                className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: '#f8fbfc', border: '2px solid #0D4868', color: '#0D4868' }} placeholder="?" />
+                              <span className="text-sm" style={{ color: '#5b7280' }}>{s.unit}</span>
                             </div>
                             <button onClick={handleCheck} disabled={!st.left || !st.right || st.result === ''}
                               className="px-4 py-2 rounded-lg font-bold italic text-white text-sm hover:brightness-90 active:scale-95 disabled:opacity-40"
-                              style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 2px 0 rgba(0,0,0,0.15)' }}>Controleer</button>
+                              style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 2px 0 rgba(0,0,0,0.15)' }}>Controleer</button>
                             {flash?.step === s.key && flash.type === 'wrong' && (
-                              <div className="p-2 rounded-lg text-xs italic text-white" style={{ background: '#B84A3D' }}>{flash.msg}</div>
+                              <div className="p-2 rounded-lg text-xs italic text-white" style={{ background: '#D92C2C' }}>{flash.msg}</div>
                             )}
                           </div>
                         )}
@@ -1332,9 +1332,9 @@ function EerCalculator({ onComplete, onLoseLife, lives }) {
           </div>
 
           {allDone && (
-            <div className="mt-5 p-4 rounded-xl" style={{ background: 'rgba(107,142,61,0.1)', border: '2px solid #6B8E3D', animation: 'fadeInUp 0.3s' }}>
-              <p className="italic mb-3" style={{ color: '#2C1810', lineHeight: 1.6 }}><span className="font-bold">Precies! EER = 170 / 30 ≈ 5,7.</span> Deze koelmachine levert per 1 kW elektrisch vermogen ongeveer 5,7 kW koelvermogen.</p>
-              <button onClick={() => onComplete(points)} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2" style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 3px 0 #3d2615' }}>Volgende <ChevronRight size={18} /></button>
+            <div className="mt-5 p-4 rounded-xl" style={{ background: 'rgba(30,143,110,0.1)', border: '2px solid #1E8F6E', animation: 'fadeInUp 0.3s' }}>
+              <p className="italic mb-3" style={{ color: '#0D4868', lineHeight: 1.6 }}><span className="font-bold">Precies! EER = 170 / 30 ≈ 5,7.</span> Deze koelmachine levert per 1 kW elektrisch vermogen ongeveer 5,7 kW koelvermogen.</p>
+              <button onClick={() => onComplete(points)} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2" style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>Volgende <ChevronRight size={18} /></button>
             </div>
           )}
         </div>
@@ -1454,21 +1454,21 @@ function CopCalculator({ onComplete, onLoseLife, lives }) {
   };
 
   return (
-    <div className="min-h-screen p-4" style={{ background: '#F5EDD6' }}>
+    <div className="min-h-screen p-4" style={{ background: '#f2f7f8' }}>
       <div className="max-w-5xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
-        <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #2C1810', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-          <h3 className="text-lg font-extrabold mb-1" style={{ color: '#2C1810' }}>Ronde 1.3 — COP uitrekenen</h3>
-          <p className="text-sm italic mb-3" style={{ color: '#5C3A21' }}>Sleep de juiste waardes uit het diagram naar de formule en bereken het resultaat.</p>
-          <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg mb-3" style={{ background: '#FBBF24' }}>
-            <span className="font-extrabold text-sm" style={{ color: '#2C1810' }}>COP =</span>
-            <div className="inline-flex flex-col items-center"><span className="font-bold text-sm" style={{ color: '#2C1810' }}>Δh condensor</span><div className="w-full h-0.5 my-0.5" style={{ background: '#2C1810' }} /><span className="font-bold text-sm" style={{ color: '#2C1810' }}>Δh compressor</span></div>
+        <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+          <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 1.3 — COP uitrekenen</h3>
+          <p className="text-sm italic mb-3" style={{ color: '#5b7280' }}>Sleep de juiste waardes uit het diagram naar de formule en bereken het resultaat.</p>
+          <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg mb-3" style={{ background: '#99D3D8' }}>
+            <span className="font-extrabold text-sm" style={{ color: '#0D4868' }}>COP =</span>
+            <div className="inline-flex flex-col items-center"><span className="font-bold text-sm" style={{ color: '#0D4868' }}>Δh condensor</span><div className="w-full h-0.5 my-0.5" style={{ background: '#0D4868' }} /><span className="font-bold text-sm" style={{ color: '#0D4868' }}>Δh compressor</span></div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <StylizedBootje enthalpies={M1_ENTHALPIES} powerPlaced={{ verdamper: true, compressor: true, condensor: true }} showGuidelines={true} showCalculations={false} showDome={true} placedResults={placedResults} width={540} height={380} />
-              <div className="mt-3 p-3 rounded-xl" style={{ background: '#f0e8d0', border: '2px solid #d4c9a8' }}>
-                <p className="text-xs font-bold mb-2" style={{ color: '#5C3A21' }}>{currentStepIdx < 2 ? 'Sleep een enthalpiewaarde:' : 'Sleep een Δh-waarde (uit het diagram):'}</p>
+              <div className="mt-3 p-3 rounded-xl" style={{ background: '#e6f4f5', border: '2px solid #dbe7ea' }}>
+                <p className="text-xs font-bold mb-2" style={{ color: '#5b7280' }}>{currentStepIdx < 2 ? 'Sleep een enthalpiewaarde:' : 'Sleep een Δh-waarde (uit het diagram):'}</p>
                 <div className="flex flex-wrap gap-2">
                   {sources.map(src => (
                     <DragSource key={src.id} id={src.id} label={src.label} value={src.value} disabled={state.done} />
@@ -1485,37 +1485,37 @@ function CopCalculator({ onComplete, onLoseLife, lives }) {
                 const isFuture = idx > currentStepIdx;
                 if (isDone && !isActive) {
                   return (
-                    <div key={s.key} className="rounded-xl px-3 py-2 flex items-center gap-2" style={{ background: 'rgba(107,142,61,0.08)', border: '1.5px solid #6B8E3D' }}>
-                      <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: '#6B8E3D' }}><Check size={13} className="text-white" /></div>
-                      <span className="text-sm font-bold" style={{ color: '#2C1810' }}>{s.label}</span>
-                      <span className="text-sm font-bold ml-auto" style={{ color: '#6B8E3D' }}>{getValue(st.left)} {s.separator} {getValue(st.right)} = {fmtNum(parseNum(st.result), s.key === 'cop' ? 1 : 0)} {s.unit}</span>
+                    <div key={s.key} className="rounded-xl px-3 py-2 flex items-center gap-2" style={{ background: 'rgba(30,143,110,0.08)', border: '1.5px solid #1E8F6E' }}>
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: '#1E8F6E' }}><Check size={13} className="text-white" /></div>
+                      <span className="text-sm font-bold" style={{ color: '#0D4868' }}>{s.label}</span>
+                      <span className="text-sm font-bold ml-auto" style={{ color: '#1E8F6E' }}>{getValue(st.left)} {s.separator} {getValue(st.right)} = {fmtNum(parseNum(st.result), s.key === 'cop' ? 1 : 0)} {s.unit}</span>
                     </div>
                   );
                 }
                 return (
                   <div key={s.key} className="rounded-2xl p-4 transition-all"
-                    style={{ background: isActive ? 'white' : 'rgba(250,250,245,0.6)', border: `2px solid ${isActive ? '#5C3A21' : '#e8e0c8'}`, opacity: isFuture ? 0.45 : 1, boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.08)' : 'none' }}>
+                    style={{ background: isActive ? 'white' : 'rgba(248,251,252,0.6)', border: `2px solid ${isActive ? '#0D4868' : '#dbe7ea'}`, opacity: isFuture ? 0.45 : 1, boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.08)' : 'none' }}>
                     <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style={{ background: isActive ? '#FBBF24' : '#e8e0c8', color: '#2C1810' }}>{idx + 1}</div>
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style={{ background: isActive ? '#30B5AE' : '#dbe7ea', color: '#0D4868' }}>{idx + 1}</div>
                       <div className="flex-1">
-                        <p className="font-bold text-sm" style={{ color: '#2C1810' }}>{s.label}</p>
+                        <p className="font-bold text-sm" style={{ color: '#0D4868' }}>{s.label}</p>
                         
                         {isActive && (
                           <div className="space-y-3">
                             <div className="flex flex-wrap items-center gap-2">
                               <DropSlot value={getValue(st.left)} label={getLabel(st.left)} hasValue={!!st.left} onDrop={handleDrop('left')} onClear={handleClear('left')} />
-                              <span className="text-xl font-bold" style={{ color: '#2C1810' }}>{s.separator}</span>
+                              <span className="text-xl font-bold" style={{ color: '#0D4868' }}>{s.separator}</span>
                               <DropSlot value={getValue(st.right)} label={getLabel(st.right)} hasValue={!!st.right} onDrop={handleDrop('right')} onClear={handleClear('right')} />
-                              <span className="text-xl font-bold" style={{ color: '#2C1810' }}>=</span>
+                              <span className="text-xl font-bold" style={{ color: '#0D4868' }}>=</span>
                               <input type="text" inputMode="decimal" value={st.result} onChange={e => handleResultChange(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleCheck(); }}
-                                className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: '#FAFAF5', border: '2px solid #5C3A21', color: '#2C1810' }} placeholder="?" />
-                              <span className="text-sm" style={{ color: '#5C3A21' }}>{s.unit}</span>
+                                className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: '#f8fbfc', border: '2px solid #0D4868', color: '#0D4868' }} placeholder="?" />
+                              <span className="text-sm" style={{ color: '#5b7280' }}>{s.unit}</span>
                             </div>
                             <button onClick={handleCheck} disabled={!st.left || !st.right || st.result === ''}
                               className="px-4 py-2 rounded-lg font-bold italic text-white text-sm hover:brightness-90 active:scale-95 disabled:opacity-40"
-                              style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 2px 0 rgba(0,0,0,0.15)' }}>Controleer</button>
+                              style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 2px 0 rgba(0,0,0,0.15)' }}>Controleer</button>
                             {flash?.step === s.key && flash.type === 'wrong' && (
-                              <div className="p-2 rounded-lg text-xs italic text-white" style={{ background: '#B84A3D' }}>{flash.msg}</div>
+                              <div className="p-2 rounded-lg text-xs italic text-white" style={{ background: '#D92C2C' }}>{flash.msg}</div>
                             )}
                           </div>
                         )}
@@ -1527,34 +1527,34 @@ function CopCalculator({ onComplete, onLoseLife, lives }) {
             </div>
           </div>
           {ahaReveal && (
-            <div className="mt-5 p-5 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(251,191,36,0.2), rgba(251,191,36,0.05))', border: '3px solid #FBBF24', animation: 'fadeInUp 0.5s' }}>
-              <div className="flex items-center gap-2 mb-2"><Lightbulb size={22} style={{ color: '#D97706' }} /><h4 className="font-extrabold italic text-lg" style={{ color: '#2C1810' }}>Wacht eens…</h4></div>
-              <p className="italic mb-3" style={{ color: '#2C1810', lineHeight: 1.6 }}><span className="font-bold">6,7 − 5,7 = precies 1!</span> Dat is geen toeval. COP is altijd precies 1 hoger dan EER. De condensor voert <em>álle</em> warmte af: verdamper <em>plus</em> compressor.</p>
-              <div className="p-3 rounded-xl" style={{ background: 'white', border: '2px solid #2C1810' }}><p className="text-center font-extrabold text-lg" style={{ color: '#2C1810' }}>COP = EER + 1</p></div>
+            <div className="mt-5 p-5 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(153,211,216,0.35), rgba(48,181,174,0.05))', border: '3px solid #30B5AE', animation: 'fadeInUp 0.5s' }}>
+              <div className="flex items-center gap-2 mb-2"><Lightbulb size={22} style={{ color: '#0D4868' }} /><h4 className="font-extrabold italic text-lg" style={{ color: '#0D4868' }}>Wacht eens…</h4></div>
+              <p className="italic mb-3" style={{ color: '#0D4868', lineHeight: 1.6 }}><span className="font-bold">6,7 − 5,7 = precies 1!</span> Dat is geen toeval. COP is altijd precies 1 hoger dan EER. De condensor voert <em>álle</em> warmte af: verdamper <em>plus</em> compressor.</p>
+              <div className="p-3 rounded-xl" style={{ background: 'white', border: '2px solid #0D4868' }}><p className="text-center font-extrabold text-lg" style={{ color: '#0D4868' }}>COP = EER + 1</p></div>
             </div>
           )}
           {ahaReveal && !ahaDone && (
-            <div className="mt-4 p-5 rounded-2xl bg-white" style={{ border: '2px solid #2C1810', animation: 'fadeInUp 0.3s' }}>
-              <p className="font-bold mb-1" style={{ color: '#2C1810' }}>Extra vraag</p>
-              <p className="text-sm italic mb-3" style={{ color: '#5C3A21' }}>Een koelmachine heeft een EER van 4,2. Wat is de COP als warmtepomp?</p>
+            <div className="mt-4 p-5 rounded-2xl bg-white" style={{ border: '2px solid #0D4868', animation: 'fadeInUp 0.3s' }}>
+              <p className="font-bold mb-1" style={{ color: '#0D4868' }}>Extra vraag</p>
+              <p className="text-sm italic mb-3" style={{ color: '#5b7280' }}>Een koelmachine heeft een EER van 4,2. Wat is de COP als warmtepomp?</p>
               <div className="grid sm:grid-cols-2 gap-2 mb-3">
                 {ahaOptions.map((opt, i) => {
-                  let optStyle = { border: '2px solid #e8e0c8', background: '#FAFAF5' };
-                  if (ahaQuestionSelected === i && !ahaChecked) optStyle = { border: '2px solid #5C3A21', background: '#f0e8d0' };
-                  if (ahaChecked && i === ahaCorrect) optStyle = { border: '2px solid #6B8E3D', background: 'rgba(107,142,61,0.1)' };
-                  if (ahaChecked && ahaQuestionSelected === i && i !== ahaCorrect) optStyle = { border: '2px solid #B84A3D', background: 'rgba(184,74,61,0.1)' };
-                  return <button key={i} disabled={ahaDone || ahaChecked} onClick={() => setAhaQuestionSelected(i)} className="text-left px-4 py-3 rounded-xl text-sm transition-all hover:brightness-95" style={optStyle}><span style={{ color: '#2C1810' }}>{opt}</span></button>;
+                  let optStyle = { border: '2px solid #dbe7ea', background: '#f8fbfc' };
+                  if (ahaQuestionSelected === i && !ahaChecked) optStyle = { border: '2px solid #0D4868', background: '#e6f4f5' };
+                  if (ahaChecked && i === ahaCorrect) optStyle = { border: '2px solid #1E8F6E', background: 'rgba(30,143,110,0.1)' };
+                  if (ahaChecked && ahaQuestionSelected === i && i !== ahaCorrect) optStyle = { border: '2px solid #D92C2C', background: 'rgba(217,44,44,0.1)' };
+                  return <button key={i} disabled={ahaDone || ahaChecked} onClick={() => setAhaQuestionSelected(i)} className="text-left px-4 py-3 rounded-xl text-sm transition-all hover:brightness-95" style={optStyle}><span style={{ color: '#0D4868' }}>{opt}</span></button>;
                 })}
               </div>
-              {!ahaChecked && <button onClick={handleAhaCheck} disabled={ahaQuestionSelected === null} className="w-full py-3 rounded-xl font-bold italic text-white hover:brightness-90 active:scale-95 disabled:opacity-40" style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 3px 0 rgba(0,0,0,0.2)' }}>Controleer</button>}
-              {ahaChecked && ahaQuestionSelected !== ahaCorrect && <div className="p-3 rounded-xl text-white text-sm italic mb-2" style={{ background: '#B84A3D' }}>Onthoud: COP = EER + 1. Bij EER = 4,2 is COP = 5,2.</div>}
-              {ahaChecked && ahaQuestionSelected !== ahaCorrect && <button onClick={() => { setAhaChecked(false); setAhaQuestionSelected(null); }} className="w-full py-3 rounded-xl font-bold italic text-white hover:brightness-90 active:scale-95" style={{ background: '#B84A3D', border: '2px solid #2C1810', boxShadow: '0 3px 0 rgba(0,0,0,0.2)' }}>Probeer opnieuw</button>}
+              {!ahaChecked && <button onClick={handleAhaCheck} disabled={ahaQuestionSelected === null} className="w-full py-3 rounded-xl font-bold italic text-white hover:brightness-90 active:scale-95 disabled:opacity-40" style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 rgba(0,0,0,0.2)' }}>Controleer</button>}
+              {ahaChecked && ahaQuestionSelected !== ahaCorrect && <div className="p-3 rounded-xl text-white text-sm italic mb-2" style={{ background: '#D92C2C' }}>Onthoud: COP = EER + 1. Bij EER = 4,2 is COP = 5,2.</div>}
+              {ahaChecked && ahaQuestionSelected !== ahaCorrect && <button onClick={() => { setAhaChecked(false); setAhaQuestionSelected(null); }} className="w-full py-3 rounded-xl font-bold italic text-white hover:brightness-90 active:scale-95" style={{ background: '#D92C2C', border: '2px solid #0D4868', boxShadow: '0 3px 0 rgba(0,0,0,0.2)' }}>Probeer opnieuw</button>}
             </div>
           )}
           {ahaDone && (
-            <div className="mt-4 p-4 rounded-xl" style={{ background: 'rgba(107,142,61,0.1)', border: '2px solid #6B8E3D', animation: 'fadeInUp 0.3s' }}>
-              <p className="italic mb-3" style={{ color: '#2C1810', lineHeight: 1.6 }}><span className="font-bold">Perfect!</span> COP is altijd EER + 1.</p>
-              <button onClick={() => onComplete(stepPoints)} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2" style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 3px 0 #3d2615' }}>Volgende <ChevronRight size={18} /></button>
+            <div className="mt-4 p-4 rounded-xl" style={{ background: 'rgba(30,143,110,0.1)', border: '2px solid #1E8F6E', animation: 'fadeInUp 0.3s' }}>
+              <p className="italic mb-3" style={{ color: '#0D4868', lineHeight: 1.6 }}><span className="font-bold">Perfect!</span> COP is altijd EER + 1.</p>
+              <button onClick={() => onComplete(stepPoints)} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2" style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>Volgende <ChevronRight size={18} /></button>
             </div>
           )}
         </div>
@@ -1569,21 +1569,21 @@ function CopCalculator({ onComplete, onLoseLife, lives }) {
 
 function M2IntroScreen({ onBegin }) {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#F5EDD6' }}>
-      <div className="max-w-lg bg-white rounded-2xl p-8" style={{ border: '2px solid #2C1810', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', animation: 'fadeInUp 0.5s ease-out' }}>
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#f2f7f8' }}>
+      <div className="max-w-lg bg-white rounded-2xl p-8" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', animation: 'fadeInUp 0.5s ease-out' }}>
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(251,191,36,0.2)' }}>
-            <Thermometer size={22} style={{ color: '#5C3A21' }} />
+          <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(153,211,216,0.35)' }}>
+            <Thermometer size={22} style={{ color: '#5b7280' }} />
           </div>
-          <h2 className="text-xl font-extrabold" style={{ color: '#2C1810' }}>Missie 2 — Oververhitting & Nakoeling</h2>
+          <h2 className="text-xl font-extrabold" style={{ color: '#0D4868' }}>Missie 2 — Oververhitting & Nakoeling</h2>
         </div>
-        <div className="italic leading-relaxed mb-6" style={{ color: '#5C3A21', lineHeight: 1.7 }}>
-          <p className="font-extrabold text-lg mb-2" style={{ color: '#2C1810' }}>De koelinstallatie beoordelen</p>
+        <div className="italic leading-relaxed mb-6" style={{ color: '#5b7280', lineHeight: 1.7 }}>
+          <p className="font-extrabold text-lg mb-2" style={{ color: '#0D4868' }}>De koelinstallatie beoordelen</p>
           <p className="mb-2">Je kent het rendement. Nu komen twee nieuwe begrippen: <span className="font-bold">oververhitting</span> en <span className="font-bold">nakoeling</span>.</p>
           <p>Met deze twee waarden bepaal je hoe goed je koelmachine werkt en of er genoeg koelmiddel in zit. Je leest ze af in het diagram.</p>
         </div>
         <button onClick={onBegin} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2"
-          style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 3px 0 #3d2615' }}>Aan de slag <ChevronRight size={18} /></button>
+          style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>Aan de slag <ChevronRight size={18} /></button>
       </div>
     </div>
   );
@@ -1607,7 +1607,7 @@ function ExamBootjeFigure() {
   const h2prime = 378, h2 = 460;
   const h4 = h3, h1prime = 380, h1 = 425;
 
-  const Bracket = ({ x1, x2, y, label, above = true, color = '#2C1810' }) => {
+  const Bracket = ({ x1, x2, y, label, above = true, color = '#0D4868' }) => {
     const tickH = 8;
     // Tick marks wijzen naar bootje toe (above = down, below = up)
     const tickDir = above ? 1 : -1;
@@ -1618,14 +1618,14 @@ function ExamBootjeFigure() {
         <line x1={x1} y1={y} x2={x2} y2={y} stroke={color} strokeWidth="1.5" />
         <line x1={x1} y1={y} x2={x1} y2={y + tickDir * tickH} stroke={color} strokeWidth="1.5" />
         <line x1={x2} y1={y} x2={x2} y2={y + tickDir * tickH} stroke={color} strokeWidth="1.5" />
-        <text x={(x1 + x2) / 2} y={y + labelDir * 8} textAnchor="middle" fontSize="15" fontWeight="bold" fill={color} fontFamily="Nunito">{label}</text>
+        <text x={(x1 + x2) / 2} y={y + labelDir * 8} textAnchor="middle" fontSize="15" fontWeight="bold" fill={color} fontFamily="Work Sans">{label}</text>
       </g>
     );
   };
 
   return (
     <div>
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ maxHeight: 400, background: '#FFFDF5', borderRadius: 8, border: '1.5px solid #2C1810' }}>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ maxHeight: 400, background: '#ffffff', borderRadius: 8, border: '1.5px solid #0D4868' }}>
         {/* Dome — asymmetrisch, smaller versie */}
         {/* Vloeistoflijn (blauw): (60,300) via (75,180), (190,55) naar K (285,30) */}
         {/* Damplijn (rood): K (285,30) via (395,30), (405,155) naar (360,300) */}
@@ -1635,19 +1635,19 @@ function ExamBootjeFigure() {
           fill="none" stroke="#3B82F6" strokeWidth="2" />
         <path d="M 285 30 C 395 30, 405 155, 360 300"
           fill="none" stroke="#EF4444" strokeWidth="2" />
-        <circle cx={285} cy={30} r="3.5" fill="#2C1810" />
-        <text x={292} y={28} fontSize="10" fontWeight="700" fill="#2C1810" fontFamily="Nunito">K</text>
+        <circle cx={285} cy={30} r="3.5" fill="#0D4868" />
+        <text x={292} y={28} fontSize="10" fontWeight="700" fill="#0D4868" fontFamily="Work Sans">K</text>
 
         {/* Bootje — quadrilateral met punten 1-4 */}
-        <line x1={h4} y1={yBottom} x2={h1} y2={yBottom} stroke="#2C1810" strokeWidth="2" />
-        <line x1={h3} y1={yTop} x2={h2} y2={yTop} stroke="#2C1810" strokeWidth="2" />
-        <line x1={h3} y1={yTop} x2={h4} y2={yBottom} stroke="#2C1810" strokeWidth="2" />
-        <line x1={h1} y1={yBottom} x2={h2} y2={yTop} stroke="#2C1810" strokeWidth="2" />
+        <line x1={h4} y1={yBottom} x2={h1} y2={yBottom} stroke="#0D4868" strokeWidth="2" />
+        <line x1={h3} y1={yTop} x2={h2} y2={yTop} stroke="#0D4868" strokeWidth="2" />
+        <line x1={h3} y1={yTop} x2={h4} y2={yBottom} stroke="#0D4868" strokeWidth="2" />
+        <line x1={h1} y1={yBottom} x2={h2} y2={yTop} stroke="#0D4868" strokeWidth="2" />
 
         {/* Verticale stippellijnen naar de brackets — uitgelijnd op dome-kruisingen */}
-        <line x1={h3prime} y1={yTop} x2={h3prime} y2={55} stroke="#2C1810" strokeWidth="0.8" strokeDasharray="2 3" />
-        <line x1={h2prime} y1={yTop} x2={h2prime} y2={55} stroke="#2C1810" strokeWidth="0.8" strokeDasharray="2 3" />
-        <line x1={h1prime} y1={yBottom} x2={h1prime} y2={285} stroke="#2C1810" strokeWidth="0.8" strokeDasharray="2 3" />
+        <line x1={h3prime} y1={yTop} x2={h3prime} y2={55} stroke="#0D4868" strokeWidth="0.8" strokeDasharray="2 3" />
+        <line x1={h2prime} y1={yTop} x2={h2prime} y2={55} stroke="#0D4868" strokeWidth="0.8" strokeDasharray="2 3" />
+        <line x1={h1prime} y1={yBottom} x2={h1prime} y2={285} stroke="#0D4868" strokeWidth="0.8" strokeDasharray="2 3" />
 
         {/* Brackets bovenaan: C, D, E */}
         <Bracket x1={h3} x2={h3prime} y={75} label="C" above={true} />
@@ -1667,12 +1667,12 @@ function ExamBootjeFigure() {
           { x: h4, y: yBottom, label: '4' },
         ].map(p => (
           <g key={p.label}>
-            <circle cx={p.x} cy={p.y} r="11" fill="white" stroke="#2C1810" strokeWidth="1.5" />
-            <text x={p.x} y={p.y + 4} textAnchor="middle" fontSize="11" fontWeight="bold" fill="#2C1810" fontFamily="Nunito">{p.label}</text>
+            <circle cx={p.x} cy={p.y} r="11" fill="white" stroke="#0D4868" strokeWidth="1.5" />
+            <text x={p.x} y={p.y + 4} textAnchor="middle" fontSize="11" fontWeight="bold" fill="#0D4868" fontFamily="Work Sans">{p.label}</text>
           </g>
         ))}
       </svg>
-      <p className="text-xs italic text-center mt-1" style={{ color: '#5C3A21' }}>Figuur 1</p>
+      <p className="text-xs italic text-center mt-1" style={{ color: '#5b7280' }}>Figuur 1</p>
     </div>
   );
 }
@@ -1733,11 +1733,11 @@ function IdentifyOvhNak({ onComplete, onLoseLife, lives }) {
   };
 
   return (
-    <div className="min-h-screen p-4" style={{ background: '#F5EDD6' }}>
+    <div className="min-h-screen p-4" style={{ background: '#f2f7f8' }}>
       <div className="max-w-5xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
-        <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #2C1810', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-          <h3 className="text-lg font-extrabold mb-1" style={{ color: '#2C1810' }}>Ronde 2.1 — OVH & NAK herkennen</h3>
-          <p className="text-sm italic mb-4" style={{ color: '#5C3A21' }}>
+        <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+          <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 2.1 — OVH & NAK herkennen</h3>
+          <p className="text-sm italic mb-4" style={{ color: '#5b7280' }}>
             {phase === 'ovh' && <><span className="font-bold not-italic">Klik op het segment dat de oververhitting voorstelt.</span></>}
             {phase === 'nak' && <><span className="font-bold not-italic">Klik nu op het segment dat de nakoeling voorstelt.</span></>}
             {phase === 'explain' && 'Goed gevonden! Lees de uitleg hieronder.'}
@@ -1745,7 +1745,7 @@ function IdentifyOvhNak({ onComplete, onLoseLife, lives }) {
           </p>
 
           {flash && (
-            <div className="p-3 rounded-xl text-sm mb-3 text-white italic" style={{ background: flash.type === 'correct' ? '#6B8E3D' : '#B84A3D' }}>
+            <div className="p-3 rounded-xl text-sm mb-3 text-white italic" style={{ background: flash.type === 'correct' ? '#1E8F6E' : '#D92C2C' }}>
               {flash.msg}
             </div>
           )}
@@ -1773,8 +1773,8 @@ function IdentifyOvhNak({ onComplete, onLoseLife, lives }) {
               const [x, y] = hpToXY(pt.h, pt.P);
               return (
                 <g key={label}>
-                  <circle cx={x} cy={y} r="9" fill="#FBBF24" stroke="#2C1810" strokeWidth="2" />
-                  <text x={x} y={y + 3.5} textAnchor="middle" fontSize="9" fontWeight="bold" fill="#2C1810" fontFamily="Nunito">{label}</text>
+                  <circle cx={x} cy={y} r="9" fill="#99D3D8" stroke="#0D4868" strokeWidth="2" />
+                  <text x={x} y={y + 3.5} textAnchor="middle" fontSize="9" fontWeight="bold" fill="#0D4868" fontFamily="Work Sans">{label}</text>
                 </g>
               );
             })}
@@ -1783,8 +1783,8 @@ function IdentifyOvhNak({ onComplete, onLoseLife, lives }) {
               const [x, y] = hpToXY(pt.h, pt.P);
               return (
                 <g key={`bp${label}`}>
-                  <circle cx={x} cy={y} r="10" fill="white" stroke="#2C1810" strokeWidth="2" />
-                  <text x={x} y={y + 4} textAnchor="middle" fontSize="11" fontWeight="bold" fill="#2C1810" fontFamily="Nunito">{label}</text>
+                  <circle cx={x} cy={y} r="10" fill="white" stroke="#0D4868" strokeWidth="2" />
+                  <text x={x} y={y + 4} textAnchor="middle" fontSize="11" fontWeight="bold" fill="#0D4868" fontFamily="Work Sans">{label}</text>
                 </g>
               );
             })}
@@ -1802,15 +1802,15 @@ function IdentifyOvhNak({ onComplete, onLoseLife, lives }) {
 
         {/* Explanation panel */}
         {phase === 'explain' && (
-          <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #6B8E3D', animation: 'fadeInUp 0.4s' }}>
-            <div className="flex items-center gap-2 mb-3"><Lightbulb size={20} style={{ color: '#D97706' }} /><h4 className="font-extrabold" style={{ color: '#2C1810' }}>Waarom zijn deze zo belangrijk?</h4></div>
-            <div className="space-y-3 italic text-sm" style={{ color: '#2C1810', lineHeight: 1.7 }}>
+          <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #1E8F6E', animation: 'fadeInUp 0.4s' }}>
+            <div className="flex items-center gap-2 mb-3"><Lightbulb size={20} style={{ color: '#0D4868' }} /><h4 className="font-extrabold" style={{ color: '#0D4868' }}>Waarom zijn deze zo belangrijk?</h4></div>
+            <div className="space-y-3 italic text-sm" style={{ color: '#0D4868', lineHeight: 1.7 }}>
               <p><span className="font-bold not-italic" style={{ color: '#F59E0B' }}>Oververhitting</span> beschermt de compressor: die mag onder geen beding <em>nat</em> koudemiddel aanzuigen. Het temperatuurverschil tussen punt 1' en 1 zegt iets over de hoeveelheid koudemiddel in de installatie.</p>
               <p><span className="font-bold not-italic" style={{ color: '#06B6D4' }}>Nakoeling</span> vergroot het enthalpieverschil in de verdamper, waardoor het rendement stijgt. Ook dit temperatuurverschil is een parameter voor de hoeveelheid koudemiddel.</p>
               <p>Samen geven ze je inzicht in hoe efficiënt en stabiel het koelproces verloopt en of het koudemiddel zich in de juiste fase en hoeveelheid door het systeem beweegt.</p>
             </div>
             <button onClick={() => onComplete(points)} className="w-full mt-4 py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2"
-              style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 3px 0 #3d2615' }}>Volgende <ChevronRight size={18} /></button>
+              style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>Volgende <ChevronRight size={18} /></button>
           </div>
         )}
       </div>
@@ -1824,11 +1824,11 @@ function IdentifyOvhNak({ onComplete, onLoseLife, lives }) {
 
 function DiagnosticTable({ title, headers, rows, color }) {
   return (
-    <div className="rounded-xl overflow-hidden" style={{ border: '2px solid #2C1810' }}>
+    <div className="rounded-xl overflow-hidden" style={{ border: '2px solid #0D4868' }}>
       <div className="px-3 py-2 text-white font-bold text-sm" style={{ background: color }}>{title}</div>
       <table className="w-full text-xs">
-        <thead><tr>{headers.map((h, i) => <th key={i} className="px-2 py-1.5 text-left font-bold" style={{ background: '#f0e8d0', color: '#2C1810', borderBottom: '1px solid #d4c9a8' }}>{h}</th>)}</tr></thead>
-        <tbody>{rows.map((row, ri) => <tr key={ri}>{row.map((cell, ci) => <td key={ci} className="px-2 py-1.5" style={{ borderBottom: '1px solid #e8e0c8', color: '#2C1810' }}>{cell}</td>)}</tr>)}</tbody>
+        <thead><tr>{headers.map((h, i) => <th key={i} className="px-2 py-1.5 text-left font-bold" style={{ background: '#e6f4f5', color: '#0D4868', borderBottom: '1px solid #dbe7ea' }}>{h}</th>)}</tr></thead>
+        <tbody>{rows.map((row, ri) => <tr key={ri}>{row.map((cell, ci) => <td key={ci} className="px-2 py-1.5" style={{ borderBottom: '1px solid #dbe7ea', color: '#0D4868' }}>{cell}</td>)}</tr>)}</tbody>
       </table>
     </div>
   );
@@ -1886,21 +1886,21 @@ function TablesGame({ onComplete, onLoseLife, lives }) {
 
   if (phase === 'study') {
     return (
-      <div className="min-h-screen p-4" style={{ background: '#F5EDD6' }}>
+      <div className="min-h-screen p-4" style={{ background: '#f2f7f8' }}>
         <div className="max-w-5xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
-          <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #2C1810', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-            <h3 className="text-lg font-extrabold mb-1" style={{ color: '#2C1810' }}>Ronde 2.2 — Diagnosetabellen</h3>
-            <p className="text-sm italic mb-4" style={{ color: '#5C3A21' }}>Bestudeer de tabellen hieronder. Daarna ga je scenario's beoordelen.</p>
+          <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+            <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 2.2 — Diagnosetabellen</h3>
+            <p className="text-sm italic mb-4" style={{ color: '#5b7280' }}>Bestudeer de tabellen hieronder. Daarna ga je scenario's beoordelen.</p>
             <div className="grid md:grid-cols-2 gap-4 mb-4">
               <DiagnosticTable title="Oververhitting" color="#F59E0B" headers={['Waarde', 'Mogelijke oorzaak', 'Betekenis']}
                 rows={OVH_TABLE.map(r => [r.range, r.cause, r.meaning])} />
               <DiagnosticTable title="Nakoeling" color="#06B6D4" headers={['Waarde', 'Mogelijke oorzaak', 'Betekenis']}
                 rows={NAK_TABLE.map(r => [r.range, r.cause, r.meaning])} />
             </div>
-            <DiagnosticTable title="Diagnose (combinatie)" color="#5C3A21" headers={['Oververhitting', 'Nakoeling', 'Diagnose']}
+            <DiagnosticTable title="Diagnose (combinatie)" color="#0D4868" headers={['Oververhitting', 'Nakoeling', 'Diagnose']}
               rows={DIAGNOSIS_TABLE.map(d => [d.ovh, d.nak, d.diagnosis])} />
             <button onClick={() => setPhase('quiz')} className="w-full mt-4 py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2"
-              style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 3px 0 #3d2615' }}>Ik snap het — Start de quiz <ChevronRight size={18} /></button>
+              style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>Ik snap het — Start de quiz <ChevronRight size={18} /></button>
           </div>
         </div>
       </div>
@@ -1908,31 +1908,31 @@ function TablesGame({ onComplete, onLoseLife, lives }) {
   }
 
   return (
-    <div className="min-h-screen p-4" style={{ background: '#F5EDD6' }}>
+    <div className="min-h-screen p-4" style={{ background: '#f2f7f8' }}>
       <div className="max-w-2xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
-        <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #2C1810', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+        <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-lg font-extrabold" style={{ color: '#2C1810' }}>Scenario {scenarioIdx + 1} van {scenarios.length}</h3>
-            <span className="text-sm font-bold px-2 py-1 rounded-lg" style={{ background: '#FBBF24', color: '#2C1810' }}>{scenario.label}</span>
+            <h3 className="text-lg font-extrabold" style={{ color: '#0D4868' }}>Scenario {scenarioIdx + 1} van {scenarios.length}</h3>
+            <span className="text-sm font-bold px-2 py-1 rounded-lg" style={{ background: '#99D3D8', color: '#0D4868' }}>{scenario.label}</span>
           </div>
 
-          <div className="p-4 rounded-xl mb-4" style={{ background: '#f0e8d0', border: '2px solid #d4c9a8' }}>
+          <div className="p-4 rounded-xl mb-4" style={{ background: '#e6f4f5', border: '2px solid #dbe7ea' }}>
             <div className="grid grid-cols-2 gap-4 text-center">
-              <div><p className="text-xs font-bold mb-1" style={{ color: '#F59E0B' }}>Oververhitting</p><p className="text-2xl font-extrabold" style={{ color: '#2C1810' }}>{fmtNum(scenario.ovhValue, 1)} K</p></div>
-              <div><p className="text-xs font-bold mb-1" style={{ color: '#06B6D4' }}>Nakoeling</p><p className="text-2xl font-extrabold" style={{ color: '#2C1810' }}>{fmtNum(scenario.nakValue, 1)} K</p></div>
+              <div><p className="text-xs font-bold mb-1" style={{ color: '#F59E0B' }}>Oververhitting</p><p className="text-2xl font-extrabold" style={{ color: '#0D4868' }}>{fmtNum(scenario.ovhValue, 1)} K</p></div>
+              <div><p className="text-xs font-bold mb-1" style={{ color: '#06B6D4' }}>Nakoeling</p><p className="text-2xl font-extrabold" style={{ color: '#0D4868' }}>{fmtNum(scenario.nakValue, 1)} K</p></div>
             </div>
           </div>
 
-          {flash && <div className="p-3 rounded-xl text-sm mb-3 text-white italic" style={{ background: flash.type === 'correct' ? '#6B8E3D' : '#B84A3D' }}>{flash.msg}</div>}
+          {flash && <div className="p-3 rounded-xl text-sm mb-3 text-white italic" style={{ background: flash.type === 'correct' ? '#1E8F6E' : '#D92C2C' }}>{flash.msg}</div>}
 
           {/* Step 0: Classify OVH */}
           {step === 0 && (
             <div>
-              <p className="text-sm font-bold mb-2" style={{ color: '#2C1810' }}>Stap 1: Beoordeel de oververhitting</p>
+              <p className="text-sm font-bold mb-2" style={{ color: '#0D4868' }}>Stap 1: Beoordeel de oververhitting</p>
               <div className="flex gap-2">
                 {['low', 'normal', 'high'].map(cls => (
                   <button key={cls} onClick={() => handleClassify(cls)} className="flex-1 py-3 rounded-xl font-bold text-sm hover:brightness-90 active:scale-95"
-                    style={{ background: '#F59E0B', color: 'white', border: '2px solid #2C1810', boxShadow: '0 2px 0 rgba(0,0,0,0.15)' }}>
+                    style={{ background: '#F59E0B', color: 'white', border: '2px solid #0D4868', boxShadow: '0 2px 0 rgba(0,0,0,0.15)' }}>
                     {classifyLabel(cls)}
                   </button>
                 ))}
@@ -1943,11 +1943,11 @@ function TablesGame({ onComplete, onLoseLife, lives }) {
           {/* Step 1: Classify NAK */}
           {step === 1 && (
             <div>
-              <p className="text-sm font-bold mb-2" style={{ color: '#2C1810' }}>Stap 2: Beoordeel de nakoeling</p>
+              <p className="text-sm font-bold mb-2" style={{ color: '#0D4868' }}>Stap 2: Beoordeel de nakoeling</p>
               <div className="flex gap-2">
                 {['low', 'normal', 'high'].map(cls => (
                   <button key={cls} onClick={() => handleClassify(cls)} className="flex-1 py-3 rounded-xl font-bold text-sm hover:brightness-90 active:scale-95"
-                    style={{ background: '#06B6D4', color: 'white', border: '2px solid #2C1810', boxShadow: '0 2px 0 rgba(0,0,0,0.15)' }}>
+                    style={{ background: '#06B6D4', color: 'white', border: '2px solid #0D4868', boxShadow: '0 2px 0 rgba(0,0,0,0.15)' }}>
                     {classifyLabel(cls)}
                   </button>
                 ))}
@@ -1958,11 +1958,11 @@ function TablesGame({ onComplete, onLoseLife, lives }) {
           {/* Step 2: Diagnosis */}
           {step === 2 && !scenarioDone && (
             <div>
-              <p className="text-sm font-bold mb-2" style={{ color: '#2C1810' }}>Stap 3: Wat is de diagnose?</p>
+              <p className="text-sm font-bold mb-2" style={{ color: '#0D4868' }}>Stap 3: Wat is de diagnose?</p>
               <div className="space-y-2">
                 {DIAGNOSIS_TABLE.map(d => (
                   <button key={d.key} onClick={() => handleDiagnosis(d.key)} className="w-full text-left px-4 py-3 rounded-xl text-sm hover:brightness-95 active:scale-[0.98]"
-                    style={{ border: '2px solid #e8e0c8', background: '#FAFAF5', color: '#2C1810' }}>
+                    style={{ border: '2px solid #dbe7ea', background: '#f8fbfc', color: '#0D4868' }}>
                     {d.diagnosis}
                   </button>
                 ))}
@@ -1972,7 +1972,7 @@ function TablesGame({ onComplete, onLoseLife, lives }) {
 
           {scenarioDone && (
             <button onClick={handleNext} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2"
-              style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 3px 0 #3d2615' }}>
+              style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>
               {isLastScenario ? 'Volgende' : 'Volgend scenario'} <ChevronRight size={18} />
             </button>
           )}
@@ -1982,7 +1982,7 @@ function TablesGame({ onComplete, onLoseLife, lives }) {
         <div className="space-y-3 mb-4">
           {step === 0 && <DiagnosticTable title="Oververhitting" color="#F59E0B" headers={['Waarde', 'Mogelijke oorzaak', 'Betekenis']} rows={OVH_TABLE.map(r => [r.range, r.cause, r.meaning])} />}
           {step === 1 && <DiagnosticTable title="Nakoeling" color="#06B6D4" headers={['Waarde', 'Mogelijke oorzaak', 'Betekenis']} rows={NAK_TABLE.map(r => [r.range, r.cause, r.meaning])} />}
-          {step === 2 && !scenarioDone && <DiagnosticTable title="Diagnose (combinatie)" color="#5C3A21" headers={['Oververhitting', 'Nakoeling', 'Diagnose']} rows={DIAGNOSIS_TABLE.map(d => [d.ovh, d.nak, d.diagnosis])} />}
+          {step === 2 && !scenarioDone && <DiagnosticTable title="Diagnose (combinatie)" color="#0D4868" headers={['Oververhitting', 'Nakoeling', 'Diagnose']} rows={DIAGNOSIS_TABLE.map(d => [d.ovh, d.nak, d.diagnosis])} />}
         </div>
       </div>
     </div>
@@ -2104,24 +2104,24 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
   };
 
   return (
-    <div className="min-h-screen p-4" style={{ background: '#F5EDD6' }}>
+    <div className="min-h-screen p-4" style={{ background: '#f2f7f8' }}>
       <div className="max-w-5xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
-        <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #2C1810', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+        <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-lg font-extrabold" style={{ color: '#2C1810' }}>Ronde 2.3 — Meten & beoordelen</h3>
-            <span className="text-sm font-bold px-2 py-1 rounded-lg" style={{ background: '#FBBF24', color: '#2C1810' }}>{scenario.label} ({scenarioIdx + 1}/{scenarios.length})</span>
+            <h3 className="text-lg font-extrabold" style={{ color: '#0D4868' }}>Ronde 2.3 — Meten & beoordelen</h3>
+            <span className="text-sm font-bold px-2 py-1 rounded-lg" style={{ background: '#99D3D8', color: '#0D4868' }}>{scenario.label} ({scenarioIdx + 1}/{scenarios.length})</span>
           </div>
 
           {/* Temperature info panel — sleepbare blokken (alleen zichtbaar in stap 0 en 1) */}
           {(step === 0 || step === 1) && (
-            <div className="p-3 rounded-xl mb-3" style={{ background: '#f0e8d0', border: '2px solid #d4c9a8' }}>
-              <p className="text-xs font-bold mb-2" style={{ color: '#5C3A21' }}>Sleep de juiste temperatuur naar de berekening:</p>
+            <div className="p-3 rounded-xl mb-3" style={{ background: '#e6f4f5', border: '2px solid #dbe7ea' }}>
+              <p className="text-xs font-bold mb-2" style={{ color: '#5b7280' }}>Sleep de juiste temperatuur naar de berekening:</p>
               <div className="flex flex-wrap gap-2">
                 {tempSources.map(t => (
                   <div key={t.id} draggable={true}
                     onDragStart={(e) => e.dataTransfer.setData('text/plain', t.id)}
                     className="inline-flex flex-col items-center px-3 py-2 rounded-lg font-bold text-xs select-none"
-                    style={{ cursor: 'grab', background: '#FBBF24', color: '#2C1810', border: '2px solid #2C1810', boxShadow: '0 2px 0 rgba(0,0,0,0.15)', minWidth: 110 }}>
+                    style={{ cursor: 'grab', background: '#99D3D8', color: '#0D4868', border: '2px solid #0D4868', boxShadow: '0 2px 0 rgba(0,0,0,0.15)', minWidth: 110 }}>
                     <span className="opacity-80 text-[10px]">{t.label}</span>
                     <span className="text-sm">{t.value > 0 ? '+' : ''}{t.value}°C</span>
                   </div>
@@ -2132,14 +2132,14 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
           {/* Read-only temps bij stappen 2+ */}
           {step >= 2 && (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3 text-center">
-              <div className="p-2 rounded-lg" style={{ background: '#f0e8d0' }}><p className="text-xs" style={{ color: '#5C3A21' }}>T verdamping</p><p className="font-bold" style={{ color: '#2C1810' }}>{scenario.T_verdamping}°C</p></div>
-              <div className="p-2 rounded-lg" style={{ background: '#f0e8d0' }}><p className="text-xs" style={{ color: '#5C3A21' }}>T zuigleiding</p><p className="font-bold" style={{ color: '#2C1810' }}>{scenario.T_zuig}°C</p></div>
-              <div className="p-2 rounded-lg" style={{ background: '#f0e8d0' }}><p className="text-xs" style={{ color: '#5C3A21' }}>T condensatie</p><p className="font-bold" style={{ color: '#2C1810' }}>{scenario.T_condensatie}°C</p></div>
-              <div className="p-2 rounded-lg" style={{ background: '#f0e8d0' }}><p className="text-xs" style={{ color: '#5C3A21' }}>T voor expansie</p><p className="font-bold" style={{ color: '#2C1810' }}>{scenario.T_voor_expansie}°C</p></div>
+              <div className="p-2 rounded-lg" style={{ background: '#e6f4f5' }}><p className="text-xs" style={{ color: '#5b7280' }}>T verdamping</p><p className="font-bold" style={{ color: '#0D4868' }}>{scenario.T_verdamping}°C</p></div>
+              <div className="p-2 rounded-lg" style={{ background: '#e6f4f5' }}><p className="text-xs" style={{ color: '#5b7280' }}>T zuigleiding</p><p className="font-bold" style={{ color: '#0D4868' }}>{scenario.T_zuig}°C</p></div>
+              <div className="p-2 rounded-lg" style={{ background: '#e6f4f5' }}><p className="text-xs" style={{ color: '#5b7280' }}>T condensatie</p><p className="font-bold" style={{ color: '#0D4868' }}>{scenario.T_condensatie}°C</p></div>
+              <div className="p-2 rounded-lg" style={{ background: '#e6f4f5' }}><p className="text-xs" style={{ color: '#5b7280' }}>T voor expansie</p><p className="font-bold" style={{ color: '#0D4868' }}>{scenario.T_voor_expansie}°C</p></div>
             </div>
           )}
 
-          {flash && <div className="p-3 rounded-xl text-sm mb-3 text-white italic" style={{ background: flash.type === 'correct' ? '#6B8E3D' : '#B84A3D' }}>{flash.msg}</div>}
+          {flash && <div className="p-3 rounded-xl text-sm mb-3 text-white italic" style={{ background: flash.type === 'correct' ? '#1E8F6E' : '#D92C2C' }}>{flash.msg}</div>}
 
           {/* Diagram */}
           <R134aDiagram svgRef={svgRef} lines={{ highP: scenario.highP, lowP: scenario.lowP }} showCrosshair={false} showReadout={false}>
@@ -2172,91 +2172,91 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
               const [xo1, yo1] = hpToXY(p1prime.h, p1prime.P);
               const [xo2, yo2] = hpToXY(p1.h, p1.P);
               const midXo = (xo1 + xo2) / 2, midYo = (yo1 + yo2) / 2;
-              return <text x={midXo} y={midYo + 20} textAnchor="middle" fontSize="10" fontWeight="bold" fill="#F59E0B" fontFamily="Nunito">OVH</text>;
+              return <text x={midXo} y={midYo + 20} textAnchor="middle" fontSize="10" fontWeight="bold" fill="#F59E0B" fontFamily="Work Sans">OVH</text>;
             })()}
             {(() => {
               const [xn1, yn1] = hpToXY(p3prime.h, p3prime.P);
               const [xn2, yn2] = hpToXY(p3.h, p3.P);
               const midXn = (xn1 + xn2) / 2, midYn = (yn1 + yn2) / 2;
-              return <text x={midXn} y={midYn - 10} textAnchor="middle" fontSize="10" fontWeight="bold" fill="#06B6D4" fontFamily="Nunito">NAK</text>;
+              return <text x={midXn} y={midYn - 10} textAnchor="middle" fontSize="10" fontWeight="bold" fill="#06B6D4" fontFamily="Work Sans">NAK</text>;
             })()}
             {/* Points */}
             {[{ pt: p1prime, label: "1'" }, { pt: p3prime, label: "3'" }].map(({ pt, label }) => {
               const [x, y] = hpToXY(pt.h, pt.P);
-              return <g key={label}><circle cx={x} cy={y} r="9" fill="#FBBF24" stroke="#2C1810" strokeWidth="2" /><text x={x} y={y + 3.5} textAnchor="middle" fontSize="9" fontWeight="bold" fill="#2C1810" fontFamily="Nunito">{label}</text></g>;
+              return <g key={label}><circle cx={x} cy={y} r="9" fill="#99D3D8" stroke="#0D4868" strokeWidth="2" /><text x={x} y={y + 3.5} textAnchor="middle" fontSize="9" fontWeight="bold" fill="#0D4868" fontFamily="Work Sans">{label}</text></g>;
             })}
             {[{ pt: p1, label: '1' }, { pt: p2, label: '2' }, { pt: p3, label: '3' }, { pt: p4, label: '4' }].map(({ pt, label }) => {
               const [x, y] = hpToXY(pt.h, pt.P);
-              return <g key={`p${label}`}><circle cx={x} cy={y} r="10" fill="white" stroke="#2C1810" strokeWidth="2" /><text x={x} y={y + 4} textAnchor="middle" fontSize="11" fontWeight="bold" fill="#2C1810" fontFamily="Nunito">{label}</text></g>;
+              return <g key={`p${label}`}><circle cx={x} cy={y} r="10" fill="white" stroke="#0D4868" strokeWidth="2" /><text x={x} y={y + 4} textAnchor="middle" fontSize="11" fontWeight="bold" fill="#0D4868" fontFamily="Work Sans">{label}</text></g>;
             })}
           </R134aDiagram>
 
           {/* Input steps */}
           <div className="mt-4">
             {step === 0 && (
-              <div className="p-4 rounded-xl" style={{ background: '#f0e8d0', border: '2px solid #F59E0B' }}>
-                <p className="text-sm font-bold mb-3" style={{ color: '#2C1810' }}>Bereken de oververhitting</p>
+              <div className="p-4 rounded-xl" style={{ background: '#e6f4f5', border: '2px solid #F59E0B' }}>
+                <p className="text-sm font-bold mb-3" style={{ color: '#0D4868' }}>Bereken de oververhitting</p>
                 <div className="flex flex-wrap items-center gap-2">
                   <DropSlot value={ovhSlots.left ? `${tempById[ovhSlots.left].value > 0 ? '+' : ''}${tempById[ovhSlots.left].value}°C` : null} hasValue={!!ovhSlots.left} onDrop={(id) => setOvhSlots(s => ({ ...s, left: id }))} onClear={() => { setOvhSlots(s => ({ ...s, left: null })); setOvhInput(''); }} />
-                  <span className="text-xl font-bold" style={{ color: '#2C1810' }}>−</span>
+                  <span className="text-xl font-bold" style={{ color: '#0D4868' }}>−</span>
                   <DropSlot value={ovhSlots.right ? `${tempById[ovhSlots.right].value > 0 ? '+' : ''}${tempById[ovhSlots.right].value}°C` : null} hasValue={!!ovhSlots.right} onDrop={(id) => setOvhSlots(s => ({ ...s, right: id }))} onClear={() => { setOvhSlots(s => ({ ...s, right: null })); setOvhInput(''); }} />
-                  <span className="text-xl font-bold" style={{ color: '#2C1810' }}>=</span>
+                  <span className="text-xl font-bold" style={{ color: '#0D4868' }}>=</span>
                   <input type="text" inputMode="decimal" value={ovhInput} onChange={e => setOvhInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleReadingCheck(true); }}
-                    className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: 'white', border: '2px solid #F59E0B', color: '#2C1810' }} placeholder="?" />
-                  <span className="text-sm" style={{ color: '#5C3A21' }}>K</span>
+                    className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: 'white', border: '2px solid #F59E0B', color: '#0D4868' }} placeholder="?" />
+                  <span className="text-sm" style={{ color: '#5b7280' }}>K</span>
                   <button onClick={() => handleReadingCheck(true)} disabled={!ovhSlots.left || !ovhSlots.right || ovhInput === ''} className="px-3 py-2 rounded-lg font-bold italic text-white text-sm hover:brightness-90 active:scale-95 disabled:opacity-40"
-                    style={{ background: '#F59E0B', border: '2px solid #2C1810' }}>Controleer</button>
+                    style={{ background: '#F59E0B', border: '2px solid #0D4868' }}>Controleer</button>
                 </div>
               </div>
             )}
             {step === 1 && (
-              <div className="p-4 rounded-xl" style={{ background: '#f0e8d0', border: '2px solid #06B6D4' }}>
-                <p className="text-sm font-bold mb-3" style={{ color: '#2C1810' }}>Bereken de nakoeling</p>
+              <div className="p-4 rounded-xl" style={{ background: '#e6f4f5', border: '2px solid #06B6D4' }}>
+                <p className="text-sm font-bold mb-3" style={{ color: '#0D4868' }}>Bereken de nakoeling</p>
                 <div className="flex flex-wrap items-center gap-2">
                   <DropSlot value={nakSlots.left ? `${tempById[nakSlots.left].value > 0 ? '+' : ''}${tempById[nakSlots.left].value}°C` : null} hasValue={!!nakSlots.left} onDrop={(id) => setNakSlots(s => ({ ...s, left: id }))} onClear={() => { setNakSlots(s => ({ ...s, left: null })); setNakInput(''); }} />
-                  <span className="text-xl font-bold" style={{ color: '#2C1810' }}>−</span>
+                  <span className="text-xl font-bold" style={{ color: '#0D4868' }}>−</span>
                   <DropSlot value={nakSlots.right ? `${tempById[nakSlots.right].value > 0 ? '+' : ''}${tempById[nakSlots.right].value}°C` : null} hasValue={!!nakSlots.right} onDrop={(id) => setNakSlots(s => ({ ...s, right: id }))} onClear={() => { setNakSlots(s => ({ ...s, right: null })); setNakInput(''); }} />
-                  <span className="text-xl font-bold" style={{ color: '#2C1810' }}>=</span>
+                  <span className="text-xl font-bold" style={{ color: '#0D4868' }}>=</span>
                   <input type="text" inputMode="decimal" value={nakInput} onChange={e => setNakInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleReadingCheck(false); }}
-                    className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: 'white', border: '2px solid #06B6D4', color: '#2C1810' }} placeholder="?" />
-                  <span className="text-sm" style={{ color: '#5C3A21' }}>K</span>
+                    className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: 'white', border: '2px solid #06B6D4', color: '#0D4868' }} placeholder="?" />
+                  <span className="text-sm" style={{ color: '#5b7280' }}>K</span>
                   <button onClick={() => handleReadingCheck(false)} disabled={!nakSlots.left || !nakSlots.right || nakInput === ''} className="px-3 py-2 rounded-lg font-bold italic text-white text-sm hover:brightness-90 active:scale-95 disabled:opacity-40"
-                    style={{ background: '#06B6D4', border: '2px solid #2C1810' }}>Controleer</button>
+                    style={{ background: '#06B6D4', border: '2px solid #0D4868' }}>Controleer</button>
                 </div>
               </div>
             )}
             {step === 2 && (
-              <div className="p-4 rounded-xl" style={{ background: '#f0e8d0', border: '2px solid #F59E0B' }}>
-                <p className="text-sm font-bold mb-2" style={{ color: '#2C1810' }}>Beoordeel de oververhitting ({scenario.expectedOVH}K):</p>
+              <div className="p-4 rounded-xl" style={{ background: '#e6f4f5', border: '2px solid #F59E0B' }}>
+                <p className="text-sm font-bold mb-2" style={{ color: '#0D4868' }}>Beoordeel de oververhitting ({scenario.expectedOVH}K):</p>
                 <div className="flex gap-2">
                   {['low', 'normal', 'high'].map(cls => (
                     <button key={cls} onClick={() => handleAssessment(cls)} className="flex-1 py-3 rounded-xl font-bold text-sm hover:brightness-90 active:scale-95"
-                      style={{ background: '#F59E0B', color: 'white', border: '2px solid #2C1810' }}>{assessLabel(cls)}</button>
+                      style={{ background: '#F59E0B', color: 'white', border: '2px solid #0D4868' }}>{assessLabel(cls)}</button>
                   ))}
                 </div>
               </div>
             )}
             {step === 3 && (
-              <div className="p-4 rounded-xl" style={{ background: '#f0e8d0', border: '2px solid #06B6D4' }}>
-                <p className="text-sm font-bold mb-2" style={{ color: '#2C1810' }}>Beoordeel de nakoeling ({scenario.expectedNAK}K):</p>
+              <div className="p-4 rounded-xl" style={{ background: '#e6f4f5', border: '2px solid #06B6D4' }}>
+                <p className="text-sm font-bold mb-2" style={{ color: '#0D4868' }}>Beoordeel de nakoeling ({scenario.expectedNAK}K):</p>
                 <div className="flex gap-2">
                   {['low', 'normal', 'high'].map(cls => (
                     <button key={cls} onClick={() => handleAssessment(cls)} className="flex-1 py-3 rounded-xl font-bold text-sm hover:brightness-90 active:scale-95"
-                      style={{ background: '#06B6D4', color: 'white', border: '2px solid #2C1810' }}>{assessLabel(cls)}</button>
+                      style={{ background: '#06B6D4', color: 'white', border: '2px solid #0D4868' }}>{assessLabel(cls)}</button>
                   ))}
                 </div>
               </div>
             )}
             {step === 4 && (
-              <div className="p-4 rounded-xl" style={{ background: 'rgba(107,142,61,0.1)', border: '2px solid #6B8E3D', animation: 'fadeInUp 0.3s' }}>
-                <p className="italic mb-2" style={{ color: '#2C1810' }}><span className="font-bold">Goed!</span> OVH = {scenario.expectedOVH}K ({assessLabel(scenario.ovhAssessment)}), NAK = {scenario.expectedNAK}K ({assessLabel(scenario.nakAssessment)}).</p>
+              <div className="p-4 rounded-xl" style={{ background: 'rgba(30,143,110,0.1)', border: '2px solid #1E8F6E', animation: 'fadeInUp 0.3s' }}>
+                <p className="italic mb-2" style={{ color: '#0D4868' }}><span className="font-bold">Goed!</span> OVH = {scenario.expectedOVH}K ({assessLabel(scenario.ovhAssessment)}), NAK = {scenario.expectedNAK}K ({assessLabel(scenario.nakAssessment)}).</p>
                 {scenario.diagnosis && (
-                  <div className="mb-3 p-3 rounded-lg" style={{ background: '#FBBF24', border: '1.5px solid #2C1810' }}>
-                    <p className="text-sm font-bold" style={{ color: '#2C1810' }}>Diagnose: <span className="font-extrabold">{scenario.diagnosis}</span></p>
+                  <div className="mb-3 p-3 rounded-lg" style={{ background: '#99D3D8', border: '1.5px solid #0D4868' }}>
+                    <p className="text-sm font-bold" style={{ color: '#0D4868' }}>Diagnose: <span className="font-extrabold">{scenario.diagnosis}</span></p>
                   </div>
                 )}
                 <button onClick={handleNext} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2"
-                  style={{ background: '#5C3A21', border: '2px solid #2C1810', boxShadow: '0 3px 0 #3d2615' }}>
+                  style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>
                   {isLastScenario ? 'Volgende' : 'Volgend scenario'} <ChevronRight size={18} />
                 </button>
               </div>
@@ -2293,25 +2293,25 @@ function DebugNav({ visible, currentScreen, onNavigate, onClose }) {
   const navBtn = (screen, label, bg, color) => (
     <button key={screen} onClick={() => onNavigate(screen)}
       className="w-full text-left px-4 py-2.5 rounded-lg font-semibold text-sm hover:brightness-90 active:scale-[0.98] transition-all"
-      style={{ background: currentScreen === screen ? '#FBBF24' : bg, color: currentScreen === screen ? '#2C1810' : color }}>{label}</button>
+      style={{ background: currentScreen === screen ? '#99D3D8' : bg, color: currentScreen === screen ? '#0D4868' : color }}>{label}</button>
   );
   return (
     <div className="fixed inset-0 z-[300] flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.7)' }}>
-      <div className="rounded-2xl p-6 w-80 max-h-[85vh] overflow-y-auto" style={{ background: '#F5EDD6', border: '3px solid #2C1810' }}>
+      <div className="rounded-2xl p-6 w-80 max-h-[85vh] overflow-y-auto" style={{ background: '#f2f7f8', border: '3px solid #0D4868' }}>
         <div className="flex justify-between items-center mb-5">
-          <span className="text-lg font-extrabold" style={{ color: '#2C1810' }}>Snelmenu (Ctrl+D)</span>
-          <button onClick={onClose} className="hover:opacity-70" style={{ color: '#2C1810' }}><X size={20} /></button>
+          <span className="text-lg font-extrabold" style={{ color: '#0D4868' }}>Snelmenu (Ctrl+D)</span>
+          <button onClick={onClose} className="hover:opacity-70" style={{ color: '#0D4868' }}><X size={20} /></button>
         </div>
         <div className="space-y-1.5">
           {menuItems.map((item, i) => {
-            if (item.section) return <p key={i} className="text-sm font-bold pt-3 pb-1 first:pt-0" style={{ color: '#5C3A21' }}>{item.section}</p>;
-            if (item.isCheck) return navBtn(item.screen, item.label, '#FBBF24', '#2C1810');
-            return navBtn(item.screen, item.label, '#5C3A21', 'white');
+            if (item.section) return <p key={i} className="text-sm font-bold pt-3 pb-1 first:pt-0" style={{ color: '#5b7280' }}>{item.section}</p>;
+            if (item.isCheck) return navBtn(item.screen, item.label, '#99D3D8', '#0D4868');
+            return navBtn(item.screen, item.label, '#0D4868', 'white');
           })}
         </div>
-        <div className="mt-4 pt-3 space-y-1.5" style={{ borderTop: '1px solid #d4c9a8' }}>
-          {navBtn('start', 'Startscherm', '#B84A3D', 'white')}
-          {navBtn('end', 'Eindscherm', '#B84A3D', 'white')}
+        <div className="mt-4 pt-3 space-y-1.5" style={{ borderTop: '1px solid #dbe7ea' }}>
+          {navBtn('start', 'Startscherm', '#D92C2C', 'white')}
+          {navBtn('end', 'Eindscherm', '#D92C2C', 'white')}
         </div>
       </div>
     </div>
@@ -2324,22 +2324,22 @@ function DebugNav({ visible, currentScreen, onNavigate, onClose }) {
 
 function StartScreen({ onStart }) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-8" style={{ background: '#F5EDD6' }}>
+    <div className="min-h-screen flex flex-col items-center justify-center p-8" style={{ background: '#f2f7f8' }}>
       <div className="text-center max-w-md" style={{ animation: 'fadeInUp 0.5s ease-out' }}>
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full mb-4" style={{ background: 'rgba(251,191,36,0.2)' }}>
-          <Thermometer size={40} style={{ color: '#5C3A21' }} />
+        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full mb-4" style={{ background: 'rgba(153,211,216,0.35)' }}>
+          <Thermometer size={40} style={{ color: '#5b7280' }} />
         </div>
-        <h1 className="text-4xl font-extrabold mb-1" style={{ color: '#2C1810' }}>OVH en NAK</h1>
-        <h2 className="text-xl font-bold italic mb-4" style={{ color: '#5C3A21' }}>Oververhitting & Nakoeling</h2>
-        <div className="bg-white rounded-2xl p-6 mb-6" style={{ border: '2px solid #2C1810', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-          <p className="italic leading-relaxed" style={{ color: '#5C3A21', lineHeight: 1.7 }}>
+        <h1 className="text-4xl font-extrabold mb-1" style={{ color: '#0D4868' }}>OVH en NAK</h1>
+        <h2 className="text-xl font-bold italic mb-4" style={{ color: '#5b7280' }}>Oververhitting & Nakoeling</h2>
+        <div className="bg-white rounded-2xl p-6 mb-6" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+          <p className="italic leading-relaxed" style={{ color: '#5b7280', lineHeight: 1.7 }}>
             Leer de vermogens uit een h-log p diagram aflezen, het rendement berekenen en de koelinstallatie beoordelen aan de hand van oververhitting en nakoeling.
           </p>
         </div>
         <button onClick={onStart}
           className="px-10 py-4 text-white rounded-2xl font-extrabold italic text-xl hover:brightness-90 active:scale-95 transition-all"
-          style={{ background: '#6B8E3D', border: '3px solid #2C1810', boxShadow: '0 4px 0 #4a6b2a' }}>Start</button>
-        <p className="text-xs mt-3" style={{ color: '#5C3A21', opacity: 0.7 }}>Tip: Ctrl+D voor snelmenu</p>
+          style={{ background: '#1E8F6E', border: '3px solid #0D4868', boxShadow: '0 4px 0 #166F56' }}>Start</button>
+        <p className="text-xs mt-3" style={{ color: '#5b7280', opacity: 0.7 }}>Tip: Ctrl+D voor snelmenu</p>
       </div>
     </div>
   );
@@ -2348,24 +2348,24 @@ function StartScreen({ onStart }) {
 function EndScreen({ score, onRestart }) {
   const stars = score >= 80 ? 3 : score >= 60 ? 2 : score >= 40 ? 1 : 0;
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#F5EDD6' }}>
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#f2f7f8' }}>
       <div className="max-w-md text-center" style={{ animation: 'fadeInUp 0.5s ease-out' }}>
         <div className="inline-flex items-center justify-center w-32 h-32 rounded-full mb-4 text-6xl"
-          style={{ background: 'linear-gradient(135deg, #FBBF24, #06B6D4)', border: '4px solid #2C1810', boxShadow: '0 8px 24px rgba(251,191,36,0.4)' }}>&#127942;</div>
-        <h2 className="text-3xl font-extrabold mb-2" style={{ color: '#2C1810' }}>Gefeliciteerd!</h2>
-        <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #2C1810', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+          style={{ background: 'linear-gradient(120deg,#0D4868 0%,#1b7f96 55%,#30B5AE 100%)', border: '4px solid #0D4868', boxShadow: '0 8px 24px rgba(48,181,174,0.4)' }}>&#127942;</div>
+        <h2 className="text-3xl font-extrabold mb-2" style={{ color: '#0D4868' }}>Gefeliciteerd!</h2>
+        <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
           <div className="text-4xl mb-2">{[1, 2, 3].map(s => <span key={s} className="mx-1" style={{ color: s <= stars ? '#FBBF24' : '#ccc' }}>&#9733;</span>)}</div>
-          <p className="text-2xl font-extrabold mb-1" style={{ color: '#2C1810' }}>{score} punten</p>
-          <p className="text-sm italic" style={{ color: '#5C3A21' }}>{stars === 3 ? 'Uitstekend!' : stars === 2 ? 'Goed gedaan!' : stars === 1 ? 'Aardig werk!' : 'Blijf oefenen!'}</p>
+          <p className="text-2xl font-extrabold mb-1" style={{ color: '#0D4868' }}>{score} punten</p>
+          <p className="text-sm italic" style={{ color: '#5b7280' }}>{stars === 3 ? 'Uitstekend!' : stars === 2 ? 'Goed gedaan!' : stars === 1 ? 'Aardig werk!' : 'Blijf oefenen!'}</p>
         </div>
-        <div className="rounded-2xl p-5 mb-6 text-left" style={{ background: 'rgba(107,142,61,0.1)', border: '2px solid #6B8E3D' }}>
-          <p className="text-sm italic leading-relaxed" style={{ color: '#2C1810' }}>
+        <div className="rounded-2xl p-5 mb-6 text-left" style={{ background: 'rgba(30,143,110,0.1)', border: '2px solid #1E8F6E' }}>
+          <p className="text-sm italic leading-relaxed" style={{ color: '#0D4868' }}>
             Je kunt nu de oververhitting en nakoeling aflezen uit het h-log p diagram en de vultoestand van een koelinstallatie beoordelen. Je weet wat een te hoge of te lage waarde betekent en welke acties nodig zijn. Dit zijn essentiële vaardigheden voor elke koeltechnicus!
           </p>
         </div>
         <button onClick={onRestart}
           className="px-10 py-4 text-white rounded-2xl font-extrabold italic text-lg hover:brightness-90 active:scale-95 flex items-center justify-center gap-2 mx-auto"
-          style={{ background: '#5C3A21', border: '3px solid #2C1810', boxShadow: '0 4px 0 #3d2615' }}><RotateCcw size={18} /> Opnieuw spelen</button>
+          style={{ background: '#30B5AE', border: '3px solid #0D4868', boxShadow: '0 4px 0 #1F8A84' }}><RotateCcw size={18} /> Opnieuw spelen</button>
       </div>
     </div>
   );
@@ -2373,17 +2373,17 @@ function EndScreen({ score, onRestart }) {
 
 function GameOverScreen({ score, onRestart }) {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#F5EDD6' }}>
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#f2f7f8' }}>
       <div className="max-w-md text-center" style={{ animation: 'fadeInUp 0.5s ease-out' }}>
         <div className="flex justify-center gap-1 mb-4">{[1, 2, 3, 4, 5].map(i => <Heart key={i} className="w-8 h-8" fill="transparent" stroke="#ccc" style={{ opacity: 0.3 }} />)}</div>
-        <h2 className="text-3xl font-extrabold mb-2" style={{ color: '#B84A3D' }}>Game Over</h2>
-        <div className="bg-white rounded-2xl p-6 mb-6" style={{ border: '2px solid #2C1810', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-          <p className="italic mb-2" style={{ color: '#5C3A21' }}>Je hebt geen levens meer.</p>
-          <p className="text-lg font-bold" style={{ color: '#2C1810' }}>Score: {score}</p>
+        <h2 className="text-3xl font-extrabold mb-2" style={{ color: '#D92C2C' }}>Game Over</h2>
+        <div className="bg-white rounded-2xl p-6 mb-6" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+          <p className="italic mb-2" style={{ color: '#5b7280' }}>Je hebt geen levens meer.</p>
+          <p className="text-lg font-bold" style={{ color: '#0D4868' }}>Score: {score}</p>
         </div>
         <button onClick={onRestart}
           className="px-10 py-4 text-white rounded-2xl font-extrabold italic text-lg hover:brightness-90 active:scale-95 flex items-center justify-center gap-2 mx-auto"
-          style={{ background: '#5C3A21', border: '3px solid #2C1810', boxShadow: '0 4px 0 #3d2615' }}><RotateCcw size={18} /> Opnieuw proberen</button>
+          style={{ background: '#30B5AE', border: '3px solid #0D4868', boxShadow: '0 4px 0 #1F8A84' }}><RotateCcw size={18} /> Opnieuw proberen</button>
       </div>
     </div>
   );
@@ -2438,18 +2438,18 @@ export default function OververhittingNakoelingGame() {
       case 'start': return <StartScreen onStart={() => goToScreen('m1_intro')} />;
       case 'm1_intro': return <M1IntroScreen onBegin={() => goToScreen('m1r1')} />;
       case 'm1r1': return <PowerLabeler onComplete={handleRoundComplete('m1r1_check')} onLoseLife={loseLife} lives={lives} />;
-      case 'm1r1_check': return quizQuestions ? <div className="min-h-screen p-4 pt-16" style={{ background: '#F5EDD6' }}><QuizCheck quizQs={quizQuestions} maxPoints={SCORING.m1r1_check} onComplete={handleRoundComplete('m1r2')} onLoseLife={loseLife} lives={lives} examFigure="exam" /></div> : null;
+      case 'm1r1_check': return quizQuestions ? <div className="min-h-screen p-4 pt-16" style={{ background: '#f2f7f8' }}><QuizCheck quizQs={quizQuestions} maxPoints={SCORING.m1r1_check} onComplete={handleRoundComplete('m1r2')} onLoseLife={loseLife} lives={lives} examFigure="exam" /></div> : null;
       case 'm1r2': return <EerCalculator onComplete={handleRoundComplete('m1r2_check')} onLoseLife={loseLife} lives={lives} />;
-      case 'm1r2_check': return quizQuestions ? <div className="min-h-screen p-4 pt-16" style={{ background: '#F5EDD6' }}><QuizCheck quizQs={quizQuestions} maxPoints={SCORING.m1r2_check} onComplete={handleRoundComplete('m1r3')} onLoseLife={loseLife} lives={lives} showBootje={true} /></div> : null;
+      case 'm1r2_check': return quizQuestions ? <div className="min-h-screen p-4 pt-16" style={{ background: '#f2f7f8' }}><QuizCheck quizQs={quizQuestions} maxPoints={SCORING.m1r2_check} onComplete={handleRoundComplete('m1r3')} onLoseLife={loseLife} lives={lives} showBootje={true} /></div> : null;
       case 'm1r3': return <CopCalculator onComplete={handleRoundComplete('m1r3_check')} onLoseLife={loseLife} lives={lives} />;
-      case 'm1r3_check': return quizQuestions ? <div className="min-h-screen p-4 pt-16" style={{ background: '#F5EDD6' }}><QuizCheck quizQs={quizQuestions} maxPoints={SCORING.m1r3_check} onComplete={handleRoundComplete('m2_intro')} onLoseLife={loseLife} lives={lives} showBootje={true} /></div> : null;
+      case 'm1r3_check': return quizQuestions ? <div className="min-h-screen p-4 pt-16" style={{ background: '#f2f7f8' }}><QuizCheck quizQs={quizQuestions} maxPoints={SCORING.m1r3_check} onComplete={handleRoundComplete('m2_intro')} onLoseLife={loseLife} lives={lives} showBootje={true} /></div> : null;
       case 'm2_intro': return <M2IntroScreen onBegin={() => goToScreen('m2r1')} />;
       case 'm2r1': return <IdentifyOvhNak onComplete={handleRoundComplete('m2r1_check')} onLoseLife={loseLife} lives={lives} />;
-      case 'm2r1_check': return quizQuestions ? <div className="min-h-screen p-4 pt-16" style={{ background: '#F5EDD6' }}><QuizCheck quizQs={quizQuestions} maxPoints={SCORING.m2r1_check} onComplete={handleRoundComplete('m2r2')} onLoseLife={loseLife} lives={lives} examFigure="exam" /></div> : null;
+      case 'm2r1_check': return quizQuestions ? <div className="min-h-screen p-4 pt-16" style={{ background: '#f2f7f8' }}><QuizCheck quizQs={quizQuestions} maxPoints={SCORING.m2r1_check} onComplete={handleRoundComplete('m2r2')} onLoseLife={loseLife} lives={lives} examFigure="exam" /></div> : null;
       case 'm2r2': return <TablesGame onComplete={handleRoundComplete('m2r2_check')} onLoseLife={loseLife} lives={lives} />;
-      case 'm2r2_check': return quizQuestions ? <div className="min-h-screen p-4 pt-16" style={{ background: '#F5EDD6' }}><QuizCheck quizQs={quizQuestions} maxPoints={SCORING.m2r2_check} onComplete={handleRoundComplete('m2r3')} onLoseLife={loseLife} lives={lives} /></div> : null;
+      case 'm2r2_check': return quizQuestions ? <div className="min-h-screen p-4 pt-16" style={{ background: '#f2f7f8' }}><QuizCheck quizQs={quizQuestions} maxPoints={SCORING.m2r2_check} onComplete={handleRoundComplete('m2r3')} onLoseLife={loseLife} lives={lives} /></div> : null;
       case 'm2r3': return <MeasureAndAssess onComplete={handleRoundComplete('m2r3_check')} onLoseLife={loseLife} lives={lives} />;
-      case 'm2r3_check': return quizQuestions ? <div className="min-h-screen p-4 pt-16" style={{ background: '#F5EDD6' }}><QuizCheck quizQs={quizQuestions} maxPoints={SCORING.m2r3_check} onComplete={handleRoundComplete('end')} onLoseLife={loseLife} lives={lives} /></div> : null;
+      case 'm2r3_check': return quizQuestions ? <div className="min-h-screen p-4 pt-16" style={{ background: '#f2f7f8' }}><QuizCheck quizQs={quizQuestions} maxPoints={SCORING.m2r3_check} onComplete={handleRoundComplete('end')} onLoseLife={loseLife} lives={lives} /></div> : null;
       case 'end': return <EndScreen score={score} onRestart={handleRestart} />;
       case 'game_over': return <GameOverScreen score={score} onRestart={handleRestart} />;
       default: return <StartScreen onStart={() => goToScreen('m1_intro')} />;
@@ -2459,7 +2459,7 @@ export default function OververhittingNakoelingGame() {
   const showProgress = screen !== 'start' && screen !== 'end' && screen !== 'game_over';
 
   return (
-    <div className="relative min-h-screen" style={{ background: '#F5EDD6' }}>
+    <div className="relative min-h-screen" style={{ background: '#f2f7f8' }}>
       {showProgress && <ProgressBar screen={screen} lives={lives} score={score} />}
       {renderScreen()}
       <DebugNav visible={debugVisible} currentScreen={screen} onNavigate={goToScreen} onClose={() => setDebugVisible(false)} />
