@@ -322,7 +322,7 @@ const ITEMBANKS = {
     { question: 'Waarom is de COP altijd hoger dan de EER?',
       options: ['De condensor voert meer energie af dan de verdamper opneemt (extra door compressor)', 'Warmtepompen zijn nu eenmaal efficiënter', 'Het is een marketing-truc van fabrikanten', 'COP gebruikt een andere formule zonder compressor'],
       correct: 0,
-      feedbackCorrect: 'Precies! De condensor voert álle warmte af: de warmte uit de verdamper plus de energie van de compressor.',
+      feedbackCorrect: 'Precies! De condensor voert alle warmte af: de warmte uit de verdamper plus de energie van de compressor.',
       feedbackWrong: 'De condensor voert de verdamperwarmte én de compressorenergie af. Daardoor is COP = EER + 1.' },
     { question: 'Welk rendement gebruik je om een warmtepomp te beoordelen die een woning verwarmt?',
       options: ['EER, want je meet het koel-effect', 'COP, want je meet het verwarmings-effect', 'Beide geven hetzelfde antwoord', 'Geen van beide, je gebruikt het condensorvermogen'],
@@ -660,7 +660,7 @@ function R134aDiagram({ children, lines = {}, points = {}, onDiagramClick, showC
         <rect x={PLOT.left} y={PLOT.top} width={PLOT_W} height={PLOT_H} fill="#ffffff" stroke="#0D4868" strokeWidth="1.5" />
         {P_GRID.map(p => { const y = pressureToY(p); return <g key={`pg${p}`}><line x1={PLOT.left} y1={y} x2={PLOT.right} y2={y} stroke="#ddd" strokeWidth="1" strokeDasharray="4 4" /><text x={PLOT.left - 8} y={y + 4} textAnchor="end" fontSize="11" fill="#5b7280" fontFamily="Work Sans" fontWeight="600">{p}</text></g>; })}
         {H_GRID.map(h => { const x = enthalpyToX(h); return <g key={`hg${h}`}><line x1={x} y1={PLOT.top} x2={x} y2={PLOT.bottom} stroke="#ddd" strokeWidth="1" strokeDasharray="4 4" /><text x={x} y={PLOT.bottom + 18} textAnchor="middle" fontSize="11" fill="#5b7280" fontFamily="Work Sans" fontWeight="600">{h}</text></g>; })}
-        <text x={30} y={SVG_H / 2} textAnchor="middle" fontSize="13" fill="#0D4868" fontWeight="700" fontFamily="Work Sans" transform={`rotate(-90, 30, ${SVG_H / 2})`}>Druk P (bar abs) — log-schaal</text>
+        <text x={30} y={SVG_H / 2} textAnchor="middle" fontSize="13" fill="#0D4868" fontWeight="700" fontFamily="Work Sans" transform={`rotate(-90, 30, ${SVG_H / 2})`}>Druk P (bar abs), log-schaal</text>
         <text x={(PLOT.left + PLOT.right) / 2} y={SVG_H - 10} textAnchor="middle" fontSize="13" fill="#0D4868" fontWeight="700" fontFamily="Work Sans">Enthalpie h (kJ/kg)</text>
         {ISOTHERM_PATHS.map(iso => (<g key={`iso-${iso.T}`}><path d={iso.path} fill="none" stroke="#A855F7" strokeWidth="1" strokeDasharray="3 4" opacity="0.5" /><text x={iso.labelPos.x} y={iso.labelPos.y} fontSize="9" fill="#A855F7" fontWeight="600" fontFamily="Work Sans" textAnchor="end">{iso.T}°C</text></g>))}
         <path d={DOME_PATH} fill="rgba(168, 85, 247, 0.08)" />
@@ -903,13 +903,13 @@ function M1IntroScreen({ onBegin }) {
           <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(153,211,216,0.35)' }}>
             <Calculator size={22} style={{ color: '#5b7280' }} />
           </div>
-          <h2 className="text-xl font-extrabold" style={{ color: '#0D4868' }}>Missie 1 — Rendement begrijpen</h2>
+          <h2 className="text-xl font-extrabold" style={{ color: '#0D4868' }}>Missie 1: Rendement begrijpen</h2>
         </div>
         <div className="italic leading-relaxed mb-6" style={{ color: '#5b7280', lineHeight: 1.7 }}>
           <p className="font-extrabold text-lg mb-3" style={{ color: '#0D4868' }}>Hoe efficiënt werkt een koelinstallatie?</p>
-          <p className="mb-2">Het h-log p diagram geeft je belangrijke informatie, zoals het vermogen van:</p>
+          <p className="mb-2">Het <span className="font-bold">h-log p diagram</span> geeft je belangrijke informatie, zoals het <span className="font-bold">vermogen</span> van:</p>
           <ul className="list-disc pl-6 mb-3 space-y-0.5"><li>condensor</li><li>verdamper</li><li>compressor</li></ul>
-          <p>Dat is handig. Want hiermee bepaal je het rendement van een koelmachine (<span className="inline-block px-2 py-0.5 font-bold rounded" style={{ background: '#99D3D8', color: '#0D4868' }}>EER</span>) en warmtepomp (<span className="inline-block px-2 py-0.5 font-bold rounded" style={{ background: '#99D3D8', color: '#0D4868' }}>COP</span>).</p>
+          <p>Dat is handig. Want hiermee bepaal je het <span className="font-bold">rendement</span> van een koelmachine (<span className="inline-block px-2 py-0.5 font-bold rounded" style={{ background: '#99D3D8', color: '#0D4868' }}>EER</span>) en warmtepomp (<span className="inline-block px-2 py-0.5 font-bold rounded" style={{ background: '#99D3D8', color: '#0D4868' }}>COP</span>).</p>
         </div>
         <button onClick={onBegin} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2"
           style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>Begin <ChevronRight size={18} /></button>
@@ -955,7 +955,7 @@ function PowerLabeler({ onComplete, onLoseLife, lives }) {
     <div className="min-h-screen p-4" style={{ background: '#f2f7f8' }}>
       <div className="max-w-4xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
         <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-          <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 1.1 — Vermogens labelen</h3>
+          <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 1.1: Vermogens labelen</h3>
           <p className="text-sm italic mb-4" style={{ color: '#5b7280' }}>Je ziet hier een bootje met enthalpiewaardes. <span className="font-bold">Sleep elk vermogen naar de juiste lijn.</span></p>
           <div className={flash?.type === 'wrong' ? 'flash-red' : ''}>
             <div className="relative">
@@ -1003,7 +1003,7 @@ function PowerLabeler({ onComplete, onLoseLife, lives }) {
         </div>
         {allPlaced && (
           <div className="bg-white rounded-2xl p-5 mb-4" style={{ border: '2px solid #1E8F6E', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', animation: 'fadeInUp 0.3s' }}>
-            <p className="italic mb-3" style={{ color: '#0D4868', lineHeight: 1.6 }}><span className="font-bold not-italic">Goed!</span> Je leest elk vermogen direct uit het bootje. Tijd voor de EER.</p>
+            <p className="italic mb-3" style={{ color: '#0D4868', lineHeight: 1.6 }}><span className="font-bold not-italic">Goed!</span> Je leest elk vermogen direct uit het bootje. Tijd voor de <span className="font-bold not-italic">EER</span>.</p>
             <button onClick={() => onComplete(points)} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2"
               style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>Volgende <ChevronRight size={18} /></button>
           </div>
@@ -1163,9 +1163,9 @@ function EerCalculator({ onComplete, onLoseLife, lives }) {
   const [points, setPoints] = useState(0);
 
   const steps = [
-    { key: 'verdamper', label: 'Stap 1 — Verdampervermogen', formula: 'Δh_verd = h1 − h4', leftExpected: 'h1', rightExpected: 'h4', resultCorrect: 170, resultMargin: 2, separator: '−', unit: 'kJ/kg', segment: 'verdamper', leftLabel: '', rightLabel: '' },
-    { key: 'compressor', label: 'Stap 2 — Compressorvermogen', formula: 'Δh_comp = h2 − h1', leftExpected: 'h2', rightExpected: 'h1', resultCorrect: 30, resultMargin: 2, separator: '−', unit: 'kJ/kg', segment: 'compressor', leftLabel: '', rightLabel: '' },
-    { key: 'eer', label: 'Stap 3 — EER berekenen', formula: 'EER = Δh_verd / Δh_comp', leftExpected: 'dhVerd', rightExpected: 'dhComp', resultCorrect: 5.7, resultMargin: 0.2, separator: '/', unit: '(EER)', segment: null, leftLabel: 'Δh_verd', rightLabel: 'Δh_comp' },
+    { key: 'verdamper', label: 'Stap 1: Verdampervermogen', formula: 'Δh_verd = h1 − h4', leftExpected: 'h1', rightExpected: 'h4', resultCorrect: 170, resultMargin: 2, separator: '−', unit: 'kJ/kg', segment: 'verdamper', leftLabel: '', rightLabel: '' },
+    { key: 'compressor', label: 'Stap 2: Compressorvermogen', formula: 'Δh_comp = h2 − h1', leftExpected: 'h2', rightExpected: 'h1', resultCorrect: 30, resultMargin: 2, separator: '−', unit: 'kJ/kg', segment: 'compressor', leftLabel: '', rightLabel: '' },
+    { key: 'eer', label: 'Stap 3: EER berekenen', formula: 'EER = Δh_verd / Δh_comp', leftExpected: 'dhVerd', rightExpected: 'dhComp', resultCorrect: 5.7, resultMargin: 0.2, separator: '/', unit: '(EER)', segment: null, leftLabel: 'Δh_verd', rightLabel: 'Δh_comp' },
   ];
 
   const step = steps[currentStepIdx];
@@ -1261,8 +1261,8 @@ function EerCalculator({ onComplete, onLoseLife, lives }) {
     <div className="min-h-screen p-4" style={{ background: '#f2f7f8' }}>
       <div className="max-w-5xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
         <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-          <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 1.2 — EER uitrekenen</h3>
-          <p className="text-sm italic mb-3" style={{ color: '#5b7280' }}>Sleep de juiste waardes uit het diagram naar de formule en bereken het resultaat.</p>
+          <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 1.2: EER uitrekenen</h3>
+          <p className="text-sm italic mb-3" style={{ color: '#5b7280' }}><span className="font-bold">Sleep de juiste waardes</span> uit het diagram naar de formule en <span className="font-bold">bereken het resultaat</span>.</p>
           <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg mb-3" style={{ background: '#99D3D8' }}>
             <span className="font-extrabold text-sm" style={{ color: '#0D4868' }}>EER =</span>
             <div className="inline-flex flex-col items-center"><span className="font-bold text-sm" style={{ color: '#0D4868' }}>Δh verdamper</span><div className="w-full h-0.5 my-0.5" style={{ background: '#0D4868' }} /><span className="font-bold text-sm" style={{ color: '#0D4868' }}>Δh compressor</span></div>
@@ -1334,7 +1334,7 @@ function EerCalculator({ onComplete, onLoseLife, lives }) {
 
           {allDone && (
             <div className="mt-5 p-4 rounded-xl" style={{ background: 'rgba(30,143,110,0.1)', border: '2px solid #1E8F6E', animation: 'fadeInUp 0.3s' }}>
-              <p className="italic mb-3" style={{ color: '#0D4868', lineHeight: 1.6 }}><span className="font-bold">Precies! EER = 170 / 30 ≈ 5,7.</span> Deze koelmachine levert per 1 kW elektrisch vermogen ongeveer 5,7 kW koelvermogen.</p>
+              <p className="italic mb-3" style={{ color: '#0D4868', lineHeight: 1.6 }}><span className="font-bold">Precies! EER = 170 / 30 ≈ 5,7.</span> Deze koelmachine levert per 1 kW elektrisch vermogen ongeveer <span className="font-bold">5,7 kW koelvermogen</span>.</p>
               <button onClick={() => onComplete(points)} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2" style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>Volgende <ChevronRight size={18} /></button>
             </div>
           )}
@@ -1365,9 +1365,9 @@ function CopCalculator({ onComplete, onLoseLife, lives }) {
   const [ahaDone, setAhaDone] = useState(false);
 
   const steps = [
-    { key: 'condensor', label: 'Stap 1 — Condensorvermogen', formula: 'Δh_cond = h2 − h3', leftExpected: 'h2', rightExpected: 'h3', resultCorrect: 200, resultMargin: 2, separator: '−', unit: 'kJ/kg', segment: 'condensor', leftLabel: '', rightLabel: '' },
-    { key: 'compressor', label: 'Stap 2 — Compressorvermogen', formula: 'Δh_comp = h2 − h1', leftExpected: 'h2', rightExpected: 'h1', resultCorrect: 30, resultMargin: 2, separator: '−', unit: 'kJ/kg', segment: 'compressor', leftLabel: '', rightLabel: '' },
-    { key: 'cop', label: 'Stap 3 — COP berekenen', formula: 'COP = Δh_cond / Δh_comp', leftExpected: 'dhCond', rightExpected: 'dhComp', resultCorrect: 6.7, resultMargin: 0.2, separator: '/', unit: '(COP)', segment: null, leftLabel: 'Δh_cond', rightLabel: 'Δh_comp' },
+    { key: 'condensor', label: 'Stap 1: Condensorvermogen', formula: 'Δh_cond = h2 − h3', leftExpected: 'h2', rightExpected: 'h3', resultCorrect: 200, resultMargin: 2, separator: '−', unit: 'kJ/kg', segment: 'condensor', leftLabel: '', rightLabel: '' },
+    { key: 'compressor', label: 'Stap 2: Compressorvermogen', formula: 'Δh_comp = h2 − h1', leftExpected: 'h2', rightExpected: 'h1', resultCorrect: 30, resultMargin: 2, separator: '−', unit: 'kJ/kg', segment: 'compressor', leftLabel: '', rightLabel: '' },
+    { key: 'cop', label: 'Stap 3: COP berekenen', formula: 'COP = Δh_cond / Δh_comp', leftExpected: 'dhCond', rightExpected: 'dhComp', resultCorrect: 6.7, resultMargin: 0.2, separator: '/', unit: '(COP)', segment: null, leftLabel: 'Δh_cond', rightLabel: 'Δh_comp' },
   ];
 
   const step = steps[currentStepIdx];
@@ -1458,8 +1458,8 @@ function CopCalculator({ onComplete, onLoseLife, lives }) {
     <div className="min-h-screen p-4" style={{ background: '#f2f7f8' }}>
       <div className="max-w-5xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
         <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-          <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 1.3 — COP uitrekenen</h3>
-          <p className="text-sm italic mb-3" style={{ color: '#5b7280' }}>Sleep de juiste waardes uit het diagram naar de formule en bereken het resultaat.</p>
+          <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 1.3: COP uitrekenen</h3>
+          <p className="text-sm italic mb-3" style={{ color: '#5b7280' }}><span className="font-bold">Sleep de juiste waardes</span> uit het diagram naar de formule en <span className="font-bold">bereken het resultaat</span>.</p>
           <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg mb-3" style={{ background: '#99D3D8' }}>
             <span className="font-extrabold text-sm" style={{ color: '#0D4868' }}>COP =</span>
             <div className="inline-flex flex-col items-center"><span className="font-bold text-sm" style={{ color: '#0D4868' }}>Δh condensor</span><div className="w-full h-0.5 my-0.5" style={{ background: '#0D4868' }} /><span className="font-bold text-sm" style={{ color: '#0D4868' }}>Δh compressor</span></div>
@@ -1530,7 +1530,7 @@ function CopCalculator({ onComplete, onLoseLife, lives }) {
           {ahaReveal && (
             <div className="mt-5 p-5 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(153,211,216,0.35), rgba(48,181,174,0.05))', border: '3px solid #30B5AE', animation: 'fadeInUp 0.5s' }}>
               <div className="flex items-center gap-2 mb-2"><Lightbulb size={22} style={{ color: '#0D4868' }} /><h4 className="font-extrabold italic text-lg" style={{ color: '#0D4868' }}>Wacht eens…</h4></div>
-              <p className="italic mb-3" style={{ color: '#0D4868', lineHeight: 1.6 }}><span className="font-bold">6,7 − 5,7 = precies 1!</span> Dat is geen toeval. COP is altijd precies 1 hoger dan EER. De condensor voert <em>álle</em> warmte af: verdamper <em>plus</em> compressor.</p>
+              <p className="italic mb-3" style={{ color: '#0D4868', lineHeight: 1.6 }}><span className="font-bold">6,7 − 5,7 = precies 1!</span> Dat is geen toeval. COP is <span className="font-bold">altijd precies 1 hoger</span> dan EER. De condensor voert <span className="font-bold">alle</span> warmte af: verdamper <em>plus</em> compressor.</p>
               <div className="p-3 rounded-xl" style={{ background: 'white', border: '2px solid #0D4868' }}><p className="text-center font-extrabold text-lg" style={{ color: '#0D4868' }}>COP = EER + 1</p></div>
             </div>
           )}
@@ -1554,7 +1554,7 @@ function CopCalculator({ onComplete, onLoseLife, lives }) {
           )}
           {ahaDone && (
             <div className="mt-4 p-4 rounded-xl" style={{ background: 'rgba(30,143,110,0.1)', border: '2px solid #1E8F6E', animation: 'fadeInUp 0.3s' }}>
-              <p className="italic mb-3" style={{ color: '#0D4868', lineHeight: 1.6 }}><span className="font-bold">Perfect!</span> COP is altijd EER + 1.</p>
+              <p className="italic mb-3" style={{ color: '#0D4868', lineHeight: 1.6 }}><span className="font-bold">Perfect!</span> COP is altijd <span className="font-bold">EER + 1</span>.</p>
               <button onClick={() => onComplete(stepPoints)} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2" style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>Volgende <ChevronRight size={18} /></button>
             </div>
           )}
@@ -1576,12 +1576,12 @@ function M2IntroScreen({ onBegin }) {
           <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(153,211,216,0.35)' }}>
             <Thermometer size={22} style={{ color: '#5b7280' }} />
           </div>
-          <h2 className="text-xl font-extrabold" style={{ color: '#0D4868' }}>Missie 2 — Oververhitting & Nakoeling</h2>
+          <h2 className="text-xl font-extrabold" style={{ color: '#0D4868' }}>Missie 2: Oververhitting & Nakoeling</h2>
         </div>
         <div className="italic leading-relaxed mb-6" style={{ color: '#5b7280', lineHeight: 1.7 }}>
           <p className="font-extrabold text-lg mb-2" style={{ color: '#0D4868' }}>De koelinstallatie beoordelen</p>
           <p className="mb-2">Je kent het rendement. Nu komen twee nieuwe begrippen: <span className="font-bold">oververhitting</span> en <span className="font-bold">nakoeling</span>.</p>
-          <p>Met deze twee waarden bepaal je hoe goed je koelmachine werkt en of er genoeg koelmiddel in zit. Je leest ze af in het diagram.</p>
+          <p>Met deze twee waarden bepaal je hoe goed je koelmachine werkt en of er <span className="font-bold">genoeg koelmiddel</span> in zit. Je leest ze af in het <span className="font-bold">diagram</span>.</p>
         </div>
         <button onClick={onBegin} className="w-full py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2"
           style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>Aan de slag <ChevronRight size={18} /></button>
@@ -1737,7 +1737,7 @@ function IdentifyOvhNak({ onComplete, onLoseLife, lives }) {
     <div className="min-h-screen p-4" style={{ background: '#f2f7f8' }}>
       <div className="max-w-5xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
         <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-          <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 2.1 — OVH & NAK herkennen</h3>
+          <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 2.1: OVH & NAK herkennen</h3>
           <p className="text-sm italic mb-4" style={{ color: '#5b7280' }}>
             {phase === 'ovh' && <><span className="font-bold not-italic">Klik op het segment dat de oververhitting voorstelt.</span></>}
             {phase === 'nak' && <><span className="font-bold not-italic">Klik nu op het segment dat de nakoeling voorstelt.</span></>}
@@ -1806,8 +1806,8 @@ function IdentifyOvhNak({ onComplete, onLoseLife, lives }) {
           <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #1E8F6E', animation: 'fadeInUp 0.4s' }}>
             <div className="flex items-center gap-2 mb-3"><Lightbulb size={20} style={{ color: '#0D4868' }} /><h4 className="font-extrabold" style={{ color: '#0D4868' }}>Waarom zijn deze zo belangrijk?</h4></div>
             <div className="space-y-3 italic text-sm" style={{ color: '#0D4868', lineHeight: 1.7 }}>
-              <p><span className="font-bold not-italic" style={{ color: '#F59E0B' }}>Oververhitting</span> beschermt de compressor: die mag onder geen beding <em>nat</em> koudemiddel aanzuigen. Het temperatuurverschil tussen punt 1' en 1 zegt iets over de hoeveelheid koudemiddel in de installatie.</p>
-              <p><span className="font-bold not-italic" style={{ color: '#06B6D4' }}>Nakoeling</span> vergroot het enthalpieverschil in de verdamper, waardoor het rendement stijgt. Ook dit temperatuurverschil is een parameter voor de hoeveelheid koudemiddel.</p>
+              <p><span className="font-bold not-italic" style={{ color: '#F59E0B' }}>Oververhitting</span> <span className="font-bold not-italic">beschermt de compressor</span>: die mag onder geen beding <em>nat</em> koudemiddel aanzuigen. Het temperatuurverschil tussen punt 1' en 1 zegt iets over de <span className="font-bold not-italic">hoeveelheid koudemiddel</span> in de installatie.</p>
+              <p><span className="font-bold not-italic" style={{ color: '#06B6D4' }}>Nakoeling</span> vergroot het enthalpieverschil in de verdamper, waardoor het <span className="font-bold not-italic">rendement stijgt</span>. Ook dit temperatuurverschil is een parameter voor de <span className="font-bold not-italic">hoeveelheid koudemiddel</span>.</p>
               <p>Samen geven ze je inzicht in hoe efficiënt en stabiel het koelproces verloopt en of het koudemiddel zich in de juiste fase en hoeveelheid door het systeem beweegt.</p>
             </div>
             <button onClick={() => onComplete(points)} className="w-full mt-4 py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2"
@@ -1890,8 +1890,8 @@ function TablesGame({ onComplete, onLoseLife, lives }) {
       <div className="min-h-screen p-4" style={{ background: '#f2f7f8' }}>
         <div className="max-w-5xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
           <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-            <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 2.2 — Diagnosetabellen</h3>
-            <p className="text-sm italic mb-4" style={{ color: '#5b7280' }}>Bestudeer de tabellen hieronder. Daarna ga je scenario's beoordelen.</p>
+            <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 2.2: Diagnosetabellen</h3>
+            <p className="text-sm italic mb-4" style={{ color: '#5b7280' }}><span className="font-bold">Bestudeer de tabellen</span> hieronder. Daarna ga je <span className="font-bold">scenario's beoordelen</span>.</p>
             <div className="grid md:grid-cols-2 gap-4 mb-4">
               <DiagnosticTable title="Oververhitting" color="#F59E0B" headers={['Waarde', 'Mogelijke oorzaak', 'Betekenis']}
                 rows={OVH_TABLE.map(r => [r.range, r.cause, r.meaning])} />
@@ -1901,7 +1901,7 @@ function TablesGame({ onComplete, onLoseLife, lives }) {
             <DiagnosticTable title="Diagnose (combinatie)" color="#0D4868" headers={['Oververhitting', 'Nakoeling', 'Diagnose']}
               rows={DIAGNOSIS_TABLE.map(d => [d.ovh, d.nak, d.diagnosis])} />
             <button onClick={() => setPhase('quiz')} className="w-full mt-4 py-3 text-white rounded-xl font-bold italic hover:brightness-90 active:scale-95 flex items-center justify-center gap-2"
-              style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>Ik snap het — Start de quiz <ChevronRight size={18} /></button>
+              style={{ background: '#30B5AE', border: '2px solid #0D4868', boxShadow: '0 3px 0 #1F8A84' }}>Ik snap het, start de quiz <ChevronRight size={18} /></button>
           </div>
         </div>
       </div>
@@ -2109,7 +2109,7 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
       <div className="max-w-5xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
         <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-lg font-extrabold" style={{ color: '#0D4868' }}>Ronde 2.3 — Meten & beoordelen</h3>
+            <h3 className="text-lg font-extrabold" style={{ color: '#0D4868' }}>Ronde 2.3: Meten & beoordelen</h3>
             <span className="text-sm font-bold px-2 py-1 rounded-lg" style={{ background: '#99D3D8', color: '#0D4868' }}>{scenario.label} ({scenarioIdx + 1}/{scenarios.length})</span>
           </div>
 
@@ -2334,7 +2334,7 @@ function StartScreen({ onStart }) {
         <h2 className="text-xl font-bold italic mb-4" style={{ color: '#5b7280' }}>Oververhitting & Nakoeling</h2>
         <div className="bg-white rounded-2xl p-6 mb-6" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
           <p className="italic leading-relaxed" style={{ color: '#5b7280', lineHeight: 1.7 }}>
-            Leer de vermogens uit een h-log p diagram aflezen, het rendement berekenen en de koelinstallatie beoordelen aan de hand van oververhitting en nakoeling.
+            Leer de <span className="font-bold">vermogens</span> uit een h-log p diagram aflezen, het <span className="font-bold">rendement</span> berekenen en de koelinstallatie beoordelen aan de hand van <span className="font-bold">oververhitting en nakoeling</span>.
           </p>
         </div>
         <button onClick={onStart}
@@ -2361,7 +2361,7 @@ function EndScreen({ score, onRestart }) {
         </div>
         <div className="rounded-2xl p-5 mb-6 text-left" style={{ background: 'rgba(30,143,110,0.1)', border: '2px solid #1E8F6E' }}>
           <p className="text-sm italic leading-relaxed" style={{ color: '#0D4868' }}>
-            Je kunt nu de oververhitting en nakoeling aflezen uit het h-log p diagram en de vultoestand van een koelinstallatie beoordelen. Je weet wat een te hoge of te lage waarde betekent en welke acties nodig zijn. Dit zijn essentiële vaardigheden voor elke koeltechnicus!
+            Je kunt nu de <span className="font-bold">oververhitting en nakoeling</span> aflezen uit het <span className="font-bold">h-log p diagram</span> en de <span className="font-bold">vultoestand</span> van een koelinstallatie beoordelen. Je weet wat een te hoge of te lage waarde betekent en welke acties nodig zijn. Dit zijn essentiële vaardigheden voor elke koeltechnicus!
           </p>
         </div>
         <button onClick={onRestart}
