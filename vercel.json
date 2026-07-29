@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://huiswerk-studium.vercel.app/?spel=oververhitting-nakoeling",
+      "permanent": false
+    }
+  ]
+}
