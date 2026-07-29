@@ -927,30 +927,41 @@ function M1IntroScreen({ onBegin }) {
 function PowerLabeler({ onComplete, onLoseLife, lives }) {
   const [placed, setPlaced] = useState({ verdamper: false, compressor: false, condensor: false });
   const [draggedId, setDraggedId] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
   const [hoverLine, setHoverLine] = useState(null);
   const [flash, setFlash] = useState(null);
   const [points, setPoints] = useState(0);
 
   const allPlaced = placed.verdamper && placed.compressor && placed.condensor;
 
-  const handleDragStart = (id) => setDraggedId(id);
+  const handleDragStart = (id) => { setDraggedId(id); setSelectedId(null); };
   const handleDragEnd = () => { setDraggedId(null); setHoverLine(null); };
 
-  const tryPlace = (lineKey) => {
-    if (!draggedId) return;
-    const label = POWER_LABELS.find(l => l.id === draggedId);
+  const placeLabel = (id, lineKey) => {
+    const label = POWER_LABELS.find(l => l.id === id);
     if (!label) return;
     if (label.lineKey === lineKey) {
-      setPlaced(prev => ({ ...prev, [draggedId]: true }));
+      setPlaced(prev => ({ ...prev, [id]: true }));
       setPoints(p => p + SCORING.m1r1.perLabel);
-      setFlash({ type: 'correct', id: draggedId });
+      setFlash({ type: 'correct', id });
       setTimeout(() => setFlash(null), 800);
     } else {
-      setFlash({ type: 'wrong', id: draggedId, lineKey });
+      setFlash({ type: 'wrong', id, lineKey });
       onLoseLife?.();
       setTimeout(() => setFlash(null), 800);
     }
+  };
+
+  const tryPlace = (lineKey) => {
+    if (!draggedId) return;
+    placeLabel(draggedId, lineKey);
     setDraggedId(null); setHoverLine(null);
+  };
+
+  const tryTapPlace = (lineKey) => {
+    if (!selectedId) return;
+    placeLabel(selectedId, lineKey);
+    setSelectedId(null); setHoverLine(null);
   };
 
   return (
@@ -958,25 +969,26 @@ function PowerLabeler({ onComplete, onLoseLife, lives }) {
       <div className="max-w-4xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
         <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
           <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 1.1: Vermogens labelen</h3>
-          <p className="text-sm italic mb-4" style={{ color: '#5b7280' }}>Je ziet hier een bootje met enthalpiewaardes. <span className="font-bold">Sleep elk vermogen naar de juiste lijn.</span></p>
+          <p className="text-sm italic mb-4" style={{ color: '#5b7280' }}>Je ziet hier een bootje met enthalpiewaardes. <span className="font-bold">Sleep elk vermogen naar de juiste lijn, of tik eerst het label en dan de lijn aan.</span></p>
           <div className={flash?.type === 'wrong' ? 'flash-red' : ''}>
             <div className="relative">
               <StylizedBootje enthalpies={M1_ENTHALPIES} powerPlaced={placed} dropZoneActive={hoverLine} showGuidelines={true} showCalculations={allPlaced} showDome={true} width={540} height={380} />
-              {draggedId && (() => {
+              {(draggedId || selectedId) && (() => {
                 const { xLeft, xP1, xP2, yTop, yBottom } = BOOTJE_VISUAL;
                 const p1v = { x: xP1, y: yBottom }; const p2v = { x: xP2, y: yTop };
                 const dx = p2v.x - p1v.x, dy = p2v.y - p1v.y; const L = Math.sqrt(dx*dx + dy*dy) || 1;
                 const nx = -dy / L, ny = dx / L; const off = 28;
                 const compPoly = [[p1v.x + nx*off, p1v.y + ny*off],[p2v.x + nx*off, p2v.y + ny*off],[p2v.x - nx*off, p2v.y - ny*off],[p1v.x - nx*off, p1v.y - ny*off]].map(([x,y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
                 const zoneProps = (key, isPlaced) => ({
-                  fill: isPlaced ? 'transparent' : (hoverLine === key ? 'rgba(30,143,110,0.28)' : 'rgba(13,72,104,0.05)'),
-                  stroke: isPlaced ? 'transparent' : (hoverLine === key ? '#1E8F6E' : '#8a97a3'),
+                  fill: isPlaced ? 'transparent' : (hoverLine === key ? 'rgba(30,143,110,0.28)' : (selectedId ? 'rgba(48,181,174,0.10)' : 'rgba(13,72,104,0.05)')),
+                  stroke: isPlaced ? 'transparent' : (hoverLine === key ? '#1E8F6E' : (selectedId ? '#30B5AE' : '#8a97a3')),
                   strokeDasharray: isPlaced ? 'none' : (hoverLine === key ? 'none' : '6 4'),
-                  strokeWidth: isPlaced ? 0 : (hoverLine === key ? 2.5 : 1.5),
+                  strokeWidth: isPlaced ? 0 : (hoverLine === key ? 2.5 : (selectedId ? 2 : 1.5)),
                   onDragOver: (e) => { e.preventDefault(); if (!isPlaced) setHoverLine(key); },
                   onDragLeave: () => setHoverLine(prev => prev === key ? null : prev),
                   onDrop: (e) => { e.preventDefault(); if (!isPlaced) tryPlace(key); },
-                  style: { pointerEvents: draggedId && !isPlaced ? 'auto' : 'none', transition: 'all 0.2s' },
+                  onClick: () => { if (!isPlaced && selectedId) tryTapPlace(key); },
+                  style: { pointerEvents: (draggedId || selectedId) && !isPlaced ? 'auto' : 'none', cursor: selectedId && !isPlaced ? 'pointer' : 'default', transition: 'all 0.2s' },
                 });
                 return (
                   <svg viewBox="0 0 540 380" className="absolute top-0 left-0 w-full" style={{ pointerEvents: 'none', maxHeight: 380, animation: 'fadeInUp 0.2s' }}>
@@ -992,11 +1004,13 @@ function PowerLabeler({ onComplete, onLoseLife, lives }) {
         <div className="flex flex-wrap gap-3 justify-center mb-4">
           {POWER_LABELS.map(label => {
             const isPlaced = placed[label.id];
+            const isSelected = selectedId === label.id;
             const isFlash = flash?.id === label.id;
             return (
               <div key={label.id} draggable={!isPlaced} onDragStart={() => handleDragStart(label.id)} onDragEnd={handleDragEnd}
+                onClick={() => { if (!isPlaced) setSelectedId(prev => prev === label.id ? null : label.id); }}
                 className="px-4 py-2 rounded-xl font-bold italic text-sm select-none"
-                style={{ touchAction: 'none', cursor: isPlaced ? 'default' : 'grab', background: isPlaced ? '#1E8F6E' : 'white', color: isPlaced ? 'white' : label.color, border: `2px solid ${isPlaced ? '#0D4868' : label.color}`, opacity: isPlaced ? 0.55 : 1, boxShadow: isPlaced ? 'none' : '0 3px 0 rgba(0,0,0,0.1)', animation: isFlash && flash?.type === 'wrong' ? 'shake 0.5s' : (isFlash && flash?.type === 'correct' ? 'pop-in 0.3s' : 'none') }}>
+                style={{ touchAction: 'none', cursor: isPlaced ? 'default' : 'grab', background: isPlaced ? '#1E8F6E' : (isSelected ? '#E7F4F3' : 'white'), color: isPlaced ? 'white' : label.color, border: `2px solid ${isPlaced ? '#0D4868' : (isSelected ? '#30B5AE' : label.color)}`, opacity: isPlaced ? 0.55 : 1, boxShadow: isPlaced ? 'none' : (isSelected ? '0 0 0 2px rgba(48,181,174,0.4)' : '0 3px 0 rgba(0,0,0,0.1)'), animation: isFlash && flash?.type === 'wrong' ? 'shake 0.5s' : (isFlash && flash?.type === 'correct' ? 'pop-in 0.3s' : 'none') }}>
                 {isPlaced && <Check className="inline mr-1" size={14} />}
                 {label.label} <span className="opacity-70 font-normal ml-1">({label.sub})</span>
               </div>
@@ -1098,19 +1112,20 @@ function CalculationPanel({ steps, onAllDone, onLoseLife, lives, onStepChange, o
 // DRAG-DROP CALCULATOR — generieke drag-drop stapsgewijze calc
 // ═══════════════════════════════════════════════════════════════
 
-// DragSource: rendert een sleepbaar blok met een waarde
-function DragSource({ id, label, value, color = '#99D3D8', onDragStart, disabled = false }) {
+// DragSource: rendert een sleepbaar blok met een waarde (slepen of tik-tik)
+function DragSource({ id, label, value, color = '#99D3D8', onDragStart, disabled = false, selected = false, onSelect }) {
   return (
     <div draggable={!disabled}
       onDragStart={(e) => { e.dataTransfer.setData('text/plain', id); onDragStart?.(id); }}
+      onClick={() => { if (!disabled) onSelect?.(id); }}
       className="inline-flex items-center justify-center px-3 py-2 rounded-lg font-bold text-sm select-none"
       style={{
         touchAction: 'none',
         cursor: disabled ? 'default' : 'grab',
-        background: disabled ? '#dbe7ea' : color,
+        background: disabled ? '#dbe7ea' : (selected ? '#E7F4F3' : color),
         color: '#0D4868',
-        border: '2px solid #0D4868',
-        boxShadow: disabled ? 'none' : '0 2px 0 rgba(0,0,0,0.15)',
+        border: `2px solid ${selected ? '#30B5AE' : '#0D4868'}`,
+        boxShadow: disabled ? 'none' : (selected ? '0 0 0 2px rgba(48,181,174,0.4)' : '0 2px 0 rgba(0,0,0,0.15)'),
         opacity: disabled ? 0.5 : 1,
         minWidth: 80,
       }}>
@@ -1120,8 +1135,8 @@ function DragSource({ id, label, value, color = '#99D3D8', onDragStart, disabled
   );
 }
 
-// DropSlot: ontvangt een sleepbare waarde
-function DropSlot({ value, label, onDrop, onClear, hasValue, flash = null }) {
+// DropSlot: ontvangt een sleepbare waarde (slepen of tik-tik via tapActive/onTapPlace)
+function DropSlot({ value, label, onDrop, onClear, hasValue, flash = null, tapActive = false, onTapPlace }) {
   const [over, setOver] = useState(false);
   return (
     <div
@@ -1133,13 +1148,13 @@ function DropSlot({ value, label, onDrop, onClear, hasValue, flash = null }) {
         minWidth: 80,
         minHeight: 40,
         background: hasValue ? '#99D3D8' : (over ? 'rgba(30,143,110,0.2)' : '#f8fbfc'),
-        border: `2px ${hasValue ? 'solid' : 'dashed'} ${hasValue ? '#0D4868' : (over ? '#1E8F6E' : '#8a97a3')}`,
+        border: `2px ${hasValue ? 'solid' : 'dashed'} ${hasValue ? '#0D4868' : (over ? '#1E8F6E' : (tapActive ? '#30B5AE' : '#8a97a3'))}`,
         color: '#0D4868',
         animation: flash === 'wrong' ? 'shake 0.4s' : (flash === 'correct' ? 'pop-in 0.3s' : 'none'),
-        cursor: hasValue ? 'pointer' : 'default',
+        cursor: (hasValue || tapActive) ? 'pointer' : 'default',
       }}
-      onClick={() => { if (hasValue) onClear?.(); }}
-      title={hasValue ? 'Klik om te verwijderen' : ''}
+      onClick={() => { if (tapActive) { onTapPlace?.(); } else if (hasValue) { onClear?.(); } }}
+      title={hasValue && !tapActive ? 'Klik om te verwijderen' : ''}
     >
       {hasValue ? (
         <>{label ? <span className="opacity-80 text-xs mr-1">{label} =</span> : null}<span>{value}</span></>
@@ -1164,6 +1179,10 @@ function EerCalculator({ onComplete, onLoseLife, lives }) {
   const [placedResults, setPlacedResults] = useState({});
   const [flash, setFlash] = useState(null);
   const [points, setPoints] = useState(0);
+  const [selectedSource, setSelectedSource] = useState(null);
+
+  // Selectie resetten bij stapwissel
+  useEffect(() => { setSelectedSource(null); }, [currentStepIdx]);
 
   const steps = [
     { key: 'verdamper', label: 'Stap 1: Verdampervermogen', formula: 'Δh_verd = h1 − h4', leftExpected: 'h1', rightExpected: 'h4', resultCorrect: 170, resultMargin: 2, separator: '−', unit: 'kJ/kg', segment: 'verdamper', leftLabel: '', rightLabel: '' },
@@ -1265,7 +1284,7 @@ function EerCalculator({ onComplete, onLoseLife, lives }) {
       <div className="max-w-5xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
         <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
           <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 1.2: EER uitrekenen</h3>
-          <p className="text-sm italic mb-3" style={{ color: '#5b7280' }}><span className="font-bold">Sleep de juiste waardes</span> uit het diagram naar de formule en <span className="font-bold">bereken het resultaat</span>.</p>
+          <p className="text-sm italic mb-3" style={{ color: '#5b7280' }}><span className="font-bold">Sleep de juiste waardes</span> uit het diagram naar de formule, of tik eerst een waarde en dan het vak aan. Daarna <span className="font-bold">bereken je het resultaat</span>.</p>
           <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg mb-3" style={{ background: '#99D3D8' }}>
             <span className="font-extrabold text-sm" style={{ color: '#0D4868' }}>EER =</span>
             <div className="inline-flex flex-col items-center"><span className="font-bold text-sm" style={{ color: '#0D4868' }}>Δh verdamper</span><div className="w-full h-0.5 my-0.5" style={{ background: '#0D4868' }} /><span className="font-bold text-sm" style={{ color: '#0D4868' }}>Δh compressor</span></div>
@@ -1276,10 +1295,13 @@ function EerCalculator({ onComplete, onLoseLife, lives }) {
               <StylizedBootje enthalpies={M1_ENTHALPIES} powerPlaced={{ verdamper: true, compressor: true, condensor: true }} showGuidelines={true} showCalculations={false} showDome={true} placedResults={placedResults} width={540} height={380} />
               {/* Sleepbare bronnen */}
               <div className="mt-3 p-3 rounded-xl" style={{ background: '#e6f4f5', border: '2px solid #dbe7ea' }}>
-                <p className="text-xs font-bold mb-2" style={{ color: '#5b7280' }}>{currentStepIdx < 2 ? 'Sleep een enthalpiewaarde:' : 'Sleep een Δh-waarde (uit het diagram):'}</p>
+                <p className="text-xs font-bold mb-2" style={{ color: '#5b7280' }}>{currentStepIdx < 2 ? 'Sleep of tik een enthalpiewaarde:' : 'Sleep of tik een Δh-waarde (uit het diagram):'}</p>
                 <div className="flex flex-wrap gap-2">
                   {sources.map(src => (
-                    <DragSource key={src.id} id={src.id} label={src.label} value={src.value} disabled={state.done} />
+                    <DragSource key={src.id} id={src.id} label={src.label} value={src.value} disabled={state.done}
+                      selected={selectedSource === src.id}
+                      onSelect={(id) => setSelectedSource(prev => prev === id ? null : id)}
+                      onDragStart={() => setSelectedSource(null)} />
                   ))}
                 </div>
               </div>
@@ -1311,9 +1333,11 @@ function EerCalculator({ onComplete, onLoseLife, lives }) {
                         {isActive && (
                           <div className="space-y-3">
                             <div className="flex flex-wrap items-center gap-2">
-                              <DropSlot value={getValue(st.left)} label={getLabel(st.left)} hasValue={!!st.left} onDrop={handleDrop('left')} onClear={handleClear('left')} flash={flash?.step === s.key && !st.left ? flash.type : null} />
+                              <DropSlot value={getValue(st.left)} label={getLabel(st.left)} hasValue={!!st.left} onDrop={handleDrop('left')} onClear={handleClear('left')} flash={flash?.step === s.key && !st.left ? flash.type : null}
+                                tapActive={!!selectedSource} onTapPlace={() => { handleDrop('left')(selectedSource); setSelectedSource(null); }} />
                               <span className="text-xl font-bold" style={{ color: '#0D4868' }}>{s.separator}</span>
-                              <DropSlot value={getValue(st.right)} label={getLabel(st.right)} hasValue={!!st.right} onDrop={handleDrop('right')} onClear={handleClear('right')} flash={flash?.step === s.key && !st.right ? flash.type : null} />
+                              <DropSlot value={getValue(st.right)} label={getLabel(st.right)} hasValue={!!st.right} onDrop={handleDrop('right')} onClear={handleClear('right')} flash={flash?.step === s.key && !st.right ? flash.type : null}
+                                tapActive={!!selectedSource} onTapPlace={() => { handleDrop('right')(selectedSource); setSelectedSource(null); }} />
                               <span className="text-xl font-bold" style={{ color: '#0D4868' }}>=</span>
                               <input type="text" inputMode="decimal" value={st.result} onChange={e => handleResultChange(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleCheck(); }}
                                 className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: '#f8fbfc', border: '2px solid #0D4868', color: '#0D4868' }} placeholder="?" />
@@ -1361,6 +1385,10 @@ function CopCalculator({ onComplete, onLoseLife, lives }) {
   const [placedResults, setPlacedResults] = useState({});
   const [flash, setFlash] = useState(null);
   const [stepPoints, setStepPoints] = useState(0);
+  const [selectedSource, setSelectedSource] = useState(null);
+
+  // Selectie resetten bij stapwissel
+  useEffect(() => { setSelectedSource(null); }, [currentStepIdx]);
   const [ahaReveal, setAhaReveal] = useState(false);
   const [ahaQuestionSelected, setAhaQuestionSelected] = useState(null);
   const [ahaChecked, setAhaChecked] = useState(false);
@@ -1462,7 +1490,7 @@ function CopCalculator({ onComplete, onLoseLife, lives }) {
       <div className="max-w-5xl mx-auto" style={{ animation: 'fadeInUp 0.4s ease-out' }}>
         <div className="bg-white rounded-2xl p-6 mb-4" style={{ border: '2px solid #0D4868', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
           <h3 className="text-lg font-extrabold mb-1" style={{ color: '#0D4868' }}>Ronde 1.3: COP uitrekenen</h3>
-          <p className="text-sm italic mb-3" style={{ color: '#5b7280' }}><span className="font-bold">Sleep de juiste waardes</span> uit het diagram naar de formule en <span className="font-bold">bereken het resultaat</span>.</p>
+          <p className="text-sm italic mb-3" style={{ color: '#5b7280' }}><span className="font-bold">Sleep de juiste waardes</span> uit het diagram naar de formule, of tik eerst een waarde en dan het vak aan. Daarna <span className="font-bold">bereken je het resultaat</span>.</p>
           <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg mb-3" style={{ background: '#99D3D8' }}>
             <span className="font-extrabold text-sm" style={{ color: '#0D4868' }}>COP =</span>
             <div className="inline-flex flex-col items-center"><span className="font-bold text-sm" style={{ color: '#0D4868' }}>Δh condensor</span><div className="w-full h-0.5 my-0.5" style={{ background: '#0D4868' }} /><span className="font-bold text-sm" style={{ color: '#0D4868' }}>Δh compressor</span></div>
@@ -1472,10 +1500,13 @@ function CopCalculator({ onComplete, onLoseLife, lives }) {
             <div>
               <StylizedBootje enthalpies={M1_ENTHALPIES} powerPlaced={{ verdamper: true, compressor: true, condensor: true }} showGuidelines={true} showCalculations={false} showDome={true} placedResults={placedResults} width={540} height={380} />
               <div className="mt-3 p-3 rounded-xl" style={{ background: '#e6f4f5', border: '2px solid #dbe7ea' }}>
-                <p className="text-xs font-bold mb-2" style={{ color: '#5b7280' }}>{currentStepIdx < 2 ? 'Sleep een enthalpiewaarde:' : 'Sleep een Δh-waarde (uit het diagram):'}</p>
+                <p className="text-xs font-bold mb-2" style={{ color: '#5b7280' }}>{currentStepIdx < 2 ? 'Sleep of tik een enthalpiewaarde:' : 'Sleep of tik een Δh-waarde (uit het diagram):'}</p>
                 <div className="flex flex-wrap gap-2">
                   {sources.map(src => (
-                    <DragSource key={src.id} id={src.id} label={src.label} value={src.value} disabled={state.done} />
+                    <DragSource key={src.id} id={src.id} label={src.label} value={src.value} disabled={state.done}
+                      selected={selectedSource === src.id}
+                      onSelect={(id) => setSelectedSource(prev => prev === id ? null : id)}
+                      onDragStart={() => setSelectedSource(null)} />
                   ))}
                 </div>
               </div>
@@ -1507,9 +1538,11 @@ function CopCalculator({ onComplete, onLoseLife, lives }) {
                         {isActive && (
                           <div className="space-y-3">
                             <div className="flex flex-wrap items-center gap-2">
-                              <DropSlot value={getValue(st.left)} label={getLabel(st.left)} hasValue={!!st.left} onDrop={handleDrop('left')} onClear={handleClear('left')} />
+                              <DropSlot value={getValue(st.left)} label={getLabel(st.left)} hasValue={!!st.left} onDrop={handleDrop('left')} onClear={handleClear('left')}
+                                tapActive={!!selectedSource} onTapPlace={() => { handleDrop('left')(selectedSource); setSelectedSource(null); }} />
                               <span className="text-xl font-bold" style={{ color: '#0D4868' }}>{s.separator}</span>
-                              <DropSlot value={getValue(st.right)} label={getLabel(st.right)} hasValue={!!st.right} onDrop={handleDrop('right')} onClear={handleClear('right')} />
+                              <DropSlot value={getValue(st.right)} label={getLabel(st.right)} hasValue={!!st.right} onDrop={handleDrop('right')} onClear={handleClear('right')}
+                                tapActive={!!selectedSource} onTapPlace={() => { handleDrop('right')(selectedSource); setSelectedSource(null); }} />
                               <span className="text-xl font-bold" style={{ color: '#0D4868' }}>=</span>
                               <input type="text" inputMode="decimal" value={st.result} onChange={e => handleResultChange(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleCheck(); }}
                                 className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: '#f8fbfc', border: '2px solid #0D4868', color: '#0D4868' }} placeholder="?" />
@@ -2008,6 +2041,10 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
   const [nakSlots, setNakSlots] = useState({ left: null, right: null });
   const [points, setPoints] = useState(0);
   const [flash, setFlash] = useState(null);
+  const [selectedTemp, setSelectedTemp] = useState(null);
+
+  // Selectie resetten bij stap- en scenariowissel
+  useEffect(() => { setSelectedTemp(null); }, [step, scenarioIdx]);
 
   const scenario = scenarios[scenarioIdx];
   const isLastScenario = scenarioIdx === scenarios.length - 1;
@@ -2119,13 +2156,14 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
           {/* Temperature info panel — sleepbare blokken (alleen zichtbaar in stap 0 en 1) */}
           {(step === 0 || step === 1) && (
             <div className="p-3 rounded-xl mb-3" style={{ background: '#e6f4f5', border: '2px solid #dbe7ea' }}>
-              <p className="text-xs font-bold mb-2" style={{ color: '#5b7280' }}>Sleep de juiste temperatuur naar de berekening:</p>
+              <p className="text-xs font-bold mb-2" style={{ color: '#5b7280' }}>Sleep de juiste temperatuur naar de berekening, of tik eerst de temperatuur en dan het vak aan:</p>
               <div className="flex flex-wrap gap-2">
                 {tempSources.map(t => (
                   <div key={t.id} draggable={true}
-                    onDragStart={(e) => e.dataTransfer.setData('text/plain', t.id)}
+                    onDragStart={(e) => { e.dataTransfer.setData('text/plain', t.id); setSelectedTemp(null); }}
+                    onClick={() => setSelectedTemp(prev => prev === t.id ? null : t.id)}
                     className="inline-flex flex-col items-center px-3 py-2 rounded-lg font-bold text-xs select-none"
-                    style={{ touchAction: 'none', cursor: 'grab', background: '#99D3D8', color: '#0D4868', border: '2px solid #0D4868', boxShadow: '0 2px 0 rgba(0,0,0,0.15)', minWidth: 110 }}>
+                    style={{ touchAction: 'none', cursor: 'grab', background: selectedTemp === t.id ? '#E7F4F3' : '#99D3D8', color: '#0D4868', border: `2px solid ${selectedTemp === t.id ? '#30B5AE' : '#0D4868'}`, boxShadow: selectedTemp === t.id ? '0 0 0 2px rgba(48,181,174,0.4)' : '0 2px 0 rgba(0,0,0,0.15)', minWidth: 110 }}>
                     <span className="opacity-80 text-[10px]">{t.label}</span>
                     <span className="text-sm">{t.value > 0 ? '+' : ''}{t.value}°C</span>
                   </div>
@@ -2201,9 +2239,11 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
               <div className="p-4 rounded-xl" style={{ background: '#e6f4f5', border: '2px solid #F59E0B' }}>
                 <p className="text-sm font-bold mb-3" style={{ color: '#0D4868' }}>Bereken de oververhitting</p>
                 <div className="flex flex-wrap items-center gap-2">
-                  <DropSlot value={ovhSlots.left ? `${tempById[ovhSlots.left].value > 0 ? '+' : ''}${tempById[ovhSlots.left].value}°C` : null} hasValue={!!ovhSlots.left} onDrop={(id) => setOvhSlots(s => ({ ...s, left: id }))} onClear={() => { setOvhSlots(s => ({ ...s, left: null })); setOvhInput(''); }} />
+                  <DropSlot value={ovhSlots.left ? `${tempById[ovhSlots.left].value > 0 ? '+' : ''}${tempById[ovhSlots.left].value}°C` : null} hasValue={!!ovhSlots.left} onDrop={(id) => setOvhSlots(s => ({ ...s, left: id }))} onClear={() => { setOvhSlots(s => ({ ...s, left: null })); setOvhInput(''); }}
+                    tapActive={!!selectedTemp} onTapPlace={() => { setOvhSlots(s => ({ ...s, left: selectedTemp })); setSelectedTemp(null); }} />
                   <span className="text-xl font-bold" style={{ color: '#0D4868' }}>−</span>
-                  <DropSlot value={ovhSlots.right ? `${tempById[ovhSlots.right].value > 0 ? '+' : ''}${tempById[ovhSlots.right].value}°C` : null} hasValue={!!ovhSlots.right} onDrop={(id) => setOvhSlots(s => ({ ...s, right: id }))} onClear={() => { setOvhSlots(s => ({ ...s, right: null })); setOvhInput(''); }} />
+                  <DropSlot value={ovhSlots.right ? `${tempById[ovhSlots.right].value > 0 ? '+' : ''}${tempById[ovhSlots.right].value}°C` : null} hasValue={!!ovhSlots.right} onDrop={(id) => setOvhSlots(s => ({ ...s, right: id }))} onClear={() => { setOvhSlots(s => ({ ...s, right: null })); setOvhInput(''); }}
+                    tapActive={!!selectedTemp} onTapPlace={() => { setOvhSlots(s => ({ ...s, right: selectedTemp })); setSelectedTemp(null); }} />
                   <span className="text-xl font-bold" style={{ color: '#0D4868' }}>=</span>
                   <input type="text" inputMode="decimal" value={ovhInput} onChange={e => setOvhInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleReadingCheck(true); }}
                     className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: 'white', border: '2px solid #F59E0B', color: '#0D4868' }} placeholder="?" />
@@ -2217,9 +2257,11 @@ function MeasureAndAssess({ onComplete, onLoseLife, lives }) {
               <div className="p-4 rounded-xl" style={{ background: '#e6f4f5', border: '2px solid #06B6D4' }}>
                 <p className="text-sm font-bold mb-3" style={{ color: '#0D4868' }}>Bereken de nakoeling</p>
                 <div className="flex flex-wrap items-center gap-2">
-                  <DropSlot value={nakSlots.left ? `${tempById[nakSlots.left].value > 0 ? '+' : ''}${tempById[nakSlots.left].value}°C` : null} hasValue={!!nakSlots.left} onDrop={(id) => setNakSlots(s => ({ ...s, left: id }))} onClear={() => { setNakSlots(s => ({ ...s, left: null })); setNakInput(''); }} />
+                  <DropSlot value={nakSlots.left ? `${tempById[nakSlots.left].value > 0 ? '+' : ''}${tempById[nakSlots.left].value}°C` : null} hasValue={!!nakSlots.left} onDrop={(id) => setNakSlots(s => ({ ...s, left: id }))} onClear={() => { setNakSlots(s => ({ ...s, left: null })); setNakInput(''); }}
+                    tapActive={!!selectedTemp} onTapPlace={() => { setNakSlots(s => ({ ...s, left: selectedTemp })); setSelectedTemp(null); }} />
                   <span className="text-xl font-bold" style={{ color: '#0D4868' }}>−</span>
-                  <DropSlot value={nakSlots.right ? `${tempById[nakSlots.right].value > 0 ? '+' : ''}${tempById[nakSlots.right].value}°C` : null} hasValue={!!nakSlots.right} onDrop={(id) => setNakSlots(s => ({ ...s, right: id }))} onClear={() => { setNakSlots(s => ({ ...s, right: null })); setNakInput(''); }} />
+                  <DropSlot value={nakSlots.right ? `${tempById[nakSlots.right].value > 0 ? '+' : ''}${tempById[nakSlots.right].value}°C` : null} hasValue={!!nakSlots.right} onDrop={(id) => setNakSlots(s => ({ ...s, right: id }))} onClear={() => { setNakSlots(s => ({ ...s, right: null })); setNakInput(''); }}
+                    tapActive={!!selectedTemp} onTapPlace={() => { setNakSlots(s => ({ ...s, right: selectedTemp })); setSelectedTemp(null); }} />
                   <span className="text-xl font-bold" style={{ color: '#0D4868' }}>=</span>
                   <input type="text" inputMode="decimal" value={nakInput} onChange={e => setNakInput(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') handleReadingCheck(false); }}
                     className="w-20 px-2 py-2 rounded-lg font-mono text-sm" style={{ background: 'white', border: '2px solid #06B6D4', color: '#0D4868' }} placeholder="?" />
